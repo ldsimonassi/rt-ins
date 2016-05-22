@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160522145219) do
+ActiveRecord::Schema.define(version: 20160522231119) do
 
   create_table "addresses", force: :cascade do |t|
     t.integer "user_id"
@@ -24,6 +24,14 @@ ActiveRecord::Schema.define(version: 20160522145219) do
   end
 
   add_index "addresses", ["user_id", "name"], name: "index_addresses_on_user_id_and_name", unique: true
+
+  create_table "brands", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "brands", ["name"], name: "index_brands_on_name", unique: true
 
   create_table "cities", force: :cascade do |t|
     t.string   "name"
@@ -41,6 +49,16 @@ ActiveRecord::Schema.define(version: 20160522145219) do
   end
 
   add_index "countries", ["name"], name: "index_countries_on_name", unique: true
+
+  create_table "models", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "brand_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "models", ["brand_id", "name"], name: "index_models_by_brand_id_and_name", unique: true
+  add_index "models", ["brand_id"], name: "index_models_on_brand_id"
 
   create_table "provinces", force: :cascade do |t|
     t.integer  "country_id"

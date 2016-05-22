@@ -7,6 +7,7 @@ Root ->
 
 
 	Home de cliente:
+		
 		Vehículos: Combo.
 		Adherir vehículo.
 		Editar información del cliente y medios de pago.
@@ -36,12 +37,14 @@ Root ->
 				------------ -- ---------
 
 
-1 Agregar nombre completo
-2 Agregar domicilio legal
+1 Agregar nombre completo DONE
+2 Agregar base de datos de domicilios. DONE
 
 
+Importar lista de modelos de autos de mercadolibre.
 
 
+https://api.mercadolibre.com/motors_prices/MLA1744/brands
 
 
 

@@ -15,7 +15,6 @@ class UsersController < ApplicationController
     @user = User.new(params.require(:user).permit([:email, :password, :username, :first_name, :last_name, :password_confirmation]))
     @created = @user.save
     if @created
-      # Redirect to the users home page
       flash[:success] = "Usuario creado con éxito!"
       redirect_to login_path
     else

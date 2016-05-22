@@ -32,3 +32,16 @@ mimi_casa = Address.create({user: mimi, name:'Casa', street:'Alsina', number: '7
 
 mjs = User.create({username: 'mjsimonassi', email:'mjsimonassi@gmail.com', password: 'athos2009', password_confirmation: 'athos2009', first_name:'María José', last_name:'Simonassi'})
 mjs_casa = Address.create({user: mjs, name:'Casa', street:'Pasjae Wagner', number: '1160', directions: 'PB', zip_code:'1423', city:caba})
+
+
+require 'rest-client'
+result = RestClient.get 'https://api.mercadolibre.com/motors_prices/MLA1744/brands'
+p = JSON.parse(result.body)['brands']
+
+p.each do |br|
+	brand = Brand.create({name: br['name']})
+	models= JSON.parse(RestClient.get("https://api.mercadolibre.com/motors_prices/#{br['id']}/models").body)['models']
+	models.each do |mod|
+		model = Model.create({brand: brand, name: mod['name']})
+	end
+end
