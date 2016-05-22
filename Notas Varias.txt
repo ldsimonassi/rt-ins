@@ -1,0 +1,119 @@
+Root -> 
+	Login / Registración DONE
+
+	main_controller DONE
+
+	login_controller DONE
+
+
+	Home de cliente:
+		Vehículos: Combo.
+		Adherir vehículo.
+		Editar información del cliente y medios de pago.
+
+			Home de vehículo
+				Reporte de uso:
+				------- -- ---
+					Uso:
+						Horas
+						Kilometros
+						Cantidad de viajes
+					
+					Riesgo en la conducción:
+						Zonas peligrosas
+						Conducción peligrosa
+						Sugerencias
+					
+					Costos:
+						Consumo
+
+				Servicios contratados:
+				--------- -----------
+					Seguro:
+					Servicio técnico:
+
+				Ofrecimiento de servicios:
+				------------ -- ---------
+
+
+1 Agregar nombre completo
+2 Agregar domicilio legal
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------
+
+rails g scaffold insurance_company \
+	name:string \
+	address:string \
+	phone:string \
+	email:string \
+	user:string \
+	password:string
+
+has_many insurance_plans
+
+-----------------------------------------------------------------------------------------------------
+
+rails g scaffold insurance_plan \
+	insurance_company:references \
+	variability:integer \
+	civil_responsability:float \
+	driving_sensibility:integer \
+	zone_sensibility:integer
+
+
+belongs_to insurance_company
+has_many insurance_policy
+
+-----------------------------------------------------------------------------------------------------
+
+rails g scaffold insurance_policy \
+	customer:reference \
+	vehicle:reference \
+	insurance_plan:references \
+	start_date:date \
+	due_date:date
+
+has_one vehicle
+has_many
+
+-----------------------------------------------------------------------------------------------------
+
+rails g scaffold customer \
+	name:string \
+	born_date:date \
+	address:string \
+	city:string \
+	zip_code:integer
+
+has_many vehicles
+
+-----------------------------------------------------------------------------------------------------
+
+rails g scaffold vehicle_type \
+	brand:string \
+	model:string \
+	sub_model:string \
+	year:integer \
+	price: float
+
+has_many vehicles
+
+-----------------------------------------------------------------------------------------------------
+
+rails g \
+	scaffold vehicle \
+	vehicle_type:reference \
+	identification:string \
+	chassis_number:string \
+	engine_number:string \
+	color:string
+
+belongs_to customer
+belongs_to vehicle_type
