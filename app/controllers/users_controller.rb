@@ -12,7 +12,7 @@ class UsersController < ApplicationController
   end
   
   def create
-    @user = User.new(params.require(:user).permit([:email, :password, :username, :password_confirmation]))
+    @user = User.new(params.require(:user).permit([:email, :password, :username, :first_name, :last_name, :password_confirmation]))
     @created = @user.save
     if @created
       # Redirect to the users home page
