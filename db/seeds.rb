@@ -35,13 +35,27 @@ mjs_casa = Address.create({user: mjs, name:'Casa', street:'Pasjae Wagner', numbe
 
 
 require 'rest-client'
-result = RestClient.get 'https://api.mercadolibre.com/motors_prices/MLA1744/brands'
+url = 'https://api.mercadolibre.com/motors_prices/MLA1744/brands'
+result = RestClient.get url
 p = JSON.parse(result.body)['brands']
 
 p.each do |br|
 	brand = Brand.create({name: br['name']})
-	models= JSON.parse(RestClient.get("https://api.mercadolibre.com/motors_prices/#{br['id']}/models").body)['models']
+	url = "https://api.mercadolibre.com/motors_prices/#{br['id']}/models"
+	puts "Getting models #{url}"
+	models= JSON.parse(RestClient.get(url).body)['models']
 	models.each do |mod|
 		model = Model.create({brand: brand, name: mod['name']})
+		url = "https://api.mercadolibre.com/motors_prices/#{mod['id']}/versions"
+		puts "	Getting Version: #{url}"
+		versions= JSON.parse(RestClient.get(url).body)['versions']
+		versions.each do |ver|
+			version = Version.create({name: ver[:name], model:model})
+			url = "https://api.mercadolibre.com/motors_prices/#{ver['id']}/prices"
+			prices= JSON.parse(RestClient.get(url).body)['prices']
+			prices.each do |pri|
+				price = Price.create({version:version, year:pri['year'].to_i, currency:pri['currency_symbol'], price:pri['price'].to_i})
+			end
+		end
 	end
 end

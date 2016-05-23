@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160522231119) do
+ActiveRecord::Schema.define(version: 20160523002435) do
 
   create_table "addresses", force: :cascade do |t|
     t.integer "user_id"
@@ -60,6 +60,18 @@ ActiveRecord::Schema.define(version: 20160522231119) do
   add_index "models", ["brand_id", "name"], name: "index_models_by_brand_id_and_name", unique: true
   add_index "models", ["brand_id"], name: "index_models_on_brand_id"
 
+  create_table "prices", force: :cascade do |t|
+    t.integer  "version_id"
+    t.integer  "year"
+    t.string   "currency"
+    t.integer  "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "prices", ["version_id", "year", "currency"], name: "index_prices_by_version_id_year_and_currency", unique: true
+  add_index "prices", ["version_id"], name: "index_prices_on_version_id"
+
   create_table "provinces", force: :cascade do |t|
     t.integer  "country_id"
     t.string   "name"
@@ -81,5 +93,15 @@ ActiveRecord::Schema.define(version: 20160522231119) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["username"], name: "index_users_on_username", unique: true
+
+  create_table "versions", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.integer  "model_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "versions", ["model_id", "name"], name: "index_versions_by_model_id_and_name", unique: true
+  add_index "versions", ["model_id"], name: "index_versions_on_model_id"
 
 end
