@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: addresses
+#
+#  id         :integer          not null, primary key
+#  user_id    :integer
+#  city_id    :integer
+#  name       :string
+#  street     :string
+#  number     :integer
+#  directions :string
+#  zip_code   :string
+#
+
 class Address < ActiveRecord::Base
   belongs_to :user
   belongs_to :city

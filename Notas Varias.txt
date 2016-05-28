@@ -5,6 +5,11 @@ Root ->
 
 	login_controller DONE
 
+	Crawlear API mercadolibre para obtener paises marcas etc. DONE
+
+	Importar información de paises marcas etc. IN PROGRESS
+
+	Crear pantalla de alta de vehículo.
 
 	Home de cliente:
 		
@@ -46,7 +51,9 @@ Importar lista de modelos de autos de mercadolibre.
 
 https://api.mercadolibre.com/motors_prices/MLA1744/brands
 
+Nota de La Nación:
 
+http://www.lanacion.com.ar/1898604-internet-de-las-cosas-desde-el-cepillo-de-dientes-hasta-el-lavarropas-los-datos-desnudan-la-intimidad
 
 
 -----------------------------------------------------------------------------------------------------

@@ -26,12 +26,14 @@ ActiveRecord::Schema.define(version: 20160523002435) do
   add_index "addresses", ["user_id", "name"], name: "index_addresses_on_user_id_and_name", unique: true
 
   create_table "brands", force: :cascade do |t|
+    t.integer  "country_id"
     t.string   "name",       null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  add_index "brands", ["name"], name: "index_brands_on_name", unique: true
+  add_index "brands", ["country_id", "name"], name: "index_brands_by_country_id_and_name", unique: true
+  add_index "brands", ["country_id"], name: "index_brands_on_country_id"
 
   create_table "cities", force: :cascade do |t|
     t.string   "name"

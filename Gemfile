@@ -6,7 +6,16 @@ gem 'bootstrap-sass', '3.2.0.0'
 # To use password hashing
 gem 'bcrypt', '3.1.7'
 
+gem 'puma'
 
+gem 'typhoeus'
+
+gem 'oj'
+
+gem 'promise'
+
+gem 'annotate'
+# gem 'multi_json'  para usar multples libs, la mas eficiente disponible
 # End: Added by Dario.
 
 gem 'rest-client'
@@ -51,6 +60,7 @@ group :development, :test do
 end
 
 group :development do
+  #Added by Dario
   gem "rails-erd"
 end
 
