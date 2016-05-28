@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
 
-  resources :cities
-  resources :provinces
-  resources :countries
+  resources :cities, only: ['get', 'index']
+  resources :provinces, only: ['get', 'index']
+  resources :countries, only: ['get', 'index']
+
   get 'sessions/new'
 
   root 'static_pages#home'
