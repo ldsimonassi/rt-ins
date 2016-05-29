@@ -11,6 +11,7 @@
 
 class Version < ActiveRecord::Base
   belongs_to :model
+  has_many :prices
 
   validates :name, presence: true
 end

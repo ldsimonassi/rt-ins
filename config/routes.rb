@@ -1,8 +1,13 @@
 Rails.application.routes.draw do
 
+  get 'brands/index'
+
   resources :cities, only: ['get', 'index']
   resources :provinces, only: ['get', 'index']
   resources :countries, only: ['get', 'index']
+  resources :vehicles, only: ['create', 'new']
+ 
+
 
   get 'sessions/new'
 

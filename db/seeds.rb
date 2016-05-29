@@ -39,7 +39,7 @@ def load_cities_and_cars_from_file
 						price = price_data['price']
 						currency = price_data['currency_symbol']
 						#puts "\t\t\t\t#{year}: #{currency}#{price}"
-						Price.create({year:year, price:price, currency:currency})
+						Price.create({year:year, price:price, currency:currency, version:version})
 					end
 				end
 
@@ -62,6 +62,7 @@ def load_cities_and_cars_from_file
 	end
 end
 
+#load_cities_and_cars_from_file
 
 arg = Country.find_by({name: 'Argentina'})
 bue = Province.find_by({name:'Buenos Aires', country:arg})
@@ -93,3 +94,21 @@ mimi_casa = Address.create({user: mimi, name:'Casa', street:'Alsina', number: '7
 
 mjs = User.create({username: 'mjsimonassi', email:'mjsimonassi@gmail.com', password: 'athos2009', password_confirmation: 'athos2009', first_name:'María José', last_name:'Simonassi'})
 mjs_casa = Address.create({user: mjs, name:'Casa', street:'Pasjae Wagner', number: '1160', directions: 'PB', zip_code:'1423', city:v_luro})
+
+
+
+vw = arg.brands.find_by_name('VOLKSWAGEN')
+vw_vento = vw.models.find_by_name('Vento')
+price_vento = vw_vento.versions.find_by_name('2.0 TSI SPORTLINE DSG (200CV) (L11)').prices.find_by_year(2011)
+
+
+vento_dario = Vehicle.create({user:dario, name:'Vento Negro', price:price_vento, chasis_no:"92AAJSHD123", engine_no: "8748JADHJ232", plate_no:"KJO497"})
+
+peugeot = arg.brands.find_by_name('PEUGEOT')
+peu_206 = peugeot.models.find_by_name('206')
+price_206 = peu_206.versions.find_by_name('3Ptas. 1.6 XS Premium').prices.find_by_year('2007')
+
+p206_dario = Vehicle.create({user:dario, name:'Perla Negra', price:price_206, chasis_no:"2874JAHD", engine_no: "23847AKJSA", plate_no:"GST389"})
+
+
+

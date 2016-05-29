@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  price_id: 
+  user_id: 
+  chasis_no: MyString
+  engine_no: MyString
+  plate_no: MyString
+
+two:
+  price_id: 
+  user_id: 
+  chasis_no: MyString
+  engine_no: MyString
+  plate_no: MyString

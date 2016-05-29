@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160523002435) do
+ActiveRecord::Schema.define(version: 20160529135123) do
 
   create_table "addresses", force: :cascade do |t|
     t.integer "user_id"
@@ -63,15 +63,15 @@ ActiveRecord::Schema.define(version: 20160523002435) do
   add_index "models", ["brand_id"], name: "index_models_on_brand_id"
 
   create_table "prices", force: :cascade do |t|
-    t.integer  "version_id"
-    t.integer  "year"
-    t.string   "currency"
-    t.integer  "price"
+    t.integer  "version_id", null: false
+    t.integer  "year",       null: false
+    t.string   "currency",   null: false
+    t.integer  "price",      null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  add_index "prices", ["version_id", "year", "currency"], name: "index_prices_by_version_id_year_and_currency", unique: true
+  add_index "prices", ["version_id", "year", "currency"], name: "index_prices_by_version_id_year_and_currency"
   add_index "prices", ["version_id"], name: "index_prices_on_version_id"
 
   create_table "provinces", force: :cascade do |t|
@@ -95,6 +95,23 @@ ActiveRecord::Schema.define(version: 20160523002435) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["username"], name: "index_users_on_username", unique: true
+
+  create_table "vehicles", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.integer  "price_id",   null: false
+    t.integer  "user_id",    null: false
+    t.integer  "country_id", null: false
+    t.string   "chasis_no",  null: false
+    t.string   "engine_no",  null: false
+    t.string   "plate_no",   null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "vehicles", ["country_id", "chasis_no"], name: "index_vehicles_on_country_id_and_chasis_no", unique: true
+  add_index "vehicles", ["country_id", "engine_no"], name: "index_vehicles_on_country_id_and_engine_no", unique: true
+  add_index "vehicles", ["country_id", "plate_no"], name: "index_vehicles_on_country_id_and_plate_no", unique: true
+  add_index "vehicles", ["user_id"], name: "index_vehicles_on_user_id"
 
   create_table "versions", force: :cascade do |t|
     t.string   "name",       null: false

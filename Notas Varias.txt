@@ -9,7 +9,27 @@ Root ->
 
 	Importar información de paises marcas etc. IN PROGRESS
 
-	Crear pantalla de alta de vehículo.
+	Crear pantalla de alta de vehículo:
+
+		- Crear model Vehicle. DONE
+		- Crear validaciones vehicle.
+		- Insertar datos de vehicles.
+
+		- Controller de new vehicle
+		- Controller de brands
+		- Asociar la librería de jquery-ui y conectar al controller de brands
+		- Tocar el style hasta que quede bien.
+
+
+		Combo de pais
+		Combo de marca
+		Combo de modelo
+		Combo de versión
+		Combo de año
+
+
+
+
 
 	Home de cliente:
 		
