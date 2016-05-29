@@ -10,6 +10,7 @@
 def load_cities_and_cars_from_file
 	countries = Oj.load(IO.read("./data_meli.json"))
 	countries.each do |country_name, country_content| 
+		#if country_name != "Argentina"  
 		if country_name == ""  
 			next
 		end
@@ -23,6 +24,9 @@ def load_cities_and_cars_from_file
 
 		# Load Country Brands
 		brands.each do |brand_name, models|
+			# if brand_name!= 'VOLKSWAGEN' and brand_name!='PEUGEOT'
+			# 	next
+			# end
 			puts "\tBrand Name:[#{brand_name}]"
 			brand = Brand.create({name:brand_name, country:country})
 
@@ -62,7 +66,25 @@ def load_cities_and_cars_from_file
 	end
 end
 
-#load_cities_and_cars_from_file
+load_cities_and_cars_from_file
+
+rt_tracker = DeviceModel.create({name:'RTTracker 1.0', 
+				    camera:'NONE', 
+				    computer:'Raspberry PI 2.0', 
+				    accelerometer:'pi_accel', 
+				    gps:'YES', 
+				    obdi:'2.0', 
+				    manufacturer:'Prototype'})
+
+
+
+i = 0
+
+for i in 0..100 do
+	TrackingDevice.create({device_model: rt_tracker, serial_no: "AAAA#{i}"})
+end
+vento_td = TrackingDevice.first
+peugeot206_td = TrackingDevice.last
 
 arg = Country.find_by({name: 'Argentina'})
 bue = Province.find_by({name:'Buenos Aires', country:arg})
@@ -86,6 +108,9 @@ dario = User.create({username: 'ldsimonassi',
                       first_name:'Luis Dario', 
                       last_name:'Simonassi'})
 
+dario = User.find_by_username('ldsimonassi')
+
+
 dario_casa = Address.create({user: dario, name:'Casa', street:'Av Olazabal', number: '4545', directions:'4to C', zip_code:'1431', city:v_urq})
 dario_trabajo = Address.create({user: dario, name:'Trabajo', street:'Arias', number: '3751', directions:'7mo piso', zip_code:'1430', city:saavedra})
 
@@ -97,18 +122,17 @@ mjs_casa = Address.create({user: mjs, name:'Casa', street:'Pasjae Wagner', numbe
 
 
 
-vw = arg.brands.find_by_name('VOLKSWAGEN')
-vw_vento = vw.models.find_by_name('Vento')
-price_vento = vw_vento.versions.find_by_name('2.0 TSI SPORTLINE DSG (200CV) (L11)').prices.find_by_year(2011)
+price_vento = arg.brands.find_by_name('VOLKSWAGEN').models.find_by_name('Vento').versions.find_by_name('2.0 TSI SPORTLINE DSG (200CV) (L11)').prices.find_by_year(2011)
 
 
-vento_dario = Vehicle.create({user:dario, name:'Vento Negro', price:price_vento, chasis_no:"92AAJSHD123", engine_no: "8748JADHJ232", plate_no:"KJO497"})
+
+vento_dario = Vehicle.create({user:dario, name:'Vento Negro', price:price_vento, chasis_no:"92AAJSHD123", engine_no: "8748JADHJ232", plate_no:"KJO497", tracking_device:vento_td})
 
 peugeot = arg.brands.find_by_name('PEUGEOT')
 peu_206 = peugeot.models.find_by_name('206')
 price_206 = peu_206.versions.find_by_name('3Ptas. 1.6 XS Premium').prices.find_by_year('2007')
 
-p206_dario = Vehicle.create({user:dario, name:'Perla Negra', price:price_206, chasis_no:"2874JAHD", engine_no: "23847AKJSA", plate_no:"GST389"})
+p206_dario = Vehicle.create({user:dario, name:'Perla Negra', price:price_206, chasis_no:"2874JAHD", engine_no: "23847AKJSA", plate_no:"GST389", tracking_device:peugeot206_td})
 
 
 

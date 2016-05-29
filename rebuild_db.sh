@@ -1,6 +1,7 @@
 # Clean an replace the DB.
 rm db/schema.rb
-cp db/development.sqlite3.with_cities_and_cars db/development.sqlite3
+rm db/development.sqlite3
+#cp db/development.sqlite3.with_cities_and_cars db/development.sqlite3
 
 # Run new migrations
 rake db:migrate

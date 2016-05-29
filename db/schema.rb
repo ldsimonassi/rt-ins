@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160529135123) do
+ActiveRecord::Schema.define(version: 20160529164259) do
 
   create_table "addresses", force: :cascade do |t|
     t.integer "user_id"
@@ -52,6 +52,18 @@ ActiveRecord::Schema.define(version: 20160529135123) do
 
   add_index "countries", ["name"], name: "index_countries_on_name", unique: true
 
+  create_table "device_models", force: :cascade do |t|
+    t.string   "gps",           null: false
+    t.string   "obdi",          null: false
+    t.string   "accelerometer", null: false
+    t.string   "camera",        null: false
+    t.string   "computer",      null: false
+    t.string   "name",          null: false
+    t.string   "manufacturer",  null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
   create_table "models", force: :cascade do |t|
     t.string   "name"
     t.integer  "brand_id"
@@ -83,6 +95,16 @@ ActiveRecord::Schema.define(version: 20160529135123) do
 
   add_index "provinces", ["country_id", "name"], name: "index_provinces_on_country_id_and_name", unique: true
 
+  create_table "tracking_devices", force: :cascade do |t|
+    t.string   "serial_no",       null: false
+    t.integer  "device_model_id", null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "tracking_devices", ["device_model_id"], name: "index_tracking_devices_on_device_model_id"
+  add_index "tracking_devices", ["serial_no"], name: "index_tracking_devices_on_serial_no", unique: true
+
   create_table "users", force: :cascade do |t|
     t.string   "username",        null: false
     t.string   "email",           null: false
@@ -97,20 +119,22 @@ ActiveRecord::Schema.define(version: 20160529135123) do
   add_index "users", ["username"], name: "index_users_on_username", unique: true
 
   create_table "vehicles", force: :cascade do |t|
-    t.string   "name",       null: false
-    t.integer  "price_id",   null: false
-    t.integer  "user_id",    null: false
-    t.integer  "country_id", null: false
-    t.string   "chasis_no",  null: false
-    t.string   "engine_no",  null: false
-    t.string   "plate_no",   null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "name",               null: false
+    t.integer  "price_id",           null: false
+    t.integer  "user_id",            null: false
+    t.integer  "country_id",         null: false
+    t.integer  "tracking_device_id", null: false
+    t.string   "chasis_no",          null: false
+    t.string   "engine_no",          null: false
+    t.string   "plate_no",           null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
   end
 
   add_index "vehicles", ["country_id", "chasis_no"], name: "index_vehicles_on_country_id_and_chasis_no", unique: true
   add_index "vehicles", ["country_id", "engine_no"], name: "index_vehicles_on_country_id_and_engine_no", unique: true
   add_index "vehicles", ["country_id", "plate_no"], name: "index_vehicles_on_country_id_and_plate_no", unique: true
+  add_index "vehicles", ["tracking_device_id"], name: "index_vehicles_on_tracking_device_id", unique: true
   add_index "vehicles", ["user_id"], name: "index_vehicles_on_user_id"
 
   create_table "versions", force: :cascade do |t|

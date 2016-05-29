@@ -1,0 +1,41 @@
+<%= form_for(@device_model) do |f| %>
+  <% if @device_model.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@device_model.errors.count, "error") %> prohibited this device_model from being saved:</h2>
+
+      <ul>
+      <% @device_model.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :gps %><br>
+    <%= f.text_field :gps %>
+  </div>
+  <div class="field">
+    <%= f.label :obdi %><br>
+    <%= f.text_field :obdi %>
+  </div>
+  <div class="field">
+    <%= f.label :accelerometer %><br>
+    <%= f.text_field :accelerometer %>
+  </div>
+  <div class="field">
+    <%= f.label :camera %><br>
+    <%= f.text_field :camera %>
+  </div>
+  <div class="field">
+    <%= f.label :computer %><br>
+    <%= f.text_field :computer %>
+  </div>
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

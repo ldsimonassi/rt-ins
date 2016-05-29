@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  gps: MyString
+  obdi: MyString
+  accelerometer: MyString
+  camera: MyString
+  computer: MyString
+  name: MyString
+
+two:
+  gps: MyString
+  obdi: MyString
+  accelerometer: MyString
+  camera: MyString
+  computer: MyString
+  name: MyString

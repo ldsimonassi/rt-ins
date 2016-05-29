@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :device_models
+  resources :tracking_devices
   get 'brands/index'
 
   resources :cities, only: ['get', 'index']

@@ -3,10 +3,23 @@
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
     <%= form_for(@vehicle) do |f| %>
-      <%= render 'shared/error_messages' %>
-      <%=  f.label :brand, "Marca" %>
-      <%=  f.text_field :brand, class: 'form-control' %>
-      <%=  f.submit "Crear usuario", class: "btn btn-primary" %>
+      
+      <%= f.label :name, "Nombre del vehículo" %>
+      <%= f.text_field :name, class: 'form-control' %>
+
+      <%= f.label :plate_no, "Patente" %>
+      <%= f.text_field :plate_no, class: 'form-control' %>
+
+      <%= f.label :chasis_no, "Número de chásis" %>
+      <%= f.text_field :chasis_no, class: 'form-control' %>
+
+      <%= f.label :engine_no, "Número de motor" %>
+      <%= f.text_field :engine_no, class: 'form-control' %>
+
+      <%=  f.label :price_id, "ID de Precio" %>
+      <%=  f.text_field :price_id, class: 'form-control' %>
+      
+      <%=  f.submit "Registrar vehículo", class: "btn btn-primary" %>
     <%  end %>
   </div>
 </div>
