@@ -1,8 +1,14 @@
 Rails.application.routes.draw do
 
+  get 'prices/index'
+
+  get 'versions/index'
+
+  get 'models/index'
+
   resources :device_models
   resources :tracking_devices
-  get 'brands/index'
+  resources :brands, only: ['index']
 
   resources :cities, only: ['get', 'index']
   resources :provinces, only: ['get', 'index']
@@ -10,6 +16,9 @@ Rails.application.routes.draw do
   resources :vehicles, only: ['create', 'new']
  
 
+  get '/brands/:brand_id/models' => 'models#index'
+  get '/brands/:brand_id/models/:model_id/versions' => 'versions#index'
+  get '/brands/:brand_id/models/:model_id/versions/:version_id/prices' => 'prices#index'
 
   get 'sessions/new'
 

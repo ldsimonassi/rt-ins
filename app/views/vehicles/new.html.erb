@@ -2,24 +2,36 @@
 
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
-    <%= form_for(@vehicle) do |f| %>
+    <%= form_tag('/vehicles', method:'post') do %>
       
-      <%= f.label :name, "Nombre del vehículo" %>
-      <%= f.text_field :name, class: 'form-control' %>
+      <%= label_tag :name, "Nombre del vehículo" %>
+      <%= text_field_tag :name, '', class:'form-control' %>
 
-      <%= f.label :plate_no, "Patente" %>
-      <%= f.text_field :plate_no, class: 'form-control' %>
+      <%= label_tag :brand, "Marca" %>
+      <%= select_tag :brand, options_from_collection_for_select(@brands, "id", "name") %>
 
-      <%= f.label :chasis_no, "Número de chásis" %>
-      <%= f.text_field :chasis_no, class: 'form-control' %>
+      <%= label_tag :model, "Modelo" %>
+      <%= select_tag :model, nil %>
 
-      <%= f.label :engine_no, "Número de motor" %>
-      <%= f.text_field :engine_no, class: 'form-control' %>
+      <%= label_tag :version, "Version" %>
+      <%= select_tag :version, nil %>
 
-      <%=  f.label :price_id, "ID de Precio" %>
-      <%=  f.text_field :price_id, class: 'form-control' %>
+      <%= label_tag :price, "Año" %>
+      <%= select_tag :price, nil %>
+
+      <%= label_tag :tracking_serial_no, "Código del dispositivo de trackeo" %>
+      <%= text_field_tag :tracking_serial_no, '', class: 'form-control' %>
+
+      <%= label_tag :plate_no, "Patente" %>
+      <%= text_field_tag :plate_no, '', class: 'form-control' %>
+
+      <%= label_tag :chasis_no, "Número de chásis" %>
+      <%= text_field_tag :chasis_no, '', class: 'form-control' %>
+
+      <%= label_tag :engine_no, "Número de motor" %>
+      <%= text_field_tag :engine_no, '', class: 'form-control' %>
       
-      <%=  f.submit "Registrar vehículo", class: "btn btn-primary" %>
+      <%=  submit_tag "Registrar vehículo", class: "btn btn-primary" %>
     <%  end %>
   </div>
 </div>

@@ -13,4 +13,8 @@
 
 class Price < ActiveRecord::Base
   belongs_to :version
+
+  def name
+  	"#{year}: #{currency}#{price}"
+  end
 end
