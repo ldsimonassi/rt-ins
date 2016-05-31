@@ -10,7 +10,7 @@
 def load_cities_and_cars_from_file
 	countries = Oj.load(IO.read("./data_meli.json"))
 	countries.each do |country_name, country_content| 
-		#if country_name != "Argentina"  
+		#if country_name != "Brasil"  
 		if country_name == ""  
 			next
 		end
@@ -24,11 +24,15 @@ def load_cities_and_cars_from_file
 
 		# Load Country Brands
 		brands.each do |brand_name, models|
-			# if brand_name!= 'VOLKSWAGEN' and brand_name!='PEUGEOT'
-			# 	next
-			# end
-			puts "\tBrand Name:[#{brand_name}]"
+			#if brand_name!= 'ALFA ROMEO' and brand_name!= 'Alfa Romeo'# and brand_name!='PEUGEOT'
+			#	next
+			#end
+			puts "\tBrand Name:[#{brand_name} in #{country}]"
 			brand = Brand.create({name:brand_name, country:country})
+
+			if not brand.id?
+				byebug
+			end
 
 			models.each do |model_name, versions|
 				puts "\t\tModel Name: #{model_name}"
@@ -106,7 +110,7 @@ dario = User.create({username: 'ldsimonassi',
                       password: 'dario123', 
                       password_confirmation: 'dario123', 
                       first_name:'Luis Dario', 
-                      last_name:'Simonassi'})
+                      last_name:'Simonassi', country:arg})
 
 dario = User.find_by_username('ldsimonassi')
 
@@ -114,10 +118,10 @@ dario = User.find_by_username('ldsimonassi')
 dario_casa = Address.create({user: dario, name:'Casa', street:'Av Olazabal', number: '4545', directions:'4to C', zip_code:'1431', city:v_urq})
 dario_trabajo = Address.create({user: dario, name:'Trabajo', street:'Arias', number: '3751', directions:'7mo piso', zip_code:'1430', city:saavedra})
 
-mimi = User.create({username: 'kenoe51', email:'kenoe51@gmail.com', password: 'mimi1951', password_confirmation: 'mimi1951', first_name:'Mirta Noemí', last_name:'Mascareño'})
+mimi = User.create({username: 'kenoe51', email:'kenoe51@gmail.com', password: 'mimi1951', password_confirmation: 'mimi1951', first_name:'Mirta Noemí', last_name:'Mascareño', country:arg})
 mimi_casa = Address.create({user: mimi, name:'Casa', street:'Alsina', number: '775', directions: 'Cortada esquina 66 bis', zip_code:'1841', city:quilmes})
 
-mjs = User.create({username: 'mjsimonassi', email:'mjsimonassi@gmail.com', password: 'athos2009', password_confirmation: 'athos2009', first_name:'María José', last_name:'Simonassi'})
+mjs = User.create({username: 'mjsimonassi', email:'mjsimonassi@gmail.com', password: 'athos2009', password_confirmation: 'athos2009', first_name:'María José', last_name:'Simonassi', country:arg})
 mjs_casa = Address.create({user: mjs, name:'Casa', street:'Pasjae Wagner', number: '1160', directions: 'PB', zip_code:'1423', city:v_luro})
 
 

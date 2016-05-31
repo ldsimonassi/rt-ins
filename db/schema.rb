@@ -14,19 +14,19 @@
 ActiveRecord::Schema.define(version: 20160529164259) do
 
   create_table "addresses", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "city_id"
-    t.string  "name"
-    t.string  "street"
-    t.integer "number"
+    t.integer "user_id",    null: false
+    t.integer "city_id",    null: false
+    t.string  "name",       null: false
+    t.string  "street",     null: false
+    t.integer "number",     null: false
     t.string  "directions"
-    t.string  "zip_code"
+    t.string  "zip_code",   null: false
   end
 
   add_index "addresses", ["user_id", "name"], name: "index_addresses_on_user_id_and_name", unique: true
 
   create_table "brands", force: :cascade do |t|
-    t.integer  "country_id"
+    t.integer  "country_id", null: false
     t.string   "name",       null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -36,8 +36,8 @@ ActiveRecord::Schema.define(version: 20160529164259) do
   add_index "brands", ["country_id"], name: "index_brands_on_country_id"
 
   create_table "cities", force: :cascade do |t|
-    t.string   "name"
-    t.integer  "province_id"
+    t.string   "name",        null: false
+    t.integer  "province_id", null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
@@ -66,7 +66,7 @@ ActiveRecord::Schema.define(version: 20160529164259) do
 
   create_table "models", force: :cascade do |t|
     t.string   "name"
-    t.integer  "brand_id"
+    t.integer  "brand_id",   null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -87,7 +87,7 @@ ActiveRecord::Schema.define(version: 20160529164259) do
   add_index "prices", ["version_id"], name: "index_prices_on_version_id"
 
   create_table "provinces", force: :cascade do |t|
-    t.integer  "country_id"
+    t.integer  "country_id", null: false
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -106,6 +106,7 @@ ActiveRecord::Schema.define(version: 20160529164259) do
   add_index "tracking_devices", ["serial_no"], name: "index_tracking_devices_on_serial_no", unique: true
 
   create_table "users", force: :cascade do |t|
+    t.integer  "country_id",      null: false
     t.string   "username",        null: false
     t.string   "email",           null: false
     t.string   "first_name",      null: false
@@ -139,7 +140,7 @@ ActiveRecord::Schema.define(version: 20160529164259) do
 
   create_table "versions", force: :cascade do |t|
     t.string   "name",       null: false
-    t.integer  "model_id"
+    t.integer  "model_id",   null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

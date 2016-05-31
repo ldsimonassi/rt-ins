@@ -7,17 +7,17 @@
       <%= label_tag :name, "Nombre del vehículo" %>
       <%= text_field_tag :name, '', class:'form-control' %>
 
-      <%= label_tag :brand, "Marca" %>
-      <%= select_tag :brand, options_from_collection_for_select(@brands, "id", "name") %>
+      <%= label_tag :brand_id, "Marca" %>
+      <%= select_tag :brand_id, options_from_collection_for_select(@brands, "id", "name") %>
 
-      <%= label_tag :model, "Modelo" %>
-      <%= select_tag :model, nil %>
+      <%= label_tag :model_id, "Modelo" %>
+      <%= select_tag :model_id, nil %>
 
-      <%= label_tag :version, "Version" %>
-      <%= select_tag :version, nil %>
+      <%= label_tag :version_id, "Version" %>
+      <%= select_tag :version_id, nil %>
 
-      <%= label_tag :price, "Año" %>
-      <%= select_tag :price, nil %>
+      <%= label_tag :price_id, "Año" %>
+      <%= select_tag :price_id, nil %>
 
       <%= label_tag :tracking_serial_no, "Código del dispositivo de trackeo" %>
       <%= text_field_tag :tracking_serial_no, '', class: 'form-control' %>

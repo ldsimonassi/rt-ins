@@ -13,6 +13,7 @@
 #
 
 class User < ActiveRecord::Base
+  belongs_to :country
   has_many :addresses
   has_many :vehicles
   

@@ -5,12 +5,6 @@ class VehiclesController < ApplicationController
 
 
 	def create	
-		## {"name"=>"Vento Laburo", "tracking_serial_no"=>"92348092lkfjs", "plate_no"=>"KJO496", 
-		## "chasis_no"=>"2420948729f", "engine_no"=>"skdjfsk3", "price_id"=>"951", "commit"=>"Registrar vehículo", 
-		## "controller"=>"vehicles", "action"=>"create"}
-	    
-
-		#TODO Read parameters and create vehicle
 	    if not logged_in?
  	      redirect_to login_path
 	    end
@@ -28,8 +22,10 @@ class VehiclesController < ApplicationController
 	end
 
 	def new
-		arg= Country.find_by_name('Argentina')
-		@brands = Brand.where({country:arg})
+	    if not logged_in?
+ 	      redirect_to login_path
+	    end
+		@brands = Brand.where({country:current_user.country})
 	end
 
 end

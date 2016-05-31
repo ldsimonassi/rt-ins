@@ -14,4 +14,5 @@ class Model < ActiveRecord::Base
   has_many :versions
 
   validates :name, presence: true
+  validates :brand, presence:true
 end

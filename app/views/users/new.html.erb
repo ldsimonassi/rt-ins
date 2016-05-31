@@ -8,6 +8,8 @@
       <%=  f.text_field :first_name, class: 'form-control' %>
       <%=  f.label :last_name, "Apellido" %>
       <%=  f.text_field :last_name, class: 'form-control' %>
+      <%=  f.label :country_id, "Pais" %>
+      <%=  f.select :country_id, options_from_collection_for_select(@countries, "id", "name"), class:'form-control' %>
       <%=  f.label :email, "E-Mail" %> 
       <%=  f.email_field :email, class: 'form-control' %>
       <%=  f.label :username, "Nickname para ser utilizado en el sitio" %> 

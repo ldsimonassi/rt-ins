@@ -1,2 +1,8 @@
-<%= link_to "Registrar vehículo", new_vehicle_path %></li>
+<% @vehicles.each do |v| %>
+<p>
+	<%= "#{v.name}: #{v.price.version.model.name} #{v.price.version.name} #{v.price.currency} #{v.price.price}"%>
+</p>
+<% end %>
+
+<%= link_to "Registrar vehículo", new_vehicle_path %>
 

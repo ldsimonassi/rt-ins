@@ -2,42 +2,42 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 jQuery ->
-	$('#brand').change ->
-		brand_id= $('#brand :selected').val()
+	$('#brand_id').change ->
+		brand_id= $('#brand_id :selected').val()
 		$.ajax "/brands/#{brand_id}/models",
 			type: 'GET'
 			dataType: 'text'
 			error: (jqXHR, textStatus, errorThrown) ->
 				console.log("Error #{errorThrown}")
 			success: (data, textStatus, jqXHR) ->
-				$('#model').empty()
-				$('#version').empty()
-				$('#price').empty()
+				$('#model_id').empty()
+				$('#version_id').empty()
+				$('#price_id').empty()
 				eval(data)
 				
 	
-	$('#model').change ->
-		brand_id= $('#brand :selected').val()
-		model_id= $('#model :selected').val()
+	$('#model_id').change ->
+		brand_id= $('#brand_id :selected').val()
+		model_id= $('#model_id :selected').val()
 		$.ajax "/brands/#{brand_id}/models/#{model_id}/versions",
 			type: 'GET'
 			dataType: 'text'
 			error: (jqXHR, textStatus, errorThrown) ->
 				console.log("Error #{errorThrown}")
 			success: (data, textStatus, jqXHR) ->
-				$('#version').empty()
-				$('#price').empty()
+				$('#version_id').empty()
+				$('#price_id').empty()
 				eval(data)
 
-	$('#version').change ->
-		brand_id= $('#brand :selected').val()
-		model_id= $('#model :selected').val()
-		version_id= $('#version :selected').val()
+	$('#version_id').change ->
+		brand_id= $('#brand_id :selected').val()
+		model_id= $('#model_id :selected').val()
+		version_id= $('#version_id :selected').val()
 		$.ajax "/brands/#{brand_id}/models/#{model_id}/versions/#{version_id}/prices",
 			type: 'GET'
 			dataType: 'text'
 			error: (jqXHR, textStatus, errorThrown) ->
 				console.log("Error #{errorThrown}")
 			success: (data, textStatus, jqXHR) ->
-				$('#price').empty()
+				$('#price_id').empty()
 				eval(data)
