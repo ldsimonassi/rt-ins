@@ -1,5 +1,21 @@
 <h1>Bienvenido <%= "#{@user.first_name} #{@user.last_name}" %></h1>
 
-<%= render 'vehicles' %>
+<section id="menulateral" class="col-md-3 col-md-offset-0">
+	<ul id="menu">
+	<% @vehicles.each do |v| %>
 
-<%= render 'promotions' %>
+		<li class="ui-widget-header"><%= "#{v.price.version.model.name} #{v.price.version.name}"%></li>
+		
+		<li>Control de la unidad</li>
+	    <li>Servicios contratados</li>
+	    <li>Optimizaciones</li>
+	    <li>Alertas</li>
+	<% end %>
+	</ul>
+</section>
+
+<section id="central" class="col-md-6 col-md-offset-3">
+	<p>Dario</p>
+</section>
+
+<%= link_to "Registrar vehículo", new_vehicle_path %>
