@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   resources :provinces, only: ['get', 'index']
   resources :countries, only: ['get', 'index']
   resources :vehicles, only: ['create', 'new']
+  resources :tracks, only: ['create']
  
 
   get '/brands/:brand_id/models' => 'models#index'
