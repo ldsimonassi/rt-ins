@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160529164259) do
+ActiveRecord::Schema.define(version: 20160605170207) do
 
   create_table "addresses", force: :cascade do |t|
     t.integer "user_id",    null: false
@@ -52,6 +52,17 @@ ActiveRecord::Schema.define(version: 20160529164259) do
 
   add_index "countries", ["name"], name: "index_countries_on_name", unique: true
 
+  create_table "device_locations", force: :cascade do |t|
+    t.integer  "tracking_device_id"
+    t.string   "period"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "device_locations", ["tracking_device_id", "period"], name: "index_device_locations_on_tracking_device_id_and_period"
+
   create_table "device_models", force: :cascade do |t|
     t.string   "gps",           null: false
     t.string   "obdi",          null: false
@@ -63,6 +74,24 @@ ActiveRecord::Schema.define(version: 20160529164259) do
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
   end
+
+  create_table "device_tracks", force: :cascade do |t|
+    t.integer  "tracking_device_id",    null: false
+    t.string   "period",                null: false
+    t.integer  "speed_max",             null: false
+    t.integer  "speed_p75",             null: false
+    t.integer  "speed_avg",             null: false
+    t.integer  "speed_p25",             null: false
+    t.integer  "speed_min",             null: false
+    t.float    "acceleration_up",       null: false
+    t.float    "acceleration_down",     null: false
+    t.float    "acceleration_forward",  null: false
+    t.float    "acceleration_backward", null: false
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  add_index "device_tracks", ["tracking_device_id", "period"], name: "index_device_tracks_on_tracking_device_id_and_period"
 
   create_table "models", force: :cascade do |t|
     t.string   "name"

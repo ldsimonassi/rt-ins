@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  tracking_device_id: 
+  period: MyString
+  latitude: 
+  longitude: 
+
+two:
+  tracking_device_id: 
+  period: MyString
+  latitude: 
+  longitude: 

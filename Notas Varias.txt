@@ -1,3 +1,5 @@
+Clave Google Maps: AIzaSyBC7ZKZ76o3-hzPxbATuvHbZWCxox__IS4
+
 Root -> 
 	Login / Registración DONE
 
@@ -18,6 +20,84 @@ Root ->
 		- Controller de brands. DONE
 		- Asociar la librería de jquery-ui y conectar al controller de brands DONE
 		- Tocar el style hasta que quede bien. DONE
+
+
+
+	Postear información de Velocidad (Max, P75, Med, P25, Min), Aceleración Máxima [ 1(Adelante / Atras) 2(Derecha / Izquierda) 3(Arriba / Abajo)].
+
+		Ubicación, Velocidad (Max, Min, Avg), Aceleración, 
+
+		Estadisticos: 
+			Max
+			Min
+			Avg
+			P25
+			P75
+
+	Crear modelo de datos. DONE.
+
+	Crear post.
+
+	Crear bot que postea data.
+
+
+curl -X POST localhost:8000/tracks
+{	
+	"serial_no": "AAAA19",
+	"data": [
+		{
+			"period": "20160701234000",
+			"speed": {
+				"Max": 100,
+				"Avg": 80,
+				"Min": 50,
+				"P75": 90,
+				"P25": 55
+			},
+			"acceleration": {
+				"Up": 0.1,
+				"Down": 0.3,
+				"Forward": 0.4,
+				"Backward": 0.1
+			},
+			"locations": 
+				[
+					{"Lat": 22.1231, "Long": 44.23243},
+					{"Lat": 22.1231, "Long": 44.23243},
+					{"Lat": 22.1231, "Long": 44.23243},
+					{"Lat": 22.1231, "Long": 44.23243},
+					{"Lat": 22.1231, "Long": 44.23243},
+					{"Lat": 22.1231, "Long": 44.23243}
+				]
+		}
+	]
+}
+
+
+
+rails g model DeviceTracks \
+	tracking_device:references \
+	period:string \
+	speed_max:integer \
+	speed_p75:integer \
+	speed_avg:integer \
+	speed_p25:integer \
+	speed_min:integer \
+	acceleration_up:float \
+	acceleration_down:float \
+	acceleration_forward:float \
+	acceleration_backward:float
+
+
+rails g model DeviceLocations \
+	tracking_device:references \
+	period:string \
+	latitude:double \
+	longitude:double
+
+
+
+
 
 
 
