@@ -1,77 +1,9 @@
 Clave Google Maps: AIzaSyBC7ZKZ76o3-hzPxbATuvHbZWCxox__IS4
 
 Root -> 
-	Login / Registración DONE
-
-	main_controller DONE
-
-	login_controller DONE
-
-	Crawlear API mercadolibre para obtener paises marcas etc. DONE
-
-	Importar información de paises marcas etc. IN PROGRESS
-
-	Crear pantalla de alta de vehículo: DONE
-		- Crear model Vehicle. DONE
-		- Crear validaciones vehicle. DONE
-		- Insertar datos de vehicles. DONE
-
-		- Controller de new vehicle. DONE
-		- Controller de brands. DONE
-		- Asociar la librería de jquery-ui y conectar al controller de brands DONE
-		- Tocar el style hasta que quede bien. DONE
+	- Hacer un call que obtenga una ruta con los detalles llamando a la API de google maps
 
 
-
-	Postear información de Velocidad (Max, P75, Med, P25, Min), Aceleración Máxima [ 1(Adelante / Atras) 2(Derecha / Izquierda) 3(Arriba / Abajo)].
-
-		Ubicación, Velocidad (Max, Min, Avg), Aceleración, 
-
-		Estadisticos: 
-			Max
-			Min
-			Avg
-			P25
-			P75
-
-	Crear modelo de datos. DONE.
-
-	Crear post. DONE
-
-	Crear bot que postea data.
-
-
-curl -X POST localhost:8000/tracks
-{	
-	"serial_no": "AAAA19",
-	"data": [
-		{
-			"period": "20160701234000",
-			"speed": {
-				"Max": 100,
-				"Avg": 80,
-				"Min": 50,
-				"P75": 90,
-				"P25": 55
-			},
-			"acceleration": {
-				"Up": 0.1,
-				"Down": 0.3,
-				"Forward": 0.4,
-				"Backward": 0.1
-			},
-			"locations": 
-				[
-					{"Lat": 22.1231, "Long": 44.23243},
-					{"Lat": 22.1231, "Long": 44.23243},
-					{"Lat": 22.1231, "Long": 44.23243},
-					{"Lat": 22.1231, "Long": 44.23243},
-					{"Lat": 22.1231, "Long": 44.23243},
-					{"Lat": 22.1231, "Long": 44.23243}
-				]
-		}
-	]
-}
 
 
 

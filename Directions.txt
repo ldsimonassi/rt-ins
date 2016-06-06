@@ -1,0 +1,26 @@
+[
+	"Casa":"Av Olazábal 4545, C1431CGO CABA",
+	"Trabajo":"Arias 3751, C1430CRI CABA",
+	"CEMA":"Av. Córdoba 374, C1054AAP CABA",
+	"Mimi":"Alsina 775, Quilmes, Buenos Aires",
+	"Martin":"Gobernador Valentín Vergara 2718, B1602DEH Florida, Buenos Aires"
+	"Lili":"Félix Mendelsohn 1402, B1742BJD Paso del Rey, Buenos Aires"
+	"Carrefour":"Franklin D. Roosevelt 5749,1431BZS CABA",
+	"Easy":"Av. de los Constituyentes 6020,1431 Buenos Aires"
+	"McDonalds":"Av. Federico Lacroze 3490,C1426CQU CABA"
+	"Alejo":"Belgrano 1529, B1828ACM Banfield, Buenos Aires"
+	"Aleman":"Av Pueyrredón 1640,C1118AAT Buenos Aires"
+	"CMBelgrano":"Av. del Libertador 8334,C1429BNQ CABA"
+]
+
+
+
+Iterar dias:
+	
+	9:00  Trabajo 1
+	18:00 Casa 1
+	19:00 (Carrefour 5, Easy 3, WallMart 5, McDonalds 4, Aleman 1, CMBelgrano 1, Nada 10)
+	21:30 Casa 1
+
+
+	
