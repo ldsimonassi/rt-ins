@@ -35,7 +35,6 @@ def get_url_json(url)
 	Oj.load(response.body)
 end
 
-
 origin = URI::encode("Av. Olazabal 4545, CABA")
 destination = URI::encode("Arias 3751, CABA")
 
@@ -44,7 +43,6 @@ apikey = URI::encode("AIzaSyAZwWhYZlrvNvZYnZ-hx3egf-DDemQsLGs")
 url = "https://maps.googleapis.com/maps/api/directions/json?origin=#{origin}&destination=#{destination}&key=#{apikey}"
 puts "[#{url}]"
 ret = get_url_json(url)
-#byebug
 
 r=0
 
@@ -71,7 +69,6 @@ ret['routes'].each do | route |
 			puts ""
 			s += 1
 		end
-
 		l += 1
 	end
 	r += 1
