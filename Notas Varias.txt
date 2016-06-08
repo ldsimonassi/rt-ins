@@ -1,7 +1,34 @@
 Clave Google Maps: AIzaSyBC7ZKZ76o3-hzPxbATuvHbZWCxox__IS4
 
 Root -> 
-	- Hacer un call que obtenga una ruta con los detalles llamando a la API de google maps
+	- Hacer un call que obtenga una ruta con los detalles llamando a la API de google maps. DONE.
+	- Hacer un interprete de la api que divida los caminos. DONE.
+	- Hacer un modelo de vehículo que tenga avance por velocidad, aceleración y distancia recorrida. DONE.
+
+	- Expandir el modelo a posición.
+
+	- El modelo corta cada 60s elabora las métricas y postea.
+
+	- El modelo elabora perfiles de tipo de utilización:
+
+		- 1: Taxi: Inicia el día y viaja entre puntos al azar de la ciudad con probabilidad distribuida.
+
+		- 2: Trabajador: Inicia el día va al trabajo y luego a otro lugar con probabilidad x etc, llega el fin de semana y viaja a alguno de X destinos con X propbabilidad.
+
+		- 3: Vehículo recreativo.
+
+	- El modelo elabora perfiles de tipo de conductor:
+
+		- Riesgoso:
+			- Velocidades máximas altas.
+			- Grandes aceleraciones y frenadas.
+
+		- Poco riesgoso:
+			- Velocidades bajas.
+			- Aceleraciones moderadas.
+
+	- Construir un set de datos nutrido con modelos de diferentes marcas.
+
 
 
 
@@ -26,12 +53,6 @@ rails g model DeviceLocations \
 	period:string \
 	latitude:double \
 	longitude:double
-
-
-
-
-
-
 
 
 
