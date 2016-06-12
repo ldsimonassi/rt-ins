@@ -7,6 +7,12 @@ require 'future'
 require 'open-uri'
 require 'byebug'
 
+
+
+
+
+
+
 def get_url_json(url)
 
 	max_http = 2
@@ -35,8 +41,8 @@ def get_url_json(url)
 	Oj.load(response.body)
 end
 
-origin = URI::encode("Av. Olazabal 4545, CABA")
-destination = URI::encode("Arias 3751, CABA")
+destination = URI::encode("Av. Cordoba 374, CABA")
+origin = URI::encode("Félix Mendelsohn 1402, B1742BJD Paso del Rey, Buenos Aires")
 
 apikey = URI::encode("AIzaSyAZwWhYZlrvNvZYnZ-hx3egf-DDemQsLGs")
 
@@ -46,6 +52,9 @@ ret = get_url_json(url)
 
 r=0
 
+byebug
+
+ret['start']
 ret['routes'].each do | route |
 	puts "Route #{r}"
 	l =0 
@@ -59,13 +68,17 @@ ret['routes'].each do | route |
 		leg['steps'].each do |step|
 			s_distance = step['distance']['value']
 			s_time = step['duration']['value']
-			s_lat = step['end_location']['lat']
-			s_long = step['end_location']['lng']
 
-			puts "\t\tS#{s})Lat:#{s_lat}"
-			puts "\t\tS#{s})Lon:#{s_long}"
+			ss_lat = step['start_location']['lat']
+			ss_lng = step['start_location']['lng']
+			sf_lat = step['end_location']['lat']
+			sf_lng = step['end_location']['lng']
+
+			puts "\t\tS#{s})Start:(#{ss_lat}, #{ss_lng})"
+			puts "\t\tS#{s})End:(#{sf_lat}, #{sf_lng})"
 			puts "\t\tS#{s})Time:#{s_time}"
 			puts "\t\tS#{s})Dist:#{s_distance}"
+
 			puts ""
 			s += 1
 		end
@@ -73,3 +86,28 @@ ret['routes'].each do | route |
 	end
 	r += 1
 end
+
+# geocoded_waypoints
+# routes
+# 	bounds
+# 	copyrights
+# 	legs
+# 		distance
+# 		duration
+# 		end_address
+# 		end_location
+# 		start_address
+# 		start_location
+# 		steps
+# 		traffic_speed_entry
+# 		via_waypoint
+# 	overview_polyline
+# 	summary
+# 	warnings
+# 	waypoint_order
+# status
+
+
+
+
+

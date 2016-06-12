@@ -34,7 +34,6 @@ class TracksController < ApplicationController
 # 	]
 # }
 
-
 	def create
 		serial = params['serial_no']
 		device = TrackingDevice.find_by_serial_no(serial)

@@ -5,6 +5,10 @@ Root ->
 	- Hacer un interprete de la api que divida los caminos. DONE.
 	- Hacer un modelo de vehículo que tenga avance por velocidad, aceleración y distancia recorrida. DONE.
 
+
+	- Migrar el modelo a Java.
+
+
 	- Expandir el modelo a posición.
 
 	- El modelo corta cada 60s elabora las métricas y postea.
@@ -28,10 +32,6 @@ Root ->
 			- Aceleraciones moderadas.
 
 	- Construir un set de datos nutrido con modelos de diferentes marcas.
-
-
-
-
 
 
 rails g model DeviceTracks \
