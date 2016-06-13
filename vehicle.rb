@@ -1,13 +1,44 @@
 require 'byebug'
 require 'json'
 require 'typhoeus'
+require 'open-uri'
+require 'oj'
 
 
 def post_track(body)
 	puts "posting #{body}"
 	response = Typhoeus.post("localhost:3000/tracks",  headers: {'Content-Type'=> "application/json"}, body: body)
-	byebug
+	#byebug
 	puts "#{response}"
+end
+
+
+def get_url_json(url)
+
+	max_http = 2
+	max_timeouts = 10
+	response = nil
+	success = false
+	loop do
+		response = Typhoeus.get(url, timeout: 5, connecttimeout:5)
+
+		if response.success?
+			break
+		elsif response.timed_out? || response.code == 0
+			puts "Timeout or no code #{url} #{max_timeouts}"
+			max_timeouts = max_timeouts - 1
+			sleep 2
+		else
+			puts "HTTP error code for #{url} was #{response.code.to_s} #{max_http}"
+			max_http = max_http - 1
+		end
+	
+		if max_http == 0 || max_timeouts==0
+			$stderr.puts "Maxerrors achieved for #{url} HTTP:#{max_http} TO:#{max_timeouts}" 
+			return nil
+		end
+	end
+	Oj.load(response.body)
 end
 
 class Calculator
@@ -74,7 +105,7 @@ class Vector
 	end
 
 	def to_s
-		"Vector[x:#{@x} y:#{@y} m:#{@m} h:#{@h}"
+		"#{@x},#{@y}"
 	end
 end
 
@@ -97,6 +128,8 @@ end
 
 
 class Vehicle
+	attr_accessor :current_position, :current_time
+
 	#Initialize the vehicle
 	def initialize(serial_no, start_date, starting_position)
 		@current_time = start_date
@@ -300,6 +333,60 @@ class Vehicle
 end
 
 
+
+class GoogleMapsRoute
+	def initialize(from, to)
+		origin = URI::encode(from.to_s)
+		destination = URI::encode(to.to_s)
+		apikey = URI::encode("AIzaSyAZwWhYZlrvNvZYnZ-hx3egf-DDemQsLGs")
+		url = "https://maps.googleapis.com/maps/api/directions/json?origin=#{origin}&destination=#{destination}&key=#{apikey}"
+		puts "[#{url}]"
+		@ret = get_url_json(url)
+
+		#byebug
+	end
+
+
+	def each
+		@ret['routes'].each do | route |
+			route['legs'].each do | leg |
+				leg['steps'].each do |step|
+					s_distance = step['distance']['value']
+					s_time = step['duration']['value']
+					sf_lat = step['end_location']['lat']
+					sf_lng = step['end_location']['lng']
+					
+					destination = Vector.new(sf_lat.to_f, sf_lng.to_f)
+					yield(s_time.to_i, s_distance.to_i, destination)
+				end
+			end
+		end
+	end
+end
+
+
+
+class Driver
+	def initialize(vehicle)
+		@current_address = vehicle.current_position
+		@vehicle = vehicle
+	end
+
+	def drive_to(address)
+		puts "Driving from #{@current_address} to #{address}"
+		route =  GoogleMapsRoute.new(@current_address, address)
+		route.each do |duration, distance, destination|
+			puts "\tStep #{duration} seconds, #{distance} Meters to location:(#{destination}) "
+			@vehicle.drive_to destination, distance, duration
+		end
+	end
+end
+
+
+###########
+## TESTS ##
+###########
+
 def test_line
 	c1 = Vector.new(-34.568471, -58.4055046)
 	c0 = Vector.new(-34.5349911, -58.4668743)
@@ -315,10 +402,7 @@ def test_line
 	puts l.get_coordinates_at(10)
 end
 
-
 def test_vehicle
-	#c0 = Coord.new(-34.6347509, -58.5280824)
-	#c1 = Coord.new(-34.6295233, -58.7400136)
 	c1 = Vector.new(-34.6295239, -58.73865799999999)
 	c0 = Vector.new(-34.6350013, -58.5278417)
 	v= Vehicle.new("AAAA19", Time.new(2016, 06, 15, 18, 30, 23), c0)
@@ -341,7 +425,12 @@ def test_percentile
 	puts calc.avg
 end
 
-#test_percentile
+def test_driver
+	c0 = Vector.new(-34.573,-58.4801)
+	v= Vehicle.new("AAAA19", Time.new(2016, 06, 15, 00, 00, 23), c0)
+	d= Driver.new(v)
+	d.drive_to("Av. Cordoba 374, CABA")
+end
 
-#test_line
-test_vehicle
+test_driver
+

@@ -42,7 +42,7 @@ def get_url_json(url)
 end
 
 destination = URI::encode("Av. Cordoba 374, CABA")
-origin = URI::encode("Félix Mendelsohn 1402, B1742BJD Paso del Rey, Buenos Aires")
+origin = URI::encode("-34.573,-58.4801")
 
 apikey = URI::encode("AIzaSyAZwWhYZlrvNvZYnZ-hx3egf-DDemQsLGs")
 
