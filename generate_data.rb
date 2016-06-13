@@ -260,8 +260,11 @@ def get_prices(version_id, version_name)
 	prices
 end
 
-c = get_countries
-j = c.to_json
-File.open("data_meli.json","w") do |f|
-	f.write(j)
+def generate_countries_and_cars_file
+	c = get_countries
+	j = c.to_json
+	File.open("data_meli.json","w") do |f|
+		f.write(j)
 end
+
+generate_countries_and_cars_file

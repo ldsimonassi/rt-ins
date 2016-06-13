@@ -1,12 +1,46 @@
-def to_kmh(ms) 
-	kmh = ms * 3.6
-	kmh = (kmh * 100.0).round / 100.0
+require 'byebug'
+require 'json'
+require 'typhoeus'
+
+
+def post_track(body)
+	puts "posting #{body}"
+	response = Typhoeus.post("localhost:3000/tracks",  headers: {'Content-Type'=> "application/json"}, body: body)
+	byebug
+	puts "#{response}"
 end
 
-def to_g(ms2)
-	g = ms2 / 9.8
-	g = (g * 100).round / 100.0
+class Calculator
+	def initialize(values)
+		@values = values
+		@values_sorted = @values.sort
+		@sum = 0
+		@values.each { |v| @sum += v }
+		@avg = @sum / @values.length
+	end
+
+	def max
+		@values_sorted.last
+	end
+
+	def min
+		@values_sorted.first
+	end
+
+	def avg
+		@avg
+	end
+
+	def percentile(percentile)
+		if percentile == 1
+			return @values_sorted.last
+		end
+    	k = (percentile*(@values_sorted.length-1)+1).floor - 1
+    	f = (percentile*(@values_sorted.length-1)+1).modulo(1)
+    	return @values_sorted[k] + (f * (@values_sorted[k+1] - @values_sorted[k]))
+    end
 end
+
 
 class Vector
 	attr_accessor :x, :y, :m, :h
@@ -66,16 +100,18 @@ class Vehicle
 	#Initialize the vehicle
 	def initialize(serial_no, start_date, starting_position)
 		@current_time = start_date
+		@since_last = 0
 		@serial_no = serial_no
 		@current_speed = 0
 		@rnd = Random.new(Time.now.to_i)
 		@current_position = starting_position
+		empty_records
 	end
 
 	# Drive to a given location in this estimated period of time
-	def drive_to(position, distance, remaining_time)
+	def drive_to(to_position, distance, remaining_time)
 		remaining_distance = distance
-		@current_line = Line.new(@current_position, position, distance)
+		@current_line = Line.new(@current_position, to_position, distance)
 
 		begin 
 			remaining_distance = tick(remaining_distance, remaining_time, distance)
@@ -84,10 +120,18 @@ class Vehicle
 		@speed = 0
 	end
 
-	def tick(remaining_distance, remaining_time, distance)
 
+	def wait(time)
+		time.times do
+			@current_speed = 0
+			@current_acceleration = 0
+			@current_time += 1
+			record
+		end
+	end
+
+	def tick(remaining_distance, remaining_time, distance)
 		target_speed = 0
-		
 
 		if remaining_time >= 0.1
 			target_speed = remaining_distance / remaining_time
@@ -98,11 +142,11 @@ class Vehicle
 		# Cap the max speed
 		target_speed = speed_function(target_speed)
 
-		acceleration = target_speed - @current_speed # Acceleration in m/s^2
+		# Acceleration in m/s^2
+		acceleration = target_speed - @current_speed 
 
 		# Cap the max acceleration
 		@current_acceleration = acceleration_function(acceleration)
-
 
 		# calculate remaining distance
 		remaining_distance -= @current_speed
@@ -116,7 +160,7 @@ class Vehicle
 		@current_time += 1	
 
 		# record speed and acceleration parameters in tape
-		record()
+		record
 
 		remaining_distance
 	end
@@ -153,7 +197,6 @@ class Vehicle
 		return acceleration
 	end
 
-
 	#m/s
 	def speed_function(speed)
 		if speed > 36
@@ -167,18 +210,93 @@ class Vehicle
 		return speed
 	end
 
-	def record() 
-		# Keep track of records.
-
-		speed= to_kmh(@current_speed)
-		g= to_g(@current_acceleration)
-
-		puts "#{@current_time}, #{speed}, #{g}, #{@current_position}"
-
-		# If period closed, send the vehicle data.
+	def to_kmh(ms) 
+		kmh = ms * 3.6
+		kmh = (kmh * 100.0).round / 100.0
 	end
 
+	def to_g(ms2)
+		g = ms2 / 9.8
+		g = (g * 100).round / 100.0
+	end
 
+	def empty_records
+		@records = Hash.new
+		@records[:speed] = Array.new
+		@records[:acceleration] = Array.new
+		@records[:location] = Array.new
+		@records[:period] = @current_time
+	end
+
+	def record
+		# If the period is finished, then send the data
+		if @current_time.sec == 0
+			if @since_last >= 	59
+				post_data @records
+			end
+			empty_records
+			@since_last = 0
+		end
+		
+		
+
+
+		# Keep track of records.
+		@records[:speed][@since_last] = to_kmh(@current_speed)
+		@records[:acceleration][@since_last] = to_g(@current_acceleration)
+		@records[:location][@since_last] = @current_position
+		@since_last += 1
+	end
+
+	def post_data(records)
+		#byebug
+		speed = Calculator.new(@records[:speed])
+		acceleration = Calculator.new(@records[:acceleration])
+
+		# /
+		post = Hash.new
+		post[:serial_no] = @serial_no
+		
+
+		# /data
+		post[:data] = Array.new 1
+		post[:data][0] = Hash.new
+		data = post[:data][0]
+
+		#/data/0
+		data[:speed] = Hash.new
+		data[:acceleration] = Hash.new
+		data[:locations] = Hash.new
+		data[:period] = @records[:period].strftime("%Y%m%d%H%M%S")
+
+		#/data/0/speed
+		data[:speed][:max] = speed.max
+		data[:speed][:avg] = speed.avg
+		data[:speed][:min] = speed.min
+		data[:speed][:p75] = speed.percentile 0.75
+		data[:speed][:p25] = speed.percentile 0.25
+		
+		#/data/0/acceleration
+		data[:acceleration][:up] = 0
+		data[:acceleration][:down] = 0
+		data[:acceleration][:forward] = acceleration.max
+		data[:acceleration][:backward] = acceleration.min
+		
+
+		#/data/0/locations
+		data[:locations] = Array.new
+		(0..5).each do |i| 
+			loc = @records[:location][i*10]
+			coord = Hash.new
+			
+			coord[:lat] = loc.x
+			coord[:long] = loc.y
+
+			data[:locations][i] = coord
+		end
+
+		post_track post.to_json
+	end
 end
 
 
@@ -203,11 +321,27 @@ def test_vehicle
 	#c1 = Coord.new(-34.6295233, -58.7400136)
 	c1 = Vector.new(-34.6295239, -58.73865799999999)
 	c0 = Vector.new(-34.6350013, -58.5278417)
-	v= Vehicle.new("AAA019", 0, c0)
+	v= Vehicle.new("AAAA19", Time.new(2016, 06, 15, 18, 30, 23), c0)
 	
 	v.drive_to(c1, 19608, 852)
-
+	v.wait 600
 end
 
-test_line
+def test_percentile
+	a= [10, 50, 60]
+	calc = Calculator.new(a)
+
+	(0..4).each do |i|
+		r = i / 4.0
+		puts "#{r} -> #{calc.percentile(r)}"
+	end
+
+	puts calc.max
+	puts calc.min
+	puts calc.avg
+end
+
+#test_percentile
+
+#test_line
 test_vehicle
