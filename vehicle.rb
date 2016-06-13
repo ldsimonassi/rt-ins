@@ -6,10 +6,8 @@ require 'oj'
 
 
 def post_track(body)
-	puts "posting #{body}"
 	response = Typhoeus.post("localhost:3000/tracks",  headers: {'Content-Type'=> "application/json"}, body: body)
 	#byebug
-	puts "#{response}"
 end
 
 
@@ -340,10 +338,7 @@ class GoogleMapsRoute
 		destination = URI::encode(to.to_s)
 		apikey = URI::encode("AIzaSyAZwWhYZlrvNvZYnZ-hx3egf-DDemQsLGs")
 		url = "https://maps.googleapis.com/maps/api/directions/json?origin=#{origin}&destination=#{destination}&key=#{apikey}"
-		puts "[#{url}]"
 		@ret = get_url_json(url)
-
-		#byebug
 	end
 
 
@@ -378,6 +373,7 @@ class Driver
 		route.each do |duration, distance, destination|
 			puts "\tStep #{duration} seconds, #{distance} Meters to location:(#{destination}) "
 			@vehicle.drive_to destination, distance, duration
+			@current_address = destination
 		end
 	end
 end
@@ -429,7 +425,17 @@ def test_driver
 	c0 = Vector.new(-34.573,-58.4801)
 	v= Vehicle.new("AAAA19", Time.new(2016, 06, 15, 00, 00, 23), c0)
 	d= Driver.new(v)
-	d.drive_to("Av. Cordoba 374, CABA")
+	d.drive_to "Av. Cordoba 374, CABA"
+	d.drive_to "Av Olazábal 4545, CABA"
+	d.drive_to "Alsina 775, Quilmes, Buenos Aires"
+	d.drive_to "Gobernador Valentín Vergara 2718, B1602DEH Florida, Buenos Aires"
+	d.drive_to "Félix Mendelsohn 1402, B1742BJD Paso del Rey, Buenos Aires"
+	d.drive_to "Franklin D. Roosevelt 5749,1431BZS CABA"
+	d.drive_to "Av. de los Constituyentes 6020,1431 Buenos Aires"
+	d.drive_to "Av. Federico Lacroze 3490,C1426CQU CABA"
+	d.drive_to "Belgrano 1529, B1828ACM Banfield, Buenos Aires"
+	d.drive_to "Av Pueyrredón 1640,C1118AAT Buenos Aires"
+	d.drive_to "Av. del Libertador 8334,C1429BNQ CABA"
 end
 
 test_driver
