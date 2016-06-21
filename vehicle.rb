@@ -4,12 +4,10 @@ require 'typhoeus'
 require 'open-uri'
 require 'oj'
 
-
 def post_track(body)
 	response = Typhoeus.post("localhost:3000/tracks",  headers: {'Content-Type'=> "application/json"}, body: body)
 	#byebug
 end
-
 
 def get_url_json(url)
 
@@ -330,8 +328,6 @@ class Vehicle
 	end
 end
 
-
-
 class GoogleMapsRoute
 	def initialize(from, to)
 		origin = URI::encode(from.to_s)
@@ -359,8 +355,6 @@ class GoogleMapsRoute
 	end
 end
 
-
-
 class Driver
 	def initialize(vehicle)
 		@current_address = vehicle.current_position
@@ -377,7 +371,6 @@ class Driver
 		end
 	end
 end
-
 
 ###########
 ## TESTS ##
@@ -423,7 +416,7 @@ end
 
 def test_driver
 	c0 = Vector.new(-34.573,-58.4801)
-	v= Vehicle.new("AAAA19", Time.new(2016, 06, 15, 00, 00, 23), c0)
+	v= Vehicle.new("AAAA0", Time.new(2016, 06, 15, 00, 00, 23), c0)
 	d= Driver.new(v)
 	d.drive_to "Av. Cordoba 374, CABA"
 	d.drive_to "Av Olazábal 4545, CABA"
@@ -439,4 +432,3 @@ def test_driver
 end
 
 test_driver
-

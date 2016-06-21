@@ -12,6 +12,12 @@ class VehiclesController < ApplicationController
 		user = current_user
 		td = TrackingDevice.find_by_serial_no(params['tracking_serial_no'])
 
+		if not td 
+			flash[:error] = "No se encontró un dispositivo de trackeo con serial_no #{params['tracking_serial_no']}"
+			@brands = Brand.where({country:current_user.country})
+			render :new
+			return
+		end
 		params['tracking_device_id'] = td.id
 		params['user_id'] = user.id
 

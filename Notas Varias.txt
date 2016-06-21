@@ -1,17 +1,23 @@
 Clave Google Maps: AIzaSyBC7ZKZ76o3-hzPxbATuvHbZWCxox__IS4
 
+https://www.mapbox.com/mapbox-gl-js/example/filter-markers-by-input/
+https://www.mapbox.com/mapbox-gl-js/example/animate-point-along-line/
+https://www.mapbox.com/mapbox-gl-js/example/timeline-animation/
+
+
 Root -> 
-	- Hacer un call que obtenga una ruta con los detalles llamando a la API de google maps. DONE.
-	- Hacer un interprete de la api que divida los caminos. DONE.
-	- Hacer un modelo de vehículo que tenga avance por velocidad, aceleración y distancia recorrida. DONE.
+
+	- Representación gráfica de las posiciones.
+
+		API de posiciones.
+			/user/83274/locations?since=10 DONE
+			/vehicle/2934839/locations?since=10
+
+		Agregar mapa a la home de usuarios
 
 
-	- Migrar el modelo a Java.
+	- Agregar concepto de conductor:
 
-
-	- Expandir el modelo a posición.
-
-	- El modelo corta cada 60s elabora las métricas y postea.
 
 	- El modelo elabora perfiles de tipo de utilización:
 
@@ -31,28 +37,12 @@ Root ->
 			- Velocidades bajas.
 			- Aceleraciones moderadas.
 
+
+
 	- Construir un set de datos nutrido con modelos de diferentes marcas.
 
 
-rails g model DeviceTracks \
-	tracking_device:references \
-	period:string \
-	speed_max:integer \
-	speed_p75:integer \
-	speed_avg:integer \
-	speed_p25:integer \
-	speed_min:integer \
-	acceleration_up:float \
-	acceleration_down:float \
-	acceleration_forward:float \
-	acceleration_backward:float
 
-
-rails g model DeviceLocations \
-	tracking_device:references \
-	period:string \
-	latitude:double \
-	longitude:double
 
 
 
@@ -87,88 +77,5 @@ rails g model DeviceLocations \
 				------------ -- ---------
 
 
-1 Agregar nombre completo DONE
-2 Agregar base de datos de domicilios. DONE
-
-
-Importar lista de modelos de autos de mercadolibre.
-
-
-https://api.mercadolibre.com/motors_prices/MLA1744/brands
-
-Nota de La Nación:
-
 http://www.lanacion.com.ar/1898604-internet-de-las-cosas-desde-el-cepillo-de-dientes-hasta-el-lavarropas-los-datos-desnudan-la-intimidad
 
-
------------------------------------------------------------------------------------------------------
-
-rails g scaffold insurance_company \
-	name:string \
-	address:string \
-	phone:string \
-	email:string \
-	user:string \
-	password:string
-
-has_many insurance_plans
-
------------------------------------------------------------------------------------------------------
-
-rails g scaffold insurance_plan \
-	insurance_company:references \
-	variability:integer \
-	civil_responsability:float \
-	driving_sensibility:integer \
-	zone_sensibility:integer
-
-
-belongs_to insurance_company
-has_many insurance_policy
-
------------------------------------------------------------------------------------------------------
-
-rails g scaffold insurance_policy \
-	customer:reference \
-	vehicle:reference \
-	insurance_plan:references \
-	start_date:date \
-	due_date:date
-
-has_one vehicle
-has_many
-
------------------------------------------------------------------------------------------------------
-
-rails g scaffold customer \
-	name:string \
-	born_date:date \
-	address:string \
-	city:string \
-	zip_code:integer
-
-has_many vehicles
-
------------------------------------------------------------------------------------------------------
-
-rails g scaffold vehicle_type \
-	brand:string \
-	model:string \
-	sub_model:string \
-	year:integer \
-	price: float
-
-has_many vehicles
-
------------------------------------------------------------------------------------------------------
-
-rails g \
-	scaffold vehicle \
-	vehicle_type:reference \
-	identification:string \
-	chassis_number:string \
-	engine_number:string \
-	color:string
-
-belongs_to customer
-belongs_to vehicle_type

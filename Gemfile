@@ -16,6 +16,7 @@ gem 'promise'
 
 gem 'annotate'
 
+
 # Use jquery as the JavaScript library
 gem 'jquery-rails', '4.1.1'
 gem 'jquery-ui-rails'

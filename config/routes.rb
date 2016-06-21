@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  get 'locations/by_vehicle'
+
+  get 'locations/by_user'
+
   get 'prices/index'
 
   get 'versions/index'
@@ -20,6 +24,9 @@ Rails.application.routes.draw do
   get '/brands/:brand_id/models' => 'models#index'
   get '/brands/:brand_id/models/:model_id/versions' => 'versions#index'
   get '/brands/:brand_id/models/:model_id/versions/:version_id/prices' => 'prices#index'
+
+  get '/users/:user_id/locations' => 'locations#by_user'
+  get '/users/:user_id/last_locations' => 'locations#last_by_user'
 
   get 'sessions/new'
 
