@@ -23,7 +23,9 @@
     //
 
         var mymap = L.map('mapid').setView([-34.573,-58.4801], 13);
-
+        var colors = ['#0000FF', '#8A2BE2', '#DC143C', '#00008B', '#006400', '#FFD700', 
+        			  '#FF69B4', '#4B0082', '#00FF00', '#00FA9A', '#B0E0E6', '#FF0000', 
+        			  '#FF00FF'];
 
         L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -36,15 +38,44 @@
         // vehicles{} = parseVehicles(JSON)
         // update()
 
-
+        user_id = <%= raw current_user.id %>;
         vehicles = <%= raw get_user_vehicles_and_locations(current_user, '20160615').to_json %>;
+        //polys = [:];
 
-        for (var i = vehicles.length - 1; i >= 0; i--) {
-        	locations = vehicles[i].locations
-			vehicles[i]['poly'] = L.polyline(locations, {color:'red'}).addTo(mymap);
-        }
+        function draw_vehicles() {
+	        for (var i = vehicles.length - 1; i >= 0; i--) {
+	        	locations = vehicles[i].locations
+	        	if(locations.length > 0) {
+					vehicles[i]['poly'] = L.polyline(locations, {color:'red', noClip:'false'});
+					vehicles[i]['poly'].addTo(mymap);
+					L.rectangle(vehicles[i]['poly'].getBounds(), {color: 'orange', fillOpacity: 0.1}).addTo(mymap);
+					mymap.fitBounds(vehicles[i]['poly'].getBounds());
+				}
+	        }
+	    }
 
 
+
+	    function request_locations() {
+			if(!requesting) {
+				requesting = true;
+				var xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (xhttp.readyState == 4 && xhttp.status == 200) {
+						//JSON: xhttp.responseText
+						parsed = JSON.parse(xhttp.responseText)
+						console.log(parsed);
+						requesting = false;
+					}
+				};
+				xhttp.open("GET", "/users/"+user_id+"/locations", true);
+				xhttp.send();
+			}
+		}
+
+		requesting = false;
+		//request update every 5 seconds
+		setInterval(request_locations, 5000);
 
         // L.marker([51.5, -0.09]).addTo(mymap)
         //     .bindPopup("<b>Hello world!</b><br />I am a popup.").openPopup();

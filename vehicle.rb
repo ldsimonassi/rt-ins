@@ -421,14 +421,29 @@ def test_driver
 	d.drive_to "Av. Cordoba 374, CABA"
 	d.drive_to "Av Olazábal 4545, CABA"
 	d.drive_to "Alsina 775, Quilmes, Buenos Aires"
+
+	v= Vehicle.new("AAAA100", Time.new(2016, 06, 15, 00, 00, 23), c0)
+	d= Driver.new(v)
 	d.drive_to "Gobernador Valentín Vergara 2718, B1602DEH Florida, Buenos Aires"
 	d.drive_to "Félix Mendelsohn 1402, B1742BJD Paso del Rey, Buenos Aires"
-	d.drive_to "Franklin D. Roosevelt 5749,1431BZS CABA"
-	d.drive_to "Av. de los Constituyentes 6020,1431 Buenos Aires"
-	d.drive_to "Av. Federico Lacroze 3490,C1426CQU CABA"
+	
+
+	v= Vehicle.new("AAAA78", Time.new(2016, 06, 15, 00, 00, 23), c0)
+	d= Driver.new(v)
 	d.drive_to "Belgrano 1529, B1828ACM Banfield, Buenos Aires"
+	d.drive_to "Franklin D. Roosevelt 5749,1431BZS CABA"
+
+
+	v= Vehicle.new("AAAA93", Time.new(2016, 06, 15, 00, 00, 23), c0)
+	d= Driver.new(v)
 	d.drive_to "Av Pueyrredón 1640,C1118AAT Buenos Aires"
 	d.drive_to "Av. del Libertador 8334,C1429BNQ CABA"
+
+	v= Vehicle.new("AAAA98", Time.new(2016, 06, 15, 00, 00, 23), c0)
+	d= Driver.new(v)
+	d.drive_to "Av. de los Constituyentes 6020,1431 Buenos Aires"
+	d.drive_to "Av. Federico Lacroze 3490,C1426CQU CABA"
 end
+
 
 test_driver

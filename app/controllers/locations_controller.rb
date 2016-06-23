@@ -1,5 +1,5 @@
 class LocationsController < ApplicationController
-  include VehiclesHelper
+  include LocationsHelper
   #Dummy mapped vehicle
   #/vehicle/:vehicle_id/locations?since=100
   def by_vehicle

@@ -13,7 +13,52 @@ Root ->
 			/user/83274/locations?since=10 DONE
 			/vehicle/2934839/locations?since=10
 
-		Agregar mapa a la home de usuarios
+		Agregar mapa a la home de usuarios. DONE
+
+		Agregar información de ubicaciones de los vehículos. DONE
+
+		Generar datos para otro vehiculo.
+
+
+		Menu principal:
+
+		- Control de flota:
+
+			1) Situación actual de los vehículos de la flota:
+				1a) Modificar generador para cargar todos los vehículos. DONE.
+				1b) GET Last 15' DONE.
+				1c) Auto Refresh DONE.
+				1d) Layer based rendering and updating. PENDING, INVESTIGANDO.
+				1e) (Depreciation Function) 
+				1f) (Arrow) (Speed, Acceleration).
+
+			2a) Generar data on line automatica. Truchar timestamp.
+
+			2b) Agregar estilo en función de la antiguedad del dato (ir volviendo transparente.
+
+			3) Agregar filtros de capas.
+
+		- Control de unidades.
+
+			Historial de recorrido de las unidades:
+				GET Last Day.
+
+			Agregar capas por vehículo.
+
+			Agregar filtro por horario y auto play.
+
+			Grafico de velocidades y aceleraciones.
+
+
+- WiFi Routers Database:
+- Measure environment:
+- Send Data.
+
+
+		- Control 
+
+
+
 
 
 	- Agregar concepto de conductor:
