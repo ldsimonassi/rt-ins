@@ -16,6 +16,7 @@ gem 'promise'
 
 gem 'annotate'
 
+gem 'ruby-geometry', require: 'geometry'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails', '4.1.1'

@@ -4,7 +4,6 @@ def warn message
 	puts "*****************************************"
 end
 
-
 def load_cities_and_cars_from_file
 	if Country.find_by({name: 'Argentina'}).blank? 
 		warn "Loading cities and cars..."
@@ -53,7 +52,6 @@ def load_cities_and_cars_from_file
 
 				end
 			end
-
 
 			# Load Country States
 			states.each do |state_name, state_content| 
@@ -143,6 +141,7 @@ end
 def create_devices
 	if TrackingDevice.find_by_serial_no('AAAA0').blank?
 		warn "Creating tracking devices"
+
 		# Create device model
 		rt_tracker = DeviceModel.create({name:'RTTracker 1.0', 
 						    camera:'NONE', 
@@ -152,27 +151,85 @@ def create_devices
 						    obdi:'2.0', 
 						    manufacturer:'Prototype'})
 
-
 		# Create trackers
 		i = 0
 
 		for i in 0..100 do
 			TrackingDevice.create({device_model: rt_tracker, serial_no: "AAAA#{i}"})
+			TrackingDevice.create({device_model: rt_tracker, serial_no: "BBBB#{i}"})
 		end
 	else
 		warn "Skipping devices"
 	end
 end
 
+
+def pick_random_taxi_price(country)
+	brand = country.brands.order("RANDOM()").first
+	model = brand.models.order("RANDOM()").first
+	version = model.versions.order("RANDOM()").first
+	if version.blank?
+		return pick_random_taxi_price country
+	end
+	price = version.prices.order("RANDOM()").first
+	puts "#{country.name}: #{brand.name} - #{model.name} - #{version.name} - #{price.year}"
+	price
+end
+
+
+def create_su_taxi_srl
+	if User.find_by_username('sutaxisrl').blank?
+		warn "Creating su taxi srl fleet"
+		arg = Country.find_by({name: 'Argentina'})
+		# bue = Province.find_by({name:'Buenos Aires', country:arg})
+		# vte_lopez = City.find_by({name:'Vicente Lopez', province:bue})
+
+		# Users
+		sutaxisrl = User.create({username: 'sutaxisrl', 
+		                      email:'sutaxisrl@gmail.com', 
+		                      password: 'sutaxisrl', 
+		                      password_confirmation: 'sutaxisrl', 
+		                      first_name:'Sergio Ezequiel', 
+		                      last_name:'Gutierrez', 
+		                      country:arg})
+
+
+		for i in 1..100 do
+			price = pick_random_taxi_price arg
+			td = TrackingDevice.find_by_serial_no("BBBB#{i}")
+			Vehicle.create({user:sutaxisrl, name:"SuTaxi #{i}", 
+							price:price, chasis_no:"SUTAXI#{i}", 
+							engine_no: "SUTAXI#{i}", plate_no:"SUTAXI#{i}", 
+							tracking_device:td})
+		end
+
+	else
+		warn "Skipping dario family fleet"
+	end
+end
+
+def delete_test_data
+	# tables = ['users', 'tracking_devices', 'device_locations', 'vehicles', 'addresses']
+	# tables.each do |t|
+	# 	ActiveRecord::Base.connection.execute("TRUNCATE #{t} RESTART IDENTITY")
+	# end
+	User.destroy_all
+	TrackingDevice.destroy_all
+	DeviceLocation.destroy_all
+	Vehicle.destroy_all
+	Address.destroy_all
+end
+
 # Actual SetUp
 
 load_cities_and_cars_from_file
+
+delete_test_data
 
 create_devices
 
 create_dario_family_fleet
 
-
-
+create_su_taxi_srl
 
 

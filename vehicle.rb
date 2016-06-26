@@ -3,6 +3,9 @@ require 'json'
 require 'typhoeus'
 require 'open-uri'
 require 'oj'
+require 'geometry'
+
+
 
 def post_track(body)
 	response = Typhoeus.post("localhost:3000/tracks",  headers: {'Content-Type'=> "application/json"}, body: body)
@@ -69,7 +72,7 @@ class Calculator
 end
 
 
-class Vector
+class CarVector
 	attr_accessor :x, :y, :m, :h
 
 	def initialize(x, y)
@@ -85,19 +88,19 @@ class Vector
 			x = (-x)
 		end
 		y = @m * x
-		Vector.new(x, y)
+		CarVector.new(x, y)
 	end
 
 	def minus(v2)
 		x = @x-v2.x
 		y = @y-v2.y
-		Vector.new(x, y)
+		CarVector.new(x, y)
 	end
 
 	def plus(v2)
 		x = @x+v2.x
 		y = @y+v2.y
-		Vector.new(x, y)
+		CarVector.new(x, y)
 	end
 
 	def to_s
@@ -347,13 +350,15 @@ class GoogleMapsRoute
 					sf_lat = step['end_location']['lat']
 					sf_lng = step['end_location']['lng']
 					
-					destination = Vector.new(sf_lat.to_f, sf_lng.to_f)
+					destination = CarVector.new(sf_lat.to_f, sf_lng.to_f)
 					yield(s_time.to_i, s_distance.to_i, destination)
 				end
 			end
 		end
 	end
 end
+
+
 
 class Driver
 	def initialize(vehicle)
@@ -377,8 +382,8 @@ end
 ###########
 
 def test_line
-	c1 = Vector.new(-34.568471, -58.4055046)
-	c0 = Vector.new(-34.5349911, -58.4668743)
+	c1 = CarVector.new(-34.568471, -58.4055046)
+	c0 = CarVector.new(-34.5349911, -58.4668743)
 
 	l= Line.new(c0, c1, 10)
 
@@ -392,8 +397,8 @@ def test_line
 end
 
 def test_vehicle
-	c1 = Vector.new(-34.6295239, -58.73865799999999)
-	c0 = Vector.new(-34.6350013, -58.5278417)
+	c1 = CarVector.new(-34.6295239, -58.73865799999999)
+	c0 = CarVector.new(-34.6350013, -58.5278417)
 	v= Vehicle.new("AAAA19", Time.new(2016, 06, 15, 18, 30, 23), c0)
 	
 	v.drive_to(c1, 19608, 852)
@@ -414,36 +419,64 @@ def test_percentile
 	puts calc.avg
 end
 
-def test_driver
-	c0 = Vector.new(-34.573,-58.4801)
+def drive_dario_fleet
+	c0 = CarVector.new(-34.573,-58.4801)
+
 	v= Vehicle.new("AAAA0", Time.new(2016, 06, 15, 00, 00, 23), c0)
 	d= Driver.new(v)
 	d.drive_to "Av. Cordoba 374, CABA"
 	d.drive_to "Av Olazábal 4545, CABA"
 	d.drive_to "Alsina 775, Quilmes, Buenos Aires"
 
-	v= Vehicle.new("AAAA100", Time.new(2016, 06, 15, 00, 00, 23), c0)
+	v= Vehicle.new("AAAA1", Time.new(2016, 06, 15, 00, 00, 23), c0)
 	d= Driver.new(v)
 	d.drive_to "Gobernador Valentín Vergara 2718, B1602DEH Florida, Buenos Aires"
 	d.drive_to "Félix Mendelsohn 1402, B1742BJD Paso del Rey, Buenos Aires"
-	
 
-	v= Vehicle.new("AAAA78", Time.new(2016, 06, 15, 00, 00, 23), c0)
-	d= Driver.new(v)
-	d.drive_to "Belgrano 1529, B1828ACM Banfield, Buenos Aires"
-	d.drive_to "Franklin D. Roosevelt 5749,1431BZS CABA"
+	# v= Vehicle.new("AAAA78", Time.new(2016, 06, 15, 00, 00, 23), c0)
+	# d= Driver.new(v)
+	# d.drive_to "Belgrano 1529, B1828ACM Banfield, Buenos Aires"
+	# d.drive_to "Franklin D. Roosevelt 5749,1431BZS CABA"
 
+	# v= Vehicle.new("AAAA93", Time.new(2016, 06, 15, 00, 00, 23), c0)
+	# d= Driver.new(v)
+	# d.drive_to "Av Pueyrredón 1640,C1118AAT Buenos Aires"
+	# d.drive_to "Av. del Libertador 8334,C1429BNQ CABA"
 
-	v= Vehicle.new("AAAA93", Time.new(2016, 06, 15, 00, 00, 23), c0)
-	d= Driver.new(v)
-	d.drive_to "Av Pueyrredón 1640,C1118AAT Buenos Aires"
-	d.drive_to "Av. del Libertador 8334,C1429BNQ CABA"
-
-	v= Vehicle.new("AAAA98", Time.new(2016, 06, 15, 00, 00, 23), c0)
-	d= Driver.new(v)
-	d.drive_to "Av. de los Constituyentes 6020,1431 Buenos Aires"
-	d.drive_to "Av. Federico Lacroze 3490,C1426CQU CABA"
+	# v= Vehicle.new("AAAA98", Time.new(2016, 06, 15, 00, 00, 23), c0)
+	# d= Driver.new(v)
+	# d.drive_to "Av. de los Constituyentes 6020,1431 Buenos Aires"
+	# d.drive_to "Av. Federico Lacroze 3490,C1426CQU CABA"
 end
 
+class Conurbano
+	def initialize
+		@area = Geometry::Polygon.new [-58.48717402604624,-34.4878806058396], [-58.54283775668031,-34.44563840594787], [-58.59217071356932,-34.49347491893651], [-58.57296129864327,-34.52707536486928], 
+		  					  [-58.65582428380958,-34.58807555438049], [-58.53874122413309,-34.69742499668709], [-58.46509003010867,-34.73650095021471], [-58.417333862044,-34.77708176337043], 
+		  					  [-58.38006945217039,-34.82733132870203], [-58.19030239548302,-34.7663570248184], [-58.23506218266494,-34.72024625218433], [-58.3001053699785,-34.68688466607215], 
+		  					  [-58.36392691824155,-34.63265200104309], [-58.36770837492121,-34.60724878377332], [-58.40980148897666,-34.57021280331122], [-58.44193367509822,-34.55450296172231], 
+		  					  [-58.46854381042188,-34.5362076906798], [-58.48525193199006,-34.51537144154021], [-58.48717402604624,-34.4878806058396]
 
-test_driver
+	end
+
+	def is_conurbano_location(lat, lng)
+		ret = (@area <=> Geometry::Point[lng, lat]) >= 0
+		puts "#{lat}, #{lng} : #{ret}"
+		return ret
+	end
+end
+
+def drive_su_taxi_fleet
+#	c0 = pick_random_conurbano_location
+end
+
+con = Conurbano.new
+con.is_conurbano_location(-34.573,-58.4801)
+con.is_conurbano_location(-34.5438296,-58.5402597)
+con.is_conurbano_location(-34.556209, -58.360411)
+con.is_conurbano_location(-34.564715, -58.356832)
+con.is_conurbano_location(-34.874850, -58.309380)
+con.is_conurbano_location(-34.965728, -59.401201)
+#drive_dario_fleet
+
+#drive_su_taxi_fleet
