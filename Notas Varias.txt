@@ -23,20 +23,19 @@ Root ->
 		Menu principal:
 
 		- Control de flota:
-
 			1) Situación actual de los vehículos de la flota:
 				1a) Modificar generador para cargar todos los vehículos. DONE.
 				1b) GET Last 15' DONE.
 				1c) Auto Refresh DONE.
-				1d) Layer based rendering and updating. PENDING, INVESTIGANDO.
-				1e) (Depreciation Function) 
-				1f) (Arrow) (Speed, Acceleration).
+				1d) Layer based rendering DONE.
+				1e)  and updating. DONE.
+				1f) (Depreciation Function)  CANCEL.
+				1g) (Arrow) (Speed, Acceleration). CANCEL.
 
-			2a) Generar data on line automatica. Truchar timestamp.
 
-			2b) Agregar estilo en función de la antiguedad del dato (ir volviendo transparente.
+			2a) Generar data on line automatica. DONE.
 
-			3) Agregar filtros de capas.
+		- Trabajar en la simulación.
 
 		- Control de unidades.
 
@@ -48,16 +47,6 @@ Root ->
 			Agregar filtro por horario y auto play.
 
 			Grafico de velocidades y aceleraciones.
-
-
-- WiFi Routers Database:
-- Measure environment:
-- Send Data.
-
-
-		- Control 
-
-
 
 
 
