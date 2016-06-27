@@ -32,10 +32,9 @@ Root ->
 				1f) (Depreciation Function)  CANCEL.
 				1g) (Arrow) (Speed, Acceleration). CANCEL.
 
-
 			2a) Generar data on line automatica. DONE.
 
-		- Trabajar en la simulación.
+		- Trabajar en la simulación. DONE.
 
 		- Control de unidades.
 
