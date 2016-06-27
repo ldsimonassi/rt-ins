@@ -1,3 +1,4 @@
+
 def warn message
 	puts "*****************************************"
 	puts "* #{message}"
@@ -172,6 +173,9 @@ def pick_random_taxi_price(country)
 		return pick_random_taxi_price country
 	end
 	price = version.prices.order("RANDOM()").first
+	if price.blank?
+		return pick_random_taxi_price country
+	end
 	puts "#{country.name}: #{brand.name} - #{model.name} - #{version.name} - #{price.year}"
 	price
 end
@@ -215,7 +219,9 @@ def delete_test_data
 	# end
 	User.destroy_all
 	TrackingDevice.destroy_all
+	DeviceModel.destroy_all
 	DeviceLocation.destroy_all
+	DeviceTrack.destroy_all
 	Vehicle.destroy_all
 	Address.destroy_all
 end

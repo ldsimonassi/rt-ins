@@ -57,7 +57,7 @@ module LocationsHelper
 	  		
 			# Query locations.
 			# Add order by and limit.
-	  		locations = v.tracking_device.device_locations.where("period <  '#{get_current_fiction_time_str}'").order('period desc').limit(50)
+	  		locations = v.tracking_device.device_locations.where("period <  '#{get_current_fiction_time_str}'").order('period desc').limit(10)
 			
 			if locations.length > 0 
 				vehicle[:from] = locations.first.period

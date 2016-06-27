@@ -5,8 +5,6 @@ require 'open-uri'
 require 'oj'
 require 'geometry'
 
-
-
 def post_track(body)
 	response = Typhoeus.post("localhost:3000/tracks",  headers: {'Content-Type'=> "application/json"}, body: body)
 	#byebug
@@ -326,8 +324,14 @@ class Vehicle
 
 			data[:locations][i] = coord
 		end
+		begin
+			post_track post.to_json
+		rescue => e
+			puts "Exception #{e}"
+			byebug
+		end
 
-		post_track post.to_json
+		
 	end
 end
 
@@ -464,29 +468,30 @@ class Conurbano
 
 	end
 
-	def is_conurbano_location(lat, lng)
-		ret = (@area <=> Geometry::Point[lng, lat]) >= 0
+	def is_conurbano_location(v)
+		ret = (@area <=> Geometry::Point[v.y, v.x]) >= 0
 		return ret
 	end
 
-	def _pick_random_conurbano_location(lat, lng, max_dst)
-		if !is_conurbano_location(lat, lng)
+	def _pick_random_conurbano_location(v, max_dst)
+		if !is_conurbano_location(v)
+			puts "#{v} is not in conurbano"
 			throw :center_not_conurbano
 		end
 		
 		radius = rand * max_dst
-		angle = rand(2*Math::PI)
-		point = [lat + (radius * Math::cos(angle)), lng + (radius * Math::sin(angle))]
+		angle = rand * 2 * Math::PI
+		point = CarVector.new(v.x + (radius * Math::cos(angle)), v.y + (radius * Math::sin(angle)))
 
-		if ! is_conurbano_location(point[0], point[1])
-			puts "#{point} not in conurbano, recalculating with radius #{radius} prev #{max_dst}"
-			point = _pick_random_conurbano_location lat, lng, radius
+		if ! is_conurbano_location(point)
+			puts "#{point} not in conurbano, recalcul ating with radius #{radius} prev #{max_dst}"
+			point = _pick_random_conurbano_location v, radius
 		end
 		
 		return point
 	end
-	def pick_random_conurbano_location(lat, lng, max_dst)
-		point = _pick_random_conurbano_location(lat, lng, max_dst)
+	def pick_random_conurbano_location(v, max_dst)
+		point = _pick_random_conurbano_location(v, max_dst)
 		puts "#{point} success"
 		return point
 	end
@@ -495,18 +500,39 @@ end
 
 
 def drive_su_taxi_fleet
-#	c0 = pick_random_conurbano_location
+	c0 = CarVector.new(-34.573,-58.4801)
+	con = Conurbano.new
+	for i in 1..100 do
+		serial_no = "BBBB#{i}"
+		c0 = con.pick_random_conurbano_location c0, 0.1
+		v= Vehicle.new(serial_no, Time.new(2016, 06, 15, 00, 00, 23), c0)
+		d= Driver.new(v)
+		
+		for j in 1..10 do
+			c0 = con.pick_random_conurbano_location c0, 0.1
+			d.drive_to c0
+		end
+	end
+	byebug
 end
 
-con = Conurbano.new
-con.is_conurbano_location(-34.573,-58.4801)
-con.is_conurbano_location(-34.5438296,-58.5402597)
-con.is_conurbano_location(-34.556209, -58.360411)
-con.is_conurbano_location(-34.564715, -58.356832)
-con.is_conurbano_location(-34.874850, -58.309380)
-con.is_conurbano_location(-34.965728, -59.401201)
+drive_su_taxi_fleet
 
-con.pick_random_conurbano_location(-34.573,-58.4801, 0.1)
+#con = Conurbano.new
+# con.is_conurbano_location(-34.573,-58.4801)
+# con.is_conurbano_location(-34.5438296,-58.5402597)
+# con.is_conurbano_location(-34.556209, -58.360411)
+# con.is_conurbano_location(-34.564715, -58.356832)
+# con.is_conurbano_location(-34.874850, -58.309380)
+# con.is_conurbano_location(-34.965728, -59.401201)
+
+
+# pos = [-34.573,-58.4801]
+
+# (0..50).step(1).each do
+# 	pos = con.pick_random_conurbano_location(pos[0],pos[1], 0.1)
+# end
+
 #drive_dario_fleet
 
 #drive_su_taxi_fleet
