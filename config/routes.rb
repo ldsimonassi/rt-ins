@@ -1,5 +1,13 @@
 Rails.application.routes.draw do
 
+  get 'drivers/new'
+
+  get 'drivers/create'
+
+  get 'drivers/index'
+
+  get 'drivers/delete'
+
   get 'locations/by_vehicle'
 
   get 'locations/by_user'
@@ -38,6 +46,7 @@ Rails.application.routes.draw do
   delete 'logout'  => 'sessions#destroy'
   
   resources :users, only: ['new', 'create', 'index']
+  resources :drivers, only: ['new', 'create', 'index', 'delete']
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
