@@ -10,8 +10,8 @@ def load_cities_and_cars_from_file
 		warn "Loading cities and cars..."
 		countries = Oj.load(IO.read("./data_meli.json"))
 		countries.each do |country_name, country_content| 
-			#if country_name != "Brasil"  
-			if country_name == ""  
+			if country_name != "Argentina"  
+			#if country_name == ""  
 				next
 			end
 			puts "Country: [#{country_name}]"
@@ -123,6 +123,10 @@ def create_dario_family_fleet
 						   last_name:'Simonassi', 
 						   country:arg})
 
+		Driver.create({user:dario, name:'Darío Simonassi', passphrase:'pirata2013'})
+		Driver.create({user:dario, name:'María José Simonassi', passphrase:'athos2009'})
+
+
 		# Addresses
 		dario_casa = Address.create({user: dario, name:'Casa', street:'Av Olazabal', number: '4545', directions:'4to C', zip_code:'1431', city:v_urq})
 		dario_trabajo = Address.create({user: dario, name:'Trabajo', street:'Arias', number: '3751', directions:'7mo piso', zip_code:'1430', city:saavedra})
@@ -205,6 +209,10 @@ def create_su_taxi_srl
 							price:price, chasis_no:"SUTAXI#{i}", 
 							engine_no: "SUTAXI#{i}", plate_no:"SUTAXI#{i}", 
 							tracking_device:td})
+
+			Driver.create({user:sutaxisrl, 
+						   name:"Conductor de SuTaxi #{i}", 
+						   passphrase:"Passphrase de SuTaxi #{i}"})
 		end
 
 	else

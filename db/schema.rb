@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160605170207) do
+ActiveRecord::Schema.define(version: 20160628021014) do
 
   create_table "addresses", force: :cascade do |t|
     t.integer "user_id",    null: false
@@ -59,8 +59,10 @@ ActiveRecord::Schema.define(version: 20160605170207) do
     t.float    "longitude"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
+    t.integer  "driver_id"
   end
 
+  add_index "device_locations", ["driver_id", "period", "tracking_device_id"], name: "index_device_locations_by_driver_id_period_and_trk"
   add_index "device_locations", ["tracking_device_id", "period"], name: "index_device_locations_on_tracking_device_id_and_period"
 
   create_table "device_models", force: :cascade do |t|
@@ -89,9 +91,22 @@ ActiveRecord::Schema.define(version: 20160605170207) do
     t.float    "acceleration_backward", null: false
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
+    t.integer  "driver_id"
   end
 
+  add_index "device_tracks", ["driver_id", "period", "tracking_device_id"], name: "index_device_tracks_by_driver_id_tracking_device_id_and_period"
   add_index "device_tracks", ["tracking_device_id", "period"], name: "index_device_tracks_on_tracking_device_id_and_period"
+
+  create_table "drivers", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "user_id"
+    t.string   "passphrase"
+  end
+
+  add_index "drivers", ["user_id", "id"], name: "index_drivers_by_user_id_and_id"
+  add_index "drivers", ["user_id", "name"], name: "index_drivers_by_user_id_and_name", unique: true
 
   create_table "models", force: :cascade do |t|
     t.string   "name"
