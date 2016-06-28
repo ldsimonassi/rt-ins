@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160628021014) do
+ActiveRecord::Schema.define(version: 20160628034829) do
 
   create_table "addresses", force: :cascade do |t|
     t.integer "user_id",    null: false
@@ -57,9 +57,9 @@ ActiveRecord::Schema.define(version: 20160628021014) do
     t.string   "period"
     t.float    "latitude"
     t.float    "longitude"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
-    t.integer  "driver_id"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.integer  "driver_id",          default: 0, null: false
   end
 
   add_index "device_locations", ["driver_id", "period", "tracking_device_id"], name: "index_device_locations_by_driver_id_period_and_trk"
@@ -78,34 +78,36 @@ ActiveRecord::Schema.define(version: 20160628021014) do
   end
 
   create_table "device_tracks", force: :cascade do |t|
-    t.integer  "tracking_device_id",    null: false
-    t.string   "period",                null: false
-    t.integer  "speed_max",             null: false
-    t.integer  "speed_p75",             null: false
-    t.integer  "speed_avg",             null: false
-    t.integer  "speed_p25",             null: false
-    t.integer  "speed_min",             null: false
-    t.float    "acceleration_up",       null: false
-    t.float    "acceleration_down",     null: false
-    t.float    "acceleration_forward",  null: false
-    t.float    "acceleration_backward", null: false
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
-    t.integer  "driver_id"
+    t.integer  "tracking_device_id",                null: false
+    t.string   "period",                            null: false
+    t.integer  "speed_max",                         null: false
+    t.integer  "speed_p75",                         null: false
+    t.integer  "speed_avg",                         null: false
+    t.integer  "speed_p25",                         null: false
+    t.integer  "speed_min",                         null: false
+    t.float    "acceleration_up",                   null: false
+    t.float    "acceleration_down",                 null: false
+    t.float    "acceleration_forward",              null: false
+    t.float    "acceleration_backward",             null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+    t.integer  "driver_id",             default: 0, null: false
   end
 
   add_index "device_tracks", ["driver_id", "period", "tracking_device_id"], name: "index_device_tracks_by_driver_id_tracking_device_id_and_period"
   add_index "device_tracks", ["tracking_device_id", "period"], name: "index_device_tracks_on_tracking_device_id_and_period"
 
   create_table "drivers", force: :cascade do |t|
-    t.string   "name",       null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "name",                      null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
     t.integer  "user_id"
     t.string   "passphrase"
+    t.string   "internal_id", default: "1", null: false
   end
 
   add_index "drivers", ["user_id", "id"], name: "index_drivers_by_user_id_and_id"
+  add_index "drivers", ["user_id", "internal_id"], name: "index_drivers_by_user_id_and_internal_id", unique: true
   add_index "drivers", ["user_id", "name"], name: "index_drivers_by_user_id_and_name", unique: true
 
   create_table "models", force: :cascade do |t|

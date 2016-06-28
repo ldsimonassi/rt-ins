@@ -5,6 +5,7 @@ class TracksController < ApplicationController
 # POST Example
 # {	
 # 	"serial_no": "AAAA19",
+#   "driver_internal_id": "4",
 # 	"data": [
 # 		{
 # 			"period": "20160701234000",
@@ -36,7 +37,9 @@ class TracksController < ApplicationController
 
 	def create
 		serial = params['serial_no']
+		driver_internal_id = params['driver_internal_id']
 		device = TrackingDevice.find_by_serial_no(serial)
+		driver = Driver.find_by_internal_id(driver_internal_id)
 
 		data = params['data']
 
@@ -45,8 +48,10 @@ class TracksController < ApplicationController
 			speed = track[:speed]
 			locations = track[:locations]
 
+
 			acceleration = track[:acceleration]
-			track = DeviceTrack.create(tracking_device: device,
+			track = DeviceTrack.create( tracking_device: device,
+										driver: driver,
 										period: period,
 										speed_max: speed[:max],
 										speed_p75: speed[:p75],
@@ -64,7 +69,7 @@ class TracksController < ApplicationController
 				longitude = location['long']
 				location_period = "#{period}#{i}0"
 
-				location_track = DeviceLocation.create(tracking_device: device, period:location_period, latitude: latitude, longitude:longitude)
+				location_track = DeviceLocation.create(tracking_device: device, period:location_period, latitude: latitude, longitude:longitude, driver:driver)
 
 				i += 1
 			end

@@ -127,13 +127,14 @@ class Vehicle
 	attr_accessor :current_position, :current_time
 
 	#Initialize the vehicle
-	def initialize(serial_no, start_date, starting_position)
+	def initialize(serial_no, start_date, starting_position, driver_internal_id)
 		@current_time = start_date
 		@since_last = 0
 		@serial_no = serial_no
 		@current_speed = 0
 		@rnd = Random.new(Time.now.to_i)
 		@current_position = starting_position
+		@driver_internal_id = driver_internal_id
 		empty_records
 	end
 
@@ -285,6 +286,7 @@ class Vehicle
 		# /
 		post = Hash.new
 		post[:serial_no] = @serial_no
+		post[:driver_internal_id] = @driver_internal_id
 		
 
 		# /data
@@ -496,7 +498,8 @@ def drive_su_taxi_fleet
 	for i in 1..100 do
 		serial_no = "BBBB#{i}"
 		c0 = con.pick_random_conurbano_location c0, 0.1
-		v= Vehicle.new(serial_no, Time.new(2016, 06, 15, 00, 00, 23), c0)
+		driver_internal_id = "#{i}"
+		v= Vehicle.new(serial_no, Time.new(2016, 06, 15, 00, 00, 23), c0, driver_internal_id)
 		d= GoogleDriver.new(v)
 		
 		for j in 1..10 do

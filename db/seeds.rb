@@ -72,76 +72,7 @@ def load_cities_and_cars_from_file
 	end
 end
 
-def create_dario_family_fleet
-	if User.find_by_username('ldsimonassi').blank?
-		warn "Creating dario family fleet"
-		#LookUp references
-		vento_td = TrackingDevice.find_by_serial_no('AAAA0')
-		peugeot206_td = TrackingDevice.find_by_serial_no('AAAA1')
 
-		arg = Country.find_by({name: 'Argentina'})
-		
-		bue = Province.find_by({name:'Buenos Aires', country:arg})
-		caba = Province.find_by({name:'Capital Federal', country:arg})
-		cordoba = Province.find_by({name:'Cordoba', country:arg})
-		
-		quilmes = City.find_by({name:'Quilmes', province:bue})
-		moreno = City.find_by({name:'Moreno', province:bue})
-		vte_lopez = City.find_by({name:'Vicente Lopez', province:bue})
-		cordoba_capital = City.find_by({name:'Cordoba Capital', province:cordoba})
-		rio_cuarto = City.find_by({name:'Rio Cuarto', province:cordoba})
-		v_urq = City.find_by({name:'Villa Urquiza', province:caba})
-		v_luro = City.find_by({name:'Villa Luro', province:caba})
-		saavedra = City.find_by({name:'Saavedra', province:caba})
-
-		price_vento = arg.brands.find_by_name('VOLKSWAGEN').models.find_by_name('Vento').versions.find_by_name('2.0 TSI SPORTLINE DSG (200CV) (L11)').prices.find_by_year(2011)
-		price_206 = arg.brands.find_by_name('PEUGEOT').models.find_by_name('206').versions.find_by_name('3Ptas. 1.6 XS Premium').prices.find_by_year('2007')
-
-		#### Create data ####
-
-		# Users
-		dario = User.create({username: 'ldsimonassi', 
-		                      email:'ldsimonassi@gmail.com', 
-		                      password: 'dario123', 
-		                      password_confirmation: 'dario123', 
-		                      first_name:'Luis Dario', 
-		                      last_name:'Simonassi', country:arg})
-
-		mimi = User.create({username: 'kenoe51', 
-							email:'kenoe51@gmail.com', 
-							password: 'mimi1951', 
-							password_confirmation: 'mimi1951', 
-							first_name:'Mirta Noemí', 
-							last_name:'Mascareño', 
-							country:arg})
-
-		mjs = User.create({username: 'mjsimonassi', 
-						   email:'mjsimonassi@gmail.com', 
-						   password: 'athos2009', 
-						   password_confirmation: 'athos2009', 
-						   first_name:'María José', 
-						   last_name:'Simonassi', 
-						   country:arg})
-
-		Driver.create({user:dario, name:'Darío Simonassi', passphrase:'pirata2013'})
-		Driver.create({user:dario, name:'María José Simonassi', passphrase:'athos2009'})
-
-
-		# Addresses
-		dario_casa = Address.create({user: dario, name:'Casa', street:'Av Olazabal', number: '4545', directions:'4to C', zip_code:'1431', city:v_urq})
-		dario_trabajo = Address.create({user: dario, name:'Trabajo', street:'Arias', number: '3751', directions:'7mo piso', zip_code:'1430', city:saavedra})
-
-		mimi_casa = Address.create({user: mimi, name:'Casa', street:'Alsina', number: '775', directions: 'Cortada esquina 66 bis', zip_code:'1841', city:quilmes})
-
-		mjs_casa = Address.create({user: mjs, name:'Casa', street:'Pasjae Wagner', number: '1160', directions: 'PB', zip_code:'1423', city:v_luro})
-
-		# Vehicles
-		vento_dario = Vehicle.create({user:dario, name:'Vento Negro', price:price_vento, chasis_no:"92AAJSHD123", engine_no: "8748JADHJ232", plate_no:"KJO497", tracking_device:vento_td})
-		p206_dario = Vehicle.create({user:dario, name:'Perla Negra', price:price_206, chasis_no:"2874JAHD", engine_no: "23847AKJSA", plate_no:"GST389", tracking_device:peugeot206_td})
-	else
-		warn "Skipping dario family fleet"
-	end
-end
 
 def create_devices
 	if TrackingDevice.find_by_serial_no('AAAA0').blank?
@@ -212,9 +143,80 @@ def create_su_taxi_srl
 
 			Driver.create({user:sutaxisrl, 
 						   name:"Conductor de SuTaxi #{i}", 
-						   passphrase:"Passphrase de SuTaxi #{i}"})
+						   passphrase:"Passphrase de SuTaxi #{i}", internal_id:"#{i}"})
 		end
 
+	else
+		warn "Skipping dario family fleet"
+	end
+end
+
+def create_dario_family_fleet
+	if User.find_by_username('ldsimonassi').blank?
+		warn "Creating dario family fleet"
+		#LookUp references
+		vento_td = TrackingDevice.find_by_serial_no('AAAA0')
+		peugeot206_td = TrackingDevice.find_by_serial_no('AAAA1')
+
+		arg = Country.find_by({name: 'Argentina'})
+		
+		bue = Province.find_by({name:'Buenos Aires', country:arg})
+		caba = Province.find_by({name:'Capital Federal', country:arg})
+		cordoba = Province.find_by({name:'Cordoba', country:arg})
+		
+		quilmes = City.find_by({name:'Quilmes', province:bue})
+		moreno = City.find_by({name:'Moreno', province:bue})
+		vte_lopez = City.find_by({name:'Vicente Lopez', province:bue})
+		cordoba_capital = City.find_by({name:'Cordoba Capital', province:cordoba})
+		rio_cuarto = City.find_by({name:'Rio Cuarto', province:cordoba})
+		v_urq = City.find_by({name:'Villa Urquiza', province:caba})
+		v_luro = City.find_by({name:'Villa Luro', province:caba})
+		saavedra = City.find_by({name:'Saavedra', province:caba})
+
+		price_vento = arg.brands.find_by_name('VOLKSWAGEN').models.find_by_name('Vento').versions.find_by_name('2.0 TSI SPORTLINE DSG (200CV) (L11)').prices.find_by_year(2011)
+		price_206 = arg.brands.find_by_name('PEUGEOT').models.find_by_name('206').versions.find_by_name('3Ptas. 1.6 XS Premium').prices.find_by_year('2007')
+
+		#### Create data ####
+
+		# Users
+		dario = User.create({username: 'ldsimonassi', 
+		                      email:'ldsimonassi@gmail.com', 
+		                      password: 'dario123', 
+		                      password_confirmation: 'dario123', 
+		                      first_name:'Luis Dario', 
+		                      last_name:'Simonassi', country:arg})
+
+		mimi = User.create({username: 'kenoe51', 
+							email:'kenoe51@gmail.com', 
+							password: 'mimi1951', 
+							password_confirmation: 'mimi1951', 
+							first_name:'Mirta Noemí', 
+							last_name:'Mascareño', 
+							country:arg})
+
+		mjs = User.create({username: 'mjsimonassi', 
+						   email:'mjsimonassi@gmail.com', 
+						   password: 'athos2009', 
+						   password_confirmation: 'athos2009', 
+						   first_name:'María José', 
+						   last_name:'Simonassi', 
+						   country:arg})
+
+		Driver.create({user:dario, name:'Darío Simonassi', passphrase:'pirata2013', internal_id:'01'})
+		Driver.create({user:dario, name:'María José Simonassi', passphrase:'athos2009', internal_id:'02'})
+
+
+		# Addresses
+		dario_casa = Address.create({user: dario, name:'Casa', street:'Av Olazabal', number: '4545', directions:'4to C', zip_code:'1431', city:v_urq})
+		dario_trabajo = Address.create({user: dario, name:'Trabajo', street:'Arias', number: '3751', directions:'7mo piso', zip_code:'1430', city:saavedra})
+
+		mimi_casa = Address.create({user: mimi, name:'Casa', street:'Alsina', number: '775', directions: 'Cortada esquina 66 bis', zip_code:'1841', city:quilmes})
+
+		mjs_casa = Address.create({user: mjs, name:'Casa', street:'Pasjae Wagner', number: '1160', directions: 'PB', zip_code:'1423', city:v_luro})
+
+		# Vehicles
+		vento_dario = Vehicle.create({user:dario, name:'Vento Negro', price:price_vento, chasis_no:"92AAJSHD123", engine_no: "8748JADHJ232", plate_no:"KJO497", tracking_device:vento_td})
+		p206_dario = Vehicle.create({user:dario, name:'Perla Negra', price:price_206, chasis_no:"2874JAHD", engine_no: "23847AKJSA", plate_no:"GST389", tracking_device:peugeot206_td})
 	else
 		warn "Skipping dario family fleet"
 	end
