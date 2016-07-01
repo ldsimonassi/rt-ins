@@ -45,7 +45,10 @@ Rails.application.routes.draw do
   post   'login'   => 'sessions#create'
   delete 'logout'  => 'sessions#destroy'
   
-  resources :users, only: ['new', 'create', 'index']
+
+  get '/dashboard' => 'users#dashboard'
+  
+  resources :users, only: ['new', 'create', 'dashboard']
   resources :drivers, only: ['new', 'create', 'index', 'delete']
 
   # The priority is based upon order of creation: first created -> highest priority.

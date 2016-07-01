@@ -41,7 +41,3 @@ jQuery ->
 			success: (data, textStatus, jqXHR) ->
 				$('#price_id').empty()
 				eval(data)
-	$('#vehicles').accordion()
-  
-	$('#menu').menu ->
-		items: "> :not(.ui-widget-header)"

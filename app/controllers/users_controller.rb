@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   include SessionsHelper
   
-  def index
+  def dashboard
     if not logged_in?
       redirect_to login_path
     end

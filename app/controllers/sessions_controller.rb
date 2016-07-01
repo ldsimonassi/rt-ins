@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
     user = User.find_by(username: params[:session][:username].downcase)
     if user && user.authenticate(params[:session][:password])
       log_in user
-      redirect_to users_path
+      redirect_to dashboard_path
     else
       flash.now[:danger] = 'Usuario o password incorrectos' # Not quite right!
       render 'new'

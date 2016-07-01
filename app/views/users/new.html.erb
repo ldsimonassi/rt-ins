@@ -1,35 +1,52 @@
-<h1>Crear nueva cuenta:</h1>
+<% provide(:title, "Cloudfleet - Registración ") %>
 
-<div class="row">
-  <div class="col-md-6 col-md-offset-3">
-    <%= form_for(@user) do |f| %>
-      <% if @user.errors.any? %>
-        <div id="error_explanation">
-          <div class="alert alert-danger">
-            The form contains <%= pluralize(@user.errors.count, "error") %>.
-          </div>
-          <ul>
-          <% @user.errors.full_messages.each do |msg| %>
-            <li><%= msg %></li>
+<div class="container">
+  <div class="jumbotron">
+    <div class="row">
+      <h1>Crear nueva cuenta:</h1>
+    </div>
+    <div class="row">
+      <div class="col-xs-8 col-md-offset-2">
+        <%= form_for(@user) do |f| %>
+          
+          <% if @user.errors.any? %>
+            <div id="error_explanation">
+              <div class="alert alert-danger">
+                The form contains <%= pluralize(@user.errors.count, "error") %>.
+              </div>
+              <ul>
+              <% @user.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+              <% end %>
+              </ul>
+            </div>
           <% end %>
-          </ul>
-        </div>
-      <% end %>
-      <%=  f.label :first_name, "Nombre" %>
-      <%=  f.text_field :first_name, class: 'form-control' %>
-      <%=  f.label :last_name, "Apellido" %>
-      <%=  f.text_field :last_name, class: 'form-control' %>
-      <%=  f.label :country_id, "Pais" %>
-      <%=  f.select :country_id, options_from_collection_for_select(@countries, "id", "name"), class:'form-control' %>
-      <%=  f.label :email, "E-Mail" %> 
-      <%=  f.email_field :email, class: 'form-control' %>
-      <%=  f.label :username, "Nickname para ser utilizado en el sitio" %> 
-      <%=  f.text_field :username, class: 'form-control' %>
-      <%=  f.label :password, "Password" %>
-      <%=  f.password_field :password, class: 'form-control' %>
-      <%=  f.label :password_confirmation, "Password confirmation" %>
-      <%=  f.password_field :password_confirmation, class: 'form-control' %>
-      <%=  f.submit "Crear usuario", class: "btn btn-primary" %>
-    <%  end %>
+
+          <%=  f.label :first_name, "Nombre" %>
+          <%=  f.text_field :first_name, class: 'form-control' %>
+          <p></p>
+          <%=  f.label :last_name, "Apellido" %>
+          <%=  f.text_field :last_name, class: 'form-control' %>
+          <p></p>
+          <%=  f.label :country_id, "Pais  " %>
+
+          <%=  f.select :country_id, options_from_collection_for_select(@countries, "id", "name"), class:'form-control' %>
+          <p></p>
+          <%=  f.label :email, "E-Mail" %> 
+          <%=  f.email_field :email, class: 'form-control' %>
+          <p></p>
+          <%=  f.label :username, "Nickname para ser utilizado en el sitio" %> 
+          <%=  f.text_field :username, class: 'form-control' %>
+          <p></p>
+          <%=  f.label :password, "Password" %>
+          <%=  f.password_field :password, class: 'form-control' %>
+          <p></p>
+          <%=  f.label :password_confirmation, "Password confirmation" %>
+          <%=  f.password_field :password_confirmation, class: 'form-control' %>
+          <p></p>
+          <%=  f.submit "Crear usuario", class: "btn btn-primary" %>
+        <%  end %>
+      </div>
+    </div>
   </div>
 </div>

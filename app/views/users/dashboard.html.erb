@@ -1,0 +1,195 @@
+<% provide(:title, "Cloudfleet - Dashboard") %>
+<div id="page-wrapper" style="min-height: 1094px">
+	<div class="row">
+		<div class="col-lg-12"><h1>Dashboard</h1></div>
+	</div>
+	<div class="row">
+	    <div class="col-lg-8">
+	        <div class="panel panel-default">
+	            <div class="panel-heading">
+	                <i class="fa fa-map" ></i>  Mapa de las unidades
+	            </div>
+	            <!-- /.panel-heading -->
+	            <div class="panel-body" style="min-height: 800px">
+	                <div id="mapid" style="min-height: 750px"></div>
+	                <!--class="col-md-12 col-md-offset-0" style="height: 800px" -->
+	            </div>
+	            <!-- /.panel-body -->
+	        </div>
+	    </div>
+
+	    <div class="col-lg-4">
+	        <div class="panel panel-default">
+	            <div class="panel-heading">
+	                <i class="fa fa-bell fa-fw"></i> Alertas recientes
+	            </div>
+	            <!-- /.panel-heading -->
+	            <div class="panel-body" style="height: 800px">
+	                <div class="list-group" >
+	                    <a href="#" class="list-group-item">
+	                        <i class="fa fa-rocket"></i> Exceso de velocidad
+	                        <span class="pull-right text-muted small"><em>Hace 4 minutos</em>
+	                        </span>
+	                    </a>
+	                    <a href="#" class="list-group-item">
+	                        <i class="fa fa-binoculars"></i> Fuera de zona
+	                        <span class="pull-right text-muted small"><em>Hace 12 minutos</em>
+	                        </span>
+	                    </a>
+	                    <a href="#" class="list-group-item">
+	                        <i class="fa fa-envelope fa-fw"></i> Conductor no informado
+	                        <span class="pull-right text-muted small"><em>Hace 27 minutos</em>
+	                        </span>
+	                    </a>
+	                    <a href="#" class="list-group-item">
+	                        <i class="fa fa-ambulance"></i> Maniobra brusca o siniestro
+	                        <span class="pull-right text-muted small"><em>Hace 43 minutos</em>
+	                        </span>
+	                    </a>
+	                    <a href="#" class="list-group-item">
+	                        <i class="fa fa-comment fa-fw"></i> Queja recibida
+	                        <span class="pull-right text-muted small"><em>11:32 AM</em>
+	                        </span>
+	                    </a>
+	                    <a href="#" class="list-group-item">
+	                        <i class="fa fa-wrench"></i> Alerta mecánica
+	                        <span class="pull-right text-muted small"><em>11:13 AM</em>
+	                        </span>
+	                    </a>
+	                    <a href="#" class="list-group-item">
+	                        <i class="fa fa-line-chart"></i> Consumo elevado
+	                        <span class="pull-right text-muted small"><em>10:57 AM</em>
+	                        </span>
+	                    </a>
+	                    <a href="#" class="list-group-item">
+	                        <i class="fa fa-hand-paper-o"></i> Paro prolongado
+	                        <span class="pull-right text-muted small"><em>9:49 AM</em>
+	                        </span>
+	                    </a>
+	                    <a href="#" class="list-group-item">
+	                        <i class="fa fa-battery-quarter"></i> Bajo combustible
+	                        <span class="pull-right text-muted small"><em>9:49 AM</em>
+	                        </span>
+	                    </a>
+	                </div>
+	                <!-- /.list-group -->
+	                <a href="#" class="btn btn-default btn-block">Ver todas las alertas</a>
+	            </div>
+	            <!-- /.panel-body -->
+	        </div>
+	    </div>
+	</div>
+</div>
+
+<script>
+    user_id = <%= raw current_user.id %>;
+    vehicles = <%= raw get_last_user_vehicles_and_locations(current_user).to_json %>;
+
+    var mymap = L.map('mapid').setView([-34.573,-58.4801], 13);
+
+    v_layers = [];
+    options = {};
+
+    // Create virtual v_layers
+    for (var i = 0; i < vehicles.length; i++) {
+    	name = "<b>"+vehicles[i]['name']+"</b>";
+    	nl = new L.LayerGroup();
+    	vehicles[i]['layer'] = nl;
+    	mymap.addLayer(nl);
+    	options[name] = nl;
+    }
+
+    var colors = ['#B0171F', '#458B74', '#B3EE3A', '#EEEE00', '#FFA500', '#0000FF', '#63B8FF', '#00FF7F'];
+
+    var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+			'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+			'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+		mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw';
+
+	L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}).addTo(mymap);
+	L.control.layers(options).addTo(mymap);
+	L.control.scale().addTo(mymap);
+    // L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    //     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    // }).addTo(mymap);
+
+    draw_vehicles();
+
+	function get_random_color() {
+	    var letters = '0123456789ABCDEF'.split('');
+	    var color = '#';
+	    for (var i = 0; i < 6; i++ ) {
+	        color += letters[Math.floor(Math.random() * 16)];
+	    }
+	    return color;
+	}
+
+    function draw_vehicles() {
+		Object.keys(vehicles).forEach(function (key) { 
+			vehicle = vehicles[key] 
+        	locations = vehicle['locations']
+        	if(locations.length > 0) {
+        		center = locations[0];
+        		html_name = '<b>'+vehicle.name+'</b>';
+        		if(vehicle['layer'] == null) {
+					//console.log('First Drawing '+vehicle['name'])
+					vehicle['layer']= new L.LayerGroup();
+					mymap.addLayer(vehicle['layer']);
+					options['name'] = html_name;
+        		} else {
+					//console.log('Drawing '+vehicle['name'])
+        		}
+
+				lyr = vehicle['layer'];
+
+        		if(vehicle['poly'] == null){
+					vehicle['poly'] = L.polyline(locations, {color: get_random_color(), opacity: 0.9});
+					vehicle['poly'].addTo(lyr);
+					vehicle['poly'].bindPopup(html_name);
+        		} else {
+        			vehicle['poly'].setLatLngs(locations);
+        		}
+
+        		if(vehicle['circle']== null) {
+        			vehicle['circle'] = L.circleMarker(center, {stroke: true, weight: 2, color: 'blue', opacity: 1, fillColor: 'red', fillOpacity:1}).setRadius(5);
+        			vehicle['circle'].bindPopup(html_name);
+					vehicle['circle'].addTo(lyr);
+        		} else {
+        			vehicle['circle'].setLatLng(center);
+        		}
+
+			} else {
+				//console.log('Skipped '+vehicle['name'] )
+			}
+        });
+    }
+
+    function request_locations() {
+		if(!requesting) {
+			requesting = true;
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (xhttp.readyState == 4 && xhttp.status == 200) {
+					//JSON: xhttp.responseText
+					response = JSON.parse(xhttp.responseText)
+					Object.keys(response).forEach(function(id) {
+						//console.log('Updating '+ id + ' name:'+response[id]['name'])
+						vehicles[id]['locations'] = response[id]['locations'];
+						vehicles[id]['from'] = response[id]['from'];
+						vehicles[id]['to'] = response[id]['to'];
+					});
+					//console.log(parsed);
+					draw_vehicles();
+					requesting = false;
+				}
+			};
+			xhttp.open("GET", "/users/"+user_id+"/locations", true);
+			xhttp.send();
+		}
+	}
+
+	requesting = false;
+	//request update every 5 seconds
+	setInterval(request_locations, 2000);
+</script>
+
