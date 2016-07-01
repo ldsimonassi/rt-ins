@@ -1,5 +1,13 @@
 class UsersController < ApplicationController
   include SessionsHelper
+
+  def drivers
+    if not logged_in?
+      redirect_to login_path
+    end
+    @user = current_user
+    @drivers = @user.drivers
+  end
   
   def dashboard
     if not logged_in?

@@ -16,7 +16,8 @@ class User < ActiveRecord::Base
   belongs_to :country
   has_many :addresses
   has_many :vehicles
-  
+  has_many :drivers
+
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, length: { maximum: 255 }, uniqueness: { case_sensitive: false }
   validates :username, presence: true, length: { maximum: 15 }, uniqueness: { case_sensitive: false }

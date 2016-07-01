@@ -47,7 +47,8 @@ Rails.application.routes.draw do
   
 
   get '/dashboard' => 'users#dashboard'
-  
+  get '/drivers' => 'users#drivers'
+
   resources :users, only: ['new', 'create', 'dashboard']
   resources :drivers, only: ['new', 'create', 'index', 'delete']
 
