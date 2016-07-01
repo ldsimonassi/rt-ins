@@ -1,3 +1,5 @@
+require 'set'
+
 
 def warn message
 	puts "*****************************************"
@@ -101,14 +103,16 @@ end
 
 
 def pick_random_taxi_price(country)
-	brand = country.brands.order("RANDOM()").first
+	brands = ['VOLKSWAGEN', 'PEUGEOT', 'RENAULT', 'FIAT', 'TOYOTA', 'FORD', 'CHEVROLET']
+
+	brand = country.brands.find_by_name(brands.sample)
 	model = brand.models.order("RANDOM()").first
 	version = model.versions.order("RANDOM()").first
 	if version.blank?
 		return pick_random_taxi_price country
 	end
 	price = version.prices.order("RANDOM()").first
-	if price.blank?
+	if price.blank? || price.year < 2005
 		return pick_random_taxi_price country
 	end
 	puts "#{country.name}: #{brand.name} - #{model.name} - #{version.name} - #{price.year}"
@@ -131,7 +135,8 @@ def create_su_taxi_srl
 		                      first_name:'Sergio Ezequiel', 
 		                      last_name:'Gutierrez', 
 		                      country:arg})
-
+		
+		np = NamePicker.new
 
 		for i in 1..100 do
 			price = pick_random_taxi_price arg
@@ -141,8 +146,9 @@ def create_su_taxi_srl
 							engine_no: "SUTAXI#{i}", plate_no:"SUTAXI#{i}", 
 							tracking_device:td})
 
+		
 			Driver.create({user:sutaxisrl, 
-						   name:"Conductor de SuTaxi #{i}", 
+						   name:np.pick_name, 
 						   passphrase:"Passphrase de SuTaxi #{i}", internal_id:"#{i}"})
 		end
 
@@ -150,6 +156,31 @@ def create_su_taxi_srl
 		warn "Skipping dario family fleet"
 	end
 end
+
+
+class NamePicker
+	def initialize
+		@apellidos = []
+		@nombres = []
+		
+		File.open("apellidos.txt", 'r').each_line { |l| @apellidos.push l.delete("\n").delete("\t").capitalize}
+		File.open("nombres.txt", 'r').each_line { |l| @nombres.push l.delete("\n").delete("\t").capitalize}
+
+		@generated = Set.new
+	end
+
+	def pick_name
+		apellido = @apellidos[rand()* @apellidos.length] 
+		nombre = @nombres[rand() * @nombres.length]
+		ret = "#{nombre} #{apellido}"
+		if @generated.include? ret
+			ret = pick_name
+		end
+		@generated.add ret
+		return ret
+	end
+end
+
 
 def create_dario_family_fleet
 	if User.find_by_username('ldsimonassi').blank?
@@ -227,6 +258,7 @@ def delete_test_data
 	# tables.each do |t|
 	# 	ActiveRecord::Base.connection.execute("TRUNCATE #{t} RESTART IDENTITY")
 	# end
+	Driver.destroy_all
 	User.destroy_all
 	TrackingDevice.destroy_all
 	DeviceModel.destroy_all

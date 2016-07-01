@@ -9,6 +9,15 @@ class UsersController < ApplicationController
     @drivers = @user.drivers
   end
   
+  def vehicles
+    if not logged_in?
+      redirect_to login_path
+    end
+    @user = current_user
+    @vehicles = @user.vehicles
+  end
+  
+
   def dashboard
     if not logged_in?
       redirect_to login_path
