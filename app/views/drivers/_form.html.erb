@@ -1,0 +1,36 @@
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <% if @driver.new_record? %>
+    <%   button_text = 'Crear conductor'%>
+    <% else %>
+    <%   button_text = 'Actualizar conductor'%>
+    <% end %>
+    <%= form_for(@driver) do |f| %>
+      <% if @driver.errors.any? %>
+        <div id="error_explanation">
+          <div class="alert alert-danger">
+            The form contains <%= pluralize(@driver.errors.count, "error") %>.
+          </div>
+          <ul>
+          <% @driver.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      
+      <%=  f.label :name, "Nombre:" %>
+      <%=  f.text_field :name, class: 'form-control' %>
+      <p></p>
+      <%=  f.label :internal_id, "Identificador interno:" %> 
+      <%=  f.text_field :internal_id, class: 'form-control' %>
+      <p></p>
+      <%=  f.label :passphrase, "Passphrase" %>
+      <%=  f.text_field :passphrase, class: 'form-control' %>
+      <p></p>
+      <%=  f.submit button_text, class: "btn btn-primary" %>
+    <%  end %>
+  </div>
+</div>

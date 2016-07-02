@@ -5,8 +5,13 @@ Clave Google Maps: AIzaSyBC7ZKZ76o3-hzPxbATuvHbZWCxox__IS4
 
 TODO:
 ----
-	- Botón de eliminar/editar en la tabla.
-	- Botón de agregar vehículo y conductor
+
+	CRUD Conductores.
+	Entidad de alertas.
+	POST de alertas externas.
+	Alertas Mock.
+
+
 	- Crear entidad de alertas externas.
 	- Dar solvencia gráfica a las alertas.
 
@@ -17,8 +22,6 @@ Implementar:
 		- Conductores
 			Listado (Con edición?) y botón de eliminar
 			Botón de alta de nuevo conductor.
-
-
 
 		- Servicios. 
 			Ver servicios contratados.

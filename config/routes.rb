@@ -26,6 +26,9 @@ Rails.application.routes.draw do
   resources :provinces, only: ['get', 'index']
   resources :countries, only: ['get', 'index']
   resources :vehicles, only: ['create', 'new', 'destroy', 'edit', 'update', 'index']
+  resources :drivers, only: ['new', 'create', 'destroy', 'index', 'edit', 'update']
+
+  resources :users, only: ['new', 'create', 'dashboard']
   resources :tracks, only: ['create']
  
 
@@ -48,8 +51,6 @@ Rails.application.routes.draw do
 
   get '/dashboard' => 'users#dashboard'
 
-  resources :users, only: ['new', 'create', 'dashboard']
-  resources :drivers, only: ['new', 'create', 'destroy', 'index']
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
