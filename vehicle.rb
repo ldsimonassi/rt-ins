@@ -68,7 +68,6 @@ class Calculator
     end
 end
 
-
 class CarVector
 	attr_accessor :x, :y, :m, :h
 
@@ -121,7 +120,6 @@ class Line
  		 @v0.plus(vh)
 	end
 end
-
 
 class Vehicle
 	attr_accessor :current_position, :current_time
@@ -194,7 +192,6 @@ class Vehicle
 
 		remaining_distance
 	end
-
 
 	#m/s^2
 	def acceleration_function(acceleration)
@@ -531,7 +528,6 @@ def drive_dario_fleet
 	d.drive_to "Félix Mendelsohn 1402, B1742BJD Paso del Rey, Buenos Aires"
 end
 
-
 def drive_su_taxi_fleet
 	c0 = CarVector.new(-34.573,-58.4801)
 	con = Conurbano.new
@@ -551,4 +547,3 @@ def drive_su_taxi_fleet
 end
 
 drive_su_taxi_fleet
-

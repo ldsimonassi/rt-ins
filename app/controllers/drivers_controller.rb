@@ -18,6 +18,11 @@ class DriversController < ApplicationController
   end
 
   def index
+    if not logged_in?
+      redirect_to login_path
+    end
+    @user = current_user
+    @drivers = @user.drivers
   end
 
   def delete

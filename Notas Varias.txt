@@ -1,8 +1,13 @@
 Clave Google Maps: AIzaSyBC7ZKZ76o3-hzPxbATuvHbZWCxox__IS4
 
-
-- Armar menú: DONE
+- Armar menú: DONE.
 - Emprolijar menú. DONE.
+
+TODO:
+	- Botón de eliminar/editar en la tabla.
+	- Botón de agregar vehículo y conductor
+	- Crear entidad de alertas externas.
+	- Dar solvencia gráfica a las alertas.
 
 Implementar:
 
@@ -15,7 +20,8 @@ Implementar:
 			Listado (Con edición?) y botón de eliminar
 			Botón de alta de nuevo vehículo.
 
-		- Sevicios. 
+
+		- Servicios. 
 			Ver servicios contratados.
 			Baja de servicio.
 
@@ -39,19 +45,7 @@ Implementar:
 			Indicador de la Calidad de la conducción.
 			Consumo de combustible.
 
-
 https://datatables.net/examples/styling/no-classes.html
-
-
-
-
-
-
-
-
-
-
-
 
 		- Plataforma de servicios:
 			Data que se enviará a los proveedores.

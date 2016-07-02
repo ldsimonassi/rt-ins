@@ -1,0 +1,67 @@
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <% 
+            if @vehicle
+                url = "/vehicles/#{@vehicle.id}"
+                method = 'put'
+                button_text = 'Actualizar vehículo'
+                vehicle_name = @vehicle.name
+                model_options = options_from_collection_for_select(@vehicle.price.version.model.brand.models, "id", "name")
+                version_options = options_from_collection_for_select(@vehicle.price.version.model.versions, "id", "name") 
+                price_options = options_from_collection_for_select(@vehicle.price.version.prices, "id", "name") 
+                serial_no = @vehicle.tracking_device.serial_no
+                plate_no = @vehicle.plate_no
+                chasis_no = @vehicle.chasis_no
+                engine_no = @vehicle.engine_no
+                brand_id = @vehicle.price.version.model.brand.id
+            else
+                url = '/vehicles'
+                method = 'post'
+                button_text = 'Registrar vehículo'
+                vehicle_name = nil
+                model_options = nil
+                version_options = nil
+                price_options = nil
+                serial_no = nil
+                plate_no = nil
+                chasis_no = nil
+                engine_no = nil
+                brand_id = nil
+            end
+        %>
+
+        <%= form_tag(url , method: method) do %>
+
+            <%= label_tag :name, "Nombre del vehículo" %>
+            <%= text_field_tag :name, vehicle_name, class:'form-control' %>
+            <p></p>
+
+            <%= label_tag :brand_id, "Marca" %>
+            <%= select_tag :brand_id, options_from_collection_for_select(@brands, "id", "name", brand_id ) %>
+            <p></p>
+            <%= label_tag :model_id, "Modelo" %>
+            <%= select_tag :model_id, model_options %>
+            <p></p>
+            <%= label_tag :version_id, "Version" %>
+            <%= select_tag :version_id, version_options %>
+            <p></p>
+            <%= label_tag :price_id, "Año" %>
+            <%= select_tag :price_id, price_options %>
+            <p></p>
+            <%= label_tag :tracking_serial_no, "Código del dispositivo de trackeo" %>
+            <%= text_field_tag :tracking_serial_no, serial_no, class: 'form-control' %>
+            <p></p>
+            <%= label_tag :plate_no, "Patente" %>
+            <%= text_field_tag :plate_no, plate_no, class: 'form-control' %>
+            <p></p>
+            <%= label_tag :chasis_no, "Número de chásis" %>
+            <%= text_field_tag :chasis_no, chasis_no, class: 'form-control' %>
+            <p></p>
+            <%= label_tag :engine_no, "Número de motor" %>
+            <%= text_field_tag :engine_no, engine_no, class: 'form-control' %>
+            <p></p>
+
+            <%=  submit_tag button_text, class: "btn btn-primary" %>
+        <% end %>
+    </div>
+</div>
