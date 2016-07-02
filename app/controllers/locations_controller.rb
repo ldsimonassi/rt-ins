@@ -14,6 +14,6 @@ class LocationsController < ApplicationController
 
   	ret = get_last_user_vehicles_and_locations user
 
-	render json: ret
+	 render json: ret
   end
 end
