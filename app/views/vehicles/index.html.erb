@@ -54,9 +54,9 @@
 					<td><%= v.engine_no %></td>
 					<td><%= v.tracking_device.serial_no %></td>
 					<td>
-						<a title='Eliminar vehículo' data-confirm="Esta seguro de eliminar el vehículo?" rel="nofollow" data-method="delete" href="/vehicles/<%=v.id%>"><i class="fa fa-minus-square-o" aria-hidden="true"></i>  |</a>
+						<a title='Eliminar vehículo' data-confirm="Esta seguro de eliminar el vehículo?" rel="nofollow" data-method="delete" href="/vehicles/<%=v.id%>"><i class="fa fa-minus-square-o" aria-hidden="true"></i> Eliminar  </a>
 						
-						<a title='Editar vehículo' rel="nofollow" data-method="get" href="/vehicles/<%=v.id%>/edit"><i class="fa fa-wpforms" aria-hidden="true"></i></a>
+						<a title='Editar vehículo' rel="nofollow" data-method="get" href="/vehicles/<%=v.id%>/edit"><i class="fa fa-wpforms" aria-hidden="true"></i> Editar</a>
                    	</td>
 				</tr>
 				<% end %>
