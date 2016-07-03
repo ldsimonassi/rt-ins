@@ -4,78 +4,35 @@
 		<div class="col-lg-12"><h1>Dashboard</h1></div>
 	</div>
 	<div class="row">
-	    <div class="col-lg-8">
+	    <div class="col-lg-12">
 	        <div class="panel panel-default">
 	            <div class="panel-heading">
 	                <i class="fa fa-map" ></i>  Mapa de las unidades
 	            </div>
-	            <!-- /.panel-heading -->
-	            <div class="panel-body" style="min-height: 800px">
-	                <div id="mapid" style="min-height: 750px"></div>
+	            
+	            <div class="panel-body" style="min-height: 600px">
+	                <div id="mapid" style="min-height: 550px"></div>
 	                <!--class="col-md-12 col-md-offset-0" style="height: 800px" -->
 	            </div>
-	            <!-- /.panel-body -->
+	            
 	        </div>
 	    </div>
-
-	    <div class="col-lg-4">
+	</div>
+	<div class="row">
+	    <div class="col-lg-12">
 	        <div class="panel panel-default">
 	            <div class="panel-heading">
 	                <i class="fa fa-bell fa-fw"></i> Alertas recientes
 	            </div>
-	            <!-- /.panel-heading -->
-	            <div class="panel-body" style="height: 800px">
-	                <div class="list-group" >
-	                    <a href="#" class="list-group-item">
-	                        <i class="fa fa-rocket"></i> Exceso de velocidad
-	                        <span class="pull-right text-muted small"><em>Hace 4 minutos</em>
-	                        </span>
-	                    </a>
-	                    <a href="#" class="list-group-item">
-	                        <i class="fa fa-binoculars"></i> Fuera de zona
-	                        <span class="pull-right text-muted small"><em>Hace 12 minutos</em>
-	                        </span>
-	                    </a>
-	                    <a href="#" class="list-group-item">
-	                        <i class="fa fa-envelope fa-fw"></i> Conductor no informado
-	                        <span class="pull-right text-muted small"><em>Hace 27 minutos</em>
-	                        </span>
-	                    </a>
-	                    <a href="#" class="list-group-item">
-	                        <i class="fa fa-ambulance"></i> Maniobra brusca o siniestro
-	                        <span class="pull-right text-muted small"><em>Hace 43 minutos</em>
-	                        </span>
-	                    </a>
-	                    <a href="#" class="list-group-item">
-	                        <i class="fa fa-comment fa-fw"></i> Queja recibida
-	                        <span class="pull-right text-muted small"><em>11:32 AM</em>
-	                        </span>
-	                    </a>
-	                    <a href="#" class="list-group-item">
-	                        <i class="fa fa-wrench"></i> Alerta mecánica
-	                        <span class="pull-right text-muted small"><em>11:13 AM</em>
-	                        </span>
-	                    </a>
-	                    <a href="#" class="list-group-item">
-	                        <i class="fa fa-line-chart"></i> Consumo elevado
-	                        <span class="pull-right text-muted small"><em>10:57 AM</em>
-	                        </span>
-	                    </a>
-	                    <a href="#" class="list-group-item">
-	                        <i class="fa fa-hand-paper-o"></i> Paro prolongado
-	                        <span class="pull-right text-muted small"><em>9:49 AM</em>
-	                        </span>
-	                    </a>
-	                    <a href="#" class="list-group-item">
-	                        <i class="fa fa-battery-quarter"></i> Bajo combustible
-	                        <span class="pull-right text-muted small"><em>9:49 AM</em>
-	                        </span>
-	                    </a>
-	                </div>
-	                <!-- /.list-group -->
-	                <a href="#" class="btn btn-default btn-block">Ver todas las alertas</a>
-	            </div>
-	            <!-- /.panel-body -->
+
+				<div class="panel-body" style="height: 800px">
+				    <div id="alerts" class="list-group" >
+
+				    </div>
+				    <!-- /.list-group -->
+				    <a href="#" class="btn btn-default btn-block">Ver todas las alertas</a>
+				</div>
+
 	        </div>
 	    </div>
 	</div>
@@ -84,6 +41,16 @@
 <script>
     user_id = <%= raw current_user.id %>;
     vehicles = <%= raw get_last_user_vehicles_and_locations(current_user).to_json %>;
+	alerts = <%= raw get_last_user_alerts(current_user).to_json %>;
+    icons = {'SPEEDING': '<i class="fa fa-rocket"></i> Exceso de velocidad',
+             'COMPLAINT': '<i class="fa fa-comment fa-fw"></i> Queja recibida',
+             'CRASH': '<i class="fa fa-ambulance"></i> Maniobra brusca o siniestro',
+             'ZONE': '<i class="fa fa-binoculars"></i> Fuera de zona',
+             'LOW_FUEL': '<i class="fa fa-battery-quarter"></i> Bajo combustible',
+             'FUEL_CONS': '<i class="fa fa-line-chart"></i> Consumo elevado',
+             'NO_DRIVER': '<i class="fa fa-envelope fa-fw"></i> Conductor no informado',
+             'OBDI': '<i class="fa fa-wrench"></i> Alerta mecánica'};
+
 
     var mymap = L.map('mapid').setView([-34.573,-58.4801], 13);
 
@@ -189,7 +156,23 @@
 	}
 
 	requesting = false;
-	//request update every 5 seconds
+
+
+    function render_alerts() {
+        //
+        html = "";
+        for (var i in alerts) {
+            a = alerts[i];
+            html += "<a href='#' title='"+a['description']+"' class='list-group-item'>"+icons[a['alert_type']]+' '+ a['driver_name'] + ' manejando ' +a['vehicle_name'] +'</a>';
+        }
+        
+        document.getElementById("alerts").innerHTML = html;
+
+    }
+
+    render_alerts();
+
+	
 	setInterval(request_locations, 2000);
 </script>
 

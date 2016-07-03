@@ -1,4 +1,5 @@
 class AlertsController < ApplicationController
+  include AlertsHelper
   protect_from_forgery except: :create
 
   def create
@@ -26,4 +27,15 @@ class AlertsController < ApplicationController
 
 	render nothing:true
   end
+
+  def by_user
+  	user_id = params[:user_id]
+  	user = User.find(user_id)
+	
+  	ret = get_last_user_alerts(user)
+
+	render json: ret
+  end
+
+
 end

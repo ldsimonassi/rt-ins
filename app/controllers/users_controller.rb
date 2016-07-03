@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   include SessionsHelper
+  include AlertsHelper
 
   
   def dashboard

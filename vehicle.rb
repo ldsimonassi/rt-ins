@@ -278,7 +278,7 @@ class Vehicle
 		@since_last += 1
 	end
 
-	def complaint(message)
+	def complaint(message, period)
 
 		body = Hash.new 
 
@@ -286,7 +286,7 @@ class Vehicle
 		body[:driver_internal_id] = @driver_internal_id
 		body[:alert_type] = 'COMPLAINT'
 		body[:additional_data]= 'El conductor esta ebrio'
-		body[:period] = @current_time.strftime("%Y%m%d%H%M%S")
+		body[:period] = period#@current_time.strftime("%Y%m%d%H%M%S")
 		body[:latitude] = @current_position.x
 		body[:longitude] = @current_position.y
 
@@ -556,11 +556,10 @@ def drive_su_taxi_fleet
 		v= Vehicle.new(serial_no, Time.new(2016, 06, 15, 00, 00, 23), c0, driver_internal_id)
 		d= GoogleDriver.new(v)
 		
+		v.complaint('El conductor maneja hebrio', '20160615000100')
+
 		for j in 1..10 do
 			c0 = con.pick_random_conurbano_location c0, 0.5
-			if j == 2
-				v.complaint("El conductor maneja ebrio")
-			end
 			d.drive_to c0
 		end
 	end
