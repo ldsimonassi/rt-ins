@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160628034829) do
+ActiveRecord::Schema.define(version: 20160702194024) do
 
   create_table "addresses", force: :cascade do |t|
     t.integer "user_id",    null: false
@@ -24,6 +24,33 @@ ActiveRecord::Schema.define(version: 20160628034829) do
   end
 
   add_index "addresses", ["user_id", "name"], name: "index_addresses_on_user_id_and_name", unique: true
+
+  create_table "alert_types", force: :cascade do |t|
+    t.string   "alert_type",  null: false
+    t.string   "description", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "alert_types", ["alert_type"], name: "index_alert_types_on_alert_type", unique: true
+
+  create_table "alerts", force: :cascade do |t|
+    t.string   "period"
+    t.integer  "tracking_device_id"
+    t.integer  "driver_id"
+    t.integer  "alert_type_id"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.string   "additional_data"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "alerts", ["alert_type_id"], name: "index_alerts_on_alert_type_id"
+  add_index "alerts", ["driver_id", "period"], name: "index_alerts_by_driver_id_and_period"
+  add_index "alerts", ["driver_id"], name: "index_alerts_on_driver_id"
+  add_index "alerts", ["tracking_device_id", "period"], name: "index_alerts_by_tracking_device_id_and_period"
+  add_index "alerts", ["tracking_device_id"], name: "index_alerts_on_tracking_device_id"
 
   create_table "brands", force: :cascade do |t|
     t.integer  "country_id", null: false

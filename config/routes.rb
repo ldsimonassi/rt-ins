@@ -30,6 +30,8 @@ Rails.application.routes.draw do
 
   resources :users, only: ['new', 'create', 'dashboard']
   resources :tracks, only: ['create']
+
+  resources :alerts, only: ['create']
  
 
   get '/brands/:brand_id/models' => 'models#index'

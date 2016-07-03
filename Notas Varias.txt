@@ -6,8 +6,20 @@ Clave Google Maps: AIzaSyBC7ZKZ76o3-hzPxbATuvHbZWCxox__IS4
 TODO:
 ----
 
-	CRUD Conductores.
+	CRUD Conductores. DONE.
 	Entidad de alertas.
+
+
+Alerts table:
+	
+	vehicle_id
+	driver_id
+	alert_type_id
+	message
+
+
+Alert types
+
 	POST de alertas externas.
 	Alertas Mock.
 

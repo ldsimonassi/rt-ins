@@ -10,6 +10,12 @@ def post_track(body)
 	#byebug
 end
 
+def post_alert(body)
+	response = Typhoeus.post("localhost:3000/alerts",  headers: {'Content-Type'=> "application/json"}, body: body)
+	#byebug
+end
+
+
 def get_url_json(url)
 	max_http = 2
 	max_timeouts = 10
@@ -122,7 +128,7 @@ class Line
 end
 
 class Vehicle
-	attr_accessor :current_position, :current_time
+	attr_accessor :current_position, :current_time, :serial_no
 
 	#Initialize the vehicle
 	def initialize(serial_no, start_date, starting_position, driver_internal_id)
@@ -264,15 +270,27 @@ class Vehicle
 			empty_records
 			@since_last = 0
 		end
-		
-		
-
 
 		# Keep track of records.
 		@records[:speed][@since_last] = to_kmh(@current_speed)
 		@records[:acceleration][@since_last] = to_g(@current_acceleration)
 		@records[:location][@since_last] = @current_position
 		@since_last += 1
+	end
+
+	def complaint(message)
+
+		body = Hash.new 
+
+		body[:serial_no] = @serial_no
+		body[:driver_internal_id] = @driver_internal_id
+		body[:alert_type] = 'COMPLAINT'
+		body[:additional_data]= 'El conductor esta ebrio'
+		body[:period] = @current_time.strftime("%Y%m%d%H%M%S")
+		body[:latitude] = @current_position.x
+		body[:longitude] = @current_position.y
+
+		post_alert body.to_json
 	end
 
 	def post_data(records)
@@ -366,10 +384,10 @@ class GoogleDriver
 	end
 
 	def drive_to(address)
-		puts "Driving from #{@current_address} to #{address}"
+		puts "Driving from #{@vehicle.serial_no} from #{@current_address} to #{address}"
 		route =  GoogleMapsRoute.new(@current_address, address)
 		route.each do |duration, distance, destination|
-			puts "\tStep #{duration} seconds, #{distance} Meters to location:(#{destination}) "
+			#puts "\tStep #{duration} seconds, #{distance} Meters to location:(#{destination}) "
 			@vehicle.drive_to destination, distance, duration
 			@current_address = destination
 		end
@@ -531,7 +549,7 @@ end
 def drive_su_taxi_fleet
 	c0 = CarVector.new(-34.573,-58.4801)
 	con = Conurbano.new
-	for i in 1..100 do
+	for i in 1..5 do
 		serial_no = "BBBB#{i}"
 		c0 = con.pick_random_conurbano_location c0, 0.1
 		driver_internal_id = "#{i}"
@@ -540,6 +558,9 @@ def drive_su_taxi_fleet
 		
 		for j in 1..10 do
 			c0 = con.pick_random_conurbano_location c0, 0.5
+			if j == 2
+				v.complaint("El conductor maneja ebrio")
+			end
 			d.drive_to c0
 		end
 	end

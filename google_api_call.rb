@@ -52,7 +52,6 @@ ret = get_url_json(url)
 
 r=0
 
-byebug
 
 ret['start']
 ret['routes'].each do | route |

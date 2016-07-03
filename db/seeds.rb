@@ -266,6 +266,18 @@ def delete_test_data
 	DeviceTrack.destroy_all
 	Vehicle.destroy_all
 	Address.destroy_all
+	AlertType.destroy_all
+end
+
+def create_alert_types
+	AlertType.create({alert_type:'SPEEDING', description: 'Exceso de velocidad'})
+	AlertType.create({alert_type:'COMPLAINT', description: 'Queja de otro conductor'})
+	AlertType.create({alert_type:'CRASH', description: 'Posible accidente'})
+	AlertType.create({alert_type:'ZONE', description: 'Fuera de zona'})
+	AlertType.create({alert_type:'LOW_FUEL', description: 'Combustible bajo'})
+	AlertType.create({alert_type:'FUEL_CONS', description: 'Consumo de combustible alto'})
+	AlertType.create({alert_type:'NO_DRIVER', description: 'No hay conductor definido'})
+	AlertType.create({alert_type:'OBDI', description: 'Alerta mecánica de OBDI'})
 end
 
 # Actual SetUp
@@ -273,6 +285,8 @@ end
 load_cities_and_cars_from_file
 
 delete_test_data
+
+create_alert_types
 
 create_devices
 
