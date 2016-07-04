@@ -563,7 +563,7 @@ end
 def drive_su_taxi_fleet
 	c0 = CarVector.new(-34.573,-58.4801)
 	con = Conurbano.new
-	for i in 1..5 do
+	for i in 1..30 do
 		serial_no = "BBBB#{i}"
 		c0 = con.pick_random_conurbano_location c0, 0.1
 		driver_internal_id = "#{i}"

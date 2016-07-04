@@ -134,17 +134,22 @@
         		if(vehicle['poly'] == null){
 					vehicle['poly'] = L.polyline(locations, {color: get_random_color(), opacity: 0.9});
 					vehicle['poly'].addTo(lyr);
-					vehicle['poly'].bindPopup(desc);
+					vehicle['poly_pop'] = L.popup().setContent(desc);
+					vehicle['poly'].bindPopup(vehicle['poly_pop']);
         		} else {
         			vehicle['poly'].setLatLngs(locations);
+        			vehicle['poly_pop'].setContent(desc);
         		}
 
         		if(vehicle['circle']== null) {
         			vehicle['circle'] = L.circleMarker(center, {stroke: true, weight: 2, color: 'blue', opacity: 1, fillColor: 'red', fillOpacity:1}).setRadius(5);
-        			vehicle['circle'].bindPopup(desc);
+        			vehicle['circle_pop'] = L.popup().setContent(desc);
+        			vehicle['circle'].bindPopup(vehicle['circle_pop']);
+
 					vehicle['circle'].addTo(lyr);
         		} else {
         			vehicle['circle'].setLatLng(center);
+        			vehicle['circle_pop'].setContent(desc);
         		}
 
 			} else {

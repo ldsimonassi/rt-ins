@@ -6,16 +6,17 @@ Clave Google Maps: AIzaSyBC7ZKZ76o3-hzPxbATuvHbZWCxox__IS4
 TODO:
 ----
 
-	- Dar solvencia gráfica a las alertas. DONE
-		- Mostrar en la lista. DONE
-		- Unificar data. DONE
-		- Representar en el mapa. DONE
-		- Mostrar tabla. DONE
-		- Other alerts mocks. DONE
-
 		- Refrescar el bind on line.
 		- Linkear alertas a la pantalla.
+		
 
+		Dashboard de riesgo del conductor:
+			- 
+
+		Mejoras a la simulación:
+			- Mas ciudades:
+				Bigger Fleet.
+				Buenos Aires, Cordoba, Santa Fe, Mendoza, Misiones, La Pampa
 
 Implementar:
 -----------
