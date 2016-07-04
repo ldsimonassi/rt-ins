@@ -1,7 +1,6 @@
 class VehiclesController < ApplicationController
 	include SessionsHelper
 
-
 	def create	
 	    if not logged_in?
  	      redirect_to login_path

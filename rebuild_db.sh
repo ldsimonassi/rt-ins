@@ -1,5 +1,6 @@
 # Clean an replace the DB.
 rm db/schema.rb
+rm log/*
 
 #cp db/development.sqlite3.with_cities_and_cars db/development.sqlite3
 

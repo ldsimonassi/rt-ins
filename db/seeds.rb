@@ -138,7 +138,7 @@ def create_su_taxi_srl
 		
 		np = NamePicker.new
 
-		for i in 1..100 do
+		for i in 1..5 do
 			price = pick_random_taxi_price arg
 			td = TrackingDevice.find_by_serial_no("BBBB#{i}")
 			Vehicle.create({user:sutaxisrl, name:"SuTaxi #{i}", 

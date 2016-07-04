@@ -6,11 +6,16 @@ Clave Google Maps: AIzaSyBC7ZKZ76o3-hzPxbATuvHbZWCxox__IS4
 TODO:
 ----
 
-	- Dar solvencia gráfica a las alertas.
-		- Representar en el mapa.
+	- Dar solvencia gráfica a las alertas. DONE
+		- Mostrar en la lista. DONE
+		- Unificar data. DONE
+		- Representar en el mapa. DONE
+		- Mostrar tabla. DONE
+		- Other alerts mocks. DONE
 
-		- Mostrar tabla.
-	- Other alerts mocks.
+		- Refrescar el bind on line.
+		- Linkear alertas a la pantalla.
+
 
 Implementar:
 -----------

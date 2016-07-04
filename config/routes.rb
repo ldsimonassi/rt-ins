@@ -38,8 +38,8 @@ Rails.application.routes.draw do
   get '/brands/:brand_id/models/:model_id/versions' => 'versions#index'
   get '/brands/:brand_id/models/:model_id/versions/:version_id/prices' => 'prices#index'
 
-  get '/users/:user_id/locations' => 'locations#by_user'
-  get '/users/:user_id/last_locations' => 'locations#last_by_user'
+  
+  get '/users/:user_id/dash_data' => 'users#dash_data'
 
   get 'sessions/new'
 

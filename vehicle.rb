@@ -7,12 +7,10 @@ require 'geometry'
 
 def post_track(body)
 	response = Typhoeus.post("localhost:3000/tracks",  headers: {'Content-Type'=> "application/json"}, body: body)
-	#byebug
 end
 
 def post_alert(body)
 	response = Typhoeus.post("localhost:3000/alerts",  headers: {'Content-Type'=> "application/json"}, body: body)
-	#byebug
 end
 
 
@@ -278,14 +276,32 @@ class Vehicle
 		@since_last += 1
 	end
 
-	def complaint(message, period)
+
+	def pick_rand
+		alerts = {SPEEDING: ['Supero el máximo de 120Km/h'],
+			COMPLAINT: ['Maneja ebrio.', 'Maneja a alta velocidad.', 'Maneja imprudentemente', 'Me agredió'],
+			CRASH: ['Posible siniestro (Desaceleración)'],
+			ZONE: ['Fuera de la zona operativa establecida'],
+			LOW_FUEL: ['Menos de 30Km de autonomía de combustible'],
+			FUEL_CONS: ['Consumo exagerado de combustible'],
+			NO_DRIVER: ['El conductor no se identifico'],
+			OBDI: ['Service vencido', 'Falla de motor', 'Advertencia de motor', 'Neumaticos desinflados', 'Verificar aceite', 'Calentamiento de motor']
+		}
+		type = alerts.keys.sample
+		additional = alerts[type].sample
+
+		return type, additional
+	end
+
+	def random_alert(period)
 
 		body = Hash.new 
 
 		body[:serial_no] = @serial_no
 		body[:driver_internal_id] = @driver_internal_id
-		body[:alert_type] = 'COMPLAINT'
-		body[:additional_data]= 'El conductor esta ebrio'
+		type, additional = pick_rand
+		body[:alert_type] = type
+		body[:additional_data]= additional
 		body[:period] = period#@current_time.strftime("%Y%m%d%H%M%S")
 		body[:latitude] = @current_position.x
 		body[:longitude] = @current_position.y
@@ -294,7 +310,6 @@ class Vehicle
 	end
 
 	def post_data(records)
-		#byebug
 		speed = Calculator.new(@records[:speed])
 		acceleration = Calculator.new(@records[:acceleration])
 
@@ -344,7 +359,6 @@ class Vehicle
 			post_track post.to_json
 		rescue => e
 			puts "Exception #{e}"
-			byebug
 		end
 
 		
@@ -556,14 +570,17 @@ def drive_su_taxi_fleet
 		v= Vehicle.new(serial_no, Time.new(2016, 06, 15, 00, 00, 23), c0, driver_internal_id)
 		d= GoogleDriver.new(v)
 		
-		v.complaint('El conductor maneja hebrio', '20160615000100')
+		v.random_alert('20160615000100')
+		v.random_alert('20160615000500')
+		v.random_alert('20160615001000')
+		v.random_alert('20160615001500')
+		v.random_alert('20160615002000')
 
 		for j in 1..10 do
 			c0 = con.pick_random_conurbano_location c0, 0.5
 			d.drive_to c0
 		end
 	end
-	byebug
 end
 
 drive_su_taxi_fleet

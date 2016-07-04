@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   include SessionsHelper
-  include AlertsHelper
+  include DashHelper
 
   
   def dashboard
@@ -25,5 +25,15 @@ class UsersController < ApplicationController
     else
       render 'new'
     end
+  end
+
+
+  def dash_data
+    user_id = params[:user_id]
+    user = User.find(user_id)
+
+    ret = get_dashboard_data user
+
+    render json: ret
   end
 end
