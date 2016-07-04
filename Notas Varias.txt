@@ -6,9 +6,10 @@ Clave Google Maps: AIzaSyBC7ZKZ76o3-hzPxbATuvHbZWCxox__IS4
 TODO:
 ----
 
-		- Refrescar el bind on line.
-		- Linkear alertas a la pantalla.
+		- Refrescar el bind on line. DONE.
 		
+		- Linkear alertas a la pantalla. DONE.
+
 
 		Dashboard de riesgo del conductor:
 			- 

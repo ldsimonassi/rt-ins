@@ -188,6 +188,10 @@
 	requesting = false;
 
 
+	function pop_vehicle(id){
+		vehicles[id]['circle'].openPopup();
+	}
+
     function render_alerts() {
         alerts = [];
 
@@ -195,6 +199,7 @@
         	v = vehicles[k];
         	if(v['alerts']) {
         		v['alerts'].forEach(function(a, j, arr2){
+        			a['vehicle_id'] = k;
         			a['driver_name'] = v['driver_name'];
         			a['vehicle_name'] = v['name'];
         		});
@@ -208,7 +213,8 @@
 
         for (var i in alerts) {
             a = alerts[i];
-            html += "<a href='#' title='"+a['description']+"' class='list-group-item'>"+icons[a['alert_type']]+' '+ a['driver_name'] + ' manejando ' +a['vehicle_name'] +'</a>';
+
+            html += "<a href='javascript:pop_vehicle("+a['vehicle_id']+");' title='"+a['description']+"' class='list-group-item'>"+icons[a['alert_type']]+' '+ a['driver_name'] + ' manejando ' +a['vehicle_name'] +'</a>';
         }
         
         document.getElementById("alerts").innerHTML = html;
