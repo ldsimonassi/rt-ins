@@ -1,5 +1,5 @@
 module TimeHelper
-	FICTION_START_TIME = Time.new(2016, 06, 15, 04, 00, 23)
+	FICTION_START_TIME = Time.new(2016, 06, 15, 00, 05, 00)
 	ACTUAL_START_TIME = Time.new
 
 	def get_current_fiction_time

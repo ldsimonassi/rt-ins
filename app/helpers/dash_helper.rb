@@ -3,7 +3,7 @@ module DashHelper
 
 	def get_dashboard_data(user)
 	  	ret = Hash.new
-	  	from = get_past_fiction_time_str(1200)
+	  	from = get_past_fiction_time_str(600)
 	  	to = get_current_fiction_time_str
 
 

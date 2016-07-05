@@ -26,6 +26,7 @@
 					    <li><a href="#">Últimos 30 días</a></li>
 					  </ul>
 					</div>
+					<br/>
 					<div class="row">
 						<div class="col-md-6">
 							<h4><b>Conductor:</b> <%= @driver.name%></h4>
@@ -35,20 +36,28 @@
 						<div class="col-md-6">
 							<h4><b>Vel Maxima:</b> <%= 140%>Km/h</h4>
 							<h4><b>Quejas:</b> 2 </h4>
-							<h4><b>Alertas:</b>	 23<%= 234%>Km</h4>
+							<h4><b>Alertas:</b>	 <%= 23%></h4>
 						</div>
 					</div>
 					<br/>
 	            </div>
 	        </div>
 	    </div>
-	    <div class="col-md-4">
+		<div class="col-md-4">
 	        <div class="panel panel-default">
 	            <div class="panel-heading">
-	                <i class="fa fa-bell fa-fw"></i> Incidencias graves
+	                <i class="fa fa-bell fa-fw"></i> Alertas del periodo
 	            </div>
+
+				<div class="panel-body">
+				    <div id="alerts" class="list-group" >
+
+				    </div>
+				</div>
+
 	        </div>
 	    </div>
+	    
 	</div>
 
 
@@ -57,18 +66,60 @@
 	        <div class="panel panel-default">
 	            <div class="panel-heading">
 	                <i class="fa fa-map" ></i>  Velocidades:
-					<canvas id="distances" width="400" height="200"></canvas>
+					<canvas id="distances" width="400" height="100"></canvas>
 	            </div>
 	        </div>
 	    </div>
 	</div>
 
+
+	<div class="row">
+	    <div class="col-xs-6">
+	        <div class="panel panel-default">
+	            <div class="panel-heading">
+	                <i class="fa fa-map" ></i>  Vehículos:
+					<canvas id="cars" width="400" height="400"></canvas>
+	            </div>
+	        </div>
+	    </div>
+
+
+	    <div class="col-xs-6">
+	        <div class="panel panel-default">
+	            <div class="panel-heading">
+	                <i class="fa fa-map" ></i>  Horarios:
+					<canvas id="hours" width="400" height="400"></canvas>
+	            </div>
+	        </div>
+	    </div>
+
+	</div>
+
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.bundle.js"></script>
 	<script type="text/javascript">
 		var data = <%= raw @tracks.to_json %>;
-		var ctx = $("#distances");
+		var labels = [];
 
-		function draw_chart() {
+
+    	icons = {'SPEEDING': '<i class="fa fa-rocket"></i> Exceso de velocidad',
+                 'COMPLAINT': '<i class="fa fa-comment fa-fw"></i> Queja recibida',
+                 'CRASH': '<i class="fa fa-ambulance"></i> Maniobra brusca o siniestro',
+                 'ZONE': '<i class="fa fa-binoculars"></i> Fuera de zona',
+                 'LOW_FUEL': '<i class="fa fa-battery-quarter"></i> Bajo combustible',
+                 'FUEL_CONS': '<i class="fa fa-line-chart"></i> Consumo elevado',
+                 'NO_DRIVER': '<i class="fa fa-envelope fa-fw"></i> Conductor no informado',
+                 'OBDI': '<i class="fa fa-wrench"></i> Alerta mecánica'};
+
+        function draw_alerts(){
+        	html= '';
+        	for(key in icons) {
+        		html+= '4 x '+icons[key] + '<br/>'
+        	}
+        	document.getElementById("alerts").innerHTML = html;
+        }
+
+		function draw_bar_chart() {
+			var ctx = $("#distances");
 			var myChart = new Chart(ctx, {
 			    type: 'bar',
 			    data: {
@@ -81,16 +132,22 @@
 			        datasets: [{
 			            label: 'Velocidad máxima (Km/h)',
 			            data: [12, 19, 3, 5, 2, 3],
+			           	borderColor: 'rgba(255,99,132,1)',
+			            backgroundColor: 'rgba(255, 99, 132, 0.2)',
 			            borderWidth: 1
 			        }, 
 			        {
 			            label: 'Distancia recorrida (Km)',
 			            data: [3, 4, 11, 7, 3, 8],
+			            borderColor: 'rgba(54, 162, 235, 1)',
+			            backgroundColor: 'rgba(54, 162, 235, 0.2)',
 			            borderWidth: 1
 			        },
 			        {
 			            label: 'Tiempo manejado (Hs)',
 			            data: [3, 4, 11, 7, 3, 8],
+			            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+			            borderColor: 'rgba(75, 192, 192, 1)',
 			            borderWidth: 1
 			        }]
 			    },
@@ -105,7 +162,82 @@
 			    }
 			});
 		}
-		draw_chart();
+
+
+		function draw_cars_chart() {
+			var ctx = $("#cars");
+			var data = {
+			    labels: [
+			        "AUDI A4 2.0 TIPTRONIC CUERO, 2012",
+			        "VOLKSWAGEN Passat Luxury DSG, 2011",
+			        "PEUGEOT 408 Feline, 2013"
+			    ],
+			    datasets: [
+			        {
+			            data: [300, 50, 100],
+			            backgroundColor: [
+			                "#FF6384",
+			                "#36A2EB",
+			                "#FFCE56"
+			            ],
+			            hoverBackgroundColor: [
+			                "#FF6384",
+			                "#36A2EB",
+			                "#FFCE56"
+			            ]
+			        }]
+			};
+
+			var myPieChart = new Chart(ctx,{
+			    type: 'pie',
+			    data: data,
+			    animation:{
+        			animateScale:true
+    			}
+			});
+		}
+
+		function draw_hours_chart() {
+			var ctx = $("#hours");
+			var data = {
+			    labels: [
+			        "Madrugada",
+			        "Mañana",
+			        "Tarde",
+			        "Noche"
+			    ],
+			    datasets: [
+			        {
+			            data: [300, 50, 100, 40],
+			            backgroundColor: [
+			                "#FF6384",
+			                "#36A2EB",
+			                "#FFCE56",
+							"#FAAA56"
+			            ],
+			            hoverBackgroundColor: [
+			                "#FF6384",
+			                "#36A2EB",
+			                "#FFCE56",
+			                "#FAAA56"
+			            ]
+			        }]
+			};
+
+			var myPieChart = new Chart(ctx,{
+			    type: 'pie',
+			    data: data,
+			    animation:{
+        			animateScale:true
+    			}
+			});		
+		}
+
+
+		draw_bar_chart();
+		draw_cars_chart();
+		draw_hours_chart();
+		draw_alerts();
 	</script>
 </div>
 

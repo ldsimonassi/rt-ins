@@ -10,15 +10,15 @@ class DriverReportController < ApplicationController
 	  if not logged_in?
       redirect_to login_path
     end
-    period = params[:period]
+    @period = params[:period]
 
-    if !period || !['LAST24H', 'YESTERDAY', 'LAST7D', 'LAST30D'].include?(period)
-      period = 'YESTERDAY'
+    if !@period || !['LAST24H', 'YESTERDAY', 'LAST7D', 'LAST30D'].include?(@period)
+      @period = 'YESTERDAY'
     end
     
     curr = get_current_fiction_time
 
-    case period
+    case @period
       when 'LAST24H'
         @to = get_current_fiction_time
         @from = get_past_fiction_time((24*60*60)-1)
