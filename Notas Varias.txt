@@ -11,13 +11,36 @@ TODO:
 		- Linkear alertas a la pantalla. DONE.
 
 
-		Dashboard de riesgo del conductor:
-			- 
+		Dashboard del conductor:
+			Combo:
+			-----
+				Ultimo día
+				Ultima semana
+				Ultimo mes
+
+			- Recorrido por día.
+			- Horas de manejo por día.
+			- Diagrama de torta de autos usados.
+			- Histograma de aceleraciones.
+			- Histograma de velocidades.
+
+
+		Dashboard del vehículo:
+			- Kilometros por mes
+			- Velocidades.
+			- Aceleraciones.
+			- Tiempo por conductor.
+
+
 
 		Mejoras a la simulación:
 			- Mas ciudades:
 				Bigger Fleet.
 				Buenos Aires, Cordoba, Santa Fe, Mendoza, Misiones, La Pampa
+
+
+		Fin de la tesis!!!!
+
 
 Implementar:
 -----------

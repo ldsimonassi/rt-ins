@@ -1,22 +1,6 @@
 Rails.application.routes.draw do
 
-  get 'drivers/new'
-
-  get 'drivers/create'
-
-  get 'drivers/index'
-
-  get 'drivers/delete'
-
-  get 'locations/by_vehicle'
-
-  get 'locations/by_user'
-
-  get 'prices/index'
-
-  get 'versions/index'
-
-  get 'models/index'
+  resources :driver_report, only: ['index', 'show']
 
   resources :device_models
   resources :tracking_devices
