@@ -21,7 +21,7 @@ class VehiclesController < ApplicationController
 		p = params.permit([:plate_no, :chasis_no, :engine_no, :name, :price_id, :tracking_device_id, :user_id])
 
 		@vehicle = Vehicle.create(p)
-		redirect_to users_path
+		redirect_to vehicles_path
 	end
 
 	def new

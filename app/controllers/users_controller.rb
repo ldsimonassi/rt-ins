@@ -23,6 +23,7 @@ class UsersController < ApplicationController
       flash[:success] = "Usuario creado con éxito!"
       redirect_to login_path
     else
+      @countries = Country.all
       render 'new'
     end
   end

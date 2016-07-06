@@ -39,9 +39,11 @@
 					<td><%= d.internal_id %></td>
 					<td><%= d.passphrase %></td>
 					<td>
-						<a title='Eliminar conductor' data-confirm="Esta seguro de eliminar el conductor?" rel="nofollow" data-method="delete" href="/drivers/<%=d.id%>"><i class="fa fa-minus-square-o" aria-hidden="true"></i> Eliminar  </a>
+						<a title='Eliminar conductor' data-confirm="Esta seguro de eliminar el conductor?" rel="nofollow" data-method="delete" href="/drivers/<%=d.id%>"><i class="fa fa-minus-square-o" aria-hidden="true"></i> Eliminar   </a>
 						
-						<a title='Editar conductor' rel="nofollow" data-method="get" href="/drivers/<%=d.id%>/edit"><i class="fa fa-wpforms" aria-hidden="true"> Editar</i></a>
+						<a title='Editar conductor' rel="nofollow" data-method="get" href="/drivers/<%=d.id%>/edit"><i class="fa fa-wpforms" aria-hidden="true"></i> Editar   </a>
+
+						<a title='Reporte de gestion' rel="nofollow" data-method="get" href="/driver_report/<%=d.id%>"><i class="fa fa-bar-chart-o fa-fw"></i> Reporte</a>
                    	</td>
 				</tr>
 				<% end %>
