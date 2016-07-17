@@ -97,9 +97,12 @@
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.bundle.js"></script>
 	<script type="text/javascript">
+
 		var data = <%= raw @tracks.to_json %>;
 		var labels = <%= raw @labels.to_json %>;
-
+		var distances_data = <% raw @distances_data.to_json %>;
+		var max_speed_data = <% raw @max_speed_data.to_json %>;
+		var time_data = <% raw @time_data.to_json %>;
 
     	icons = {'SPEEDING': '<i class="fa fa-rocket"></i> Exceso de velocidad',
                  'COMPLAINT': '<i class="fa fa-comment fa-fw"></i> Queja recibida',

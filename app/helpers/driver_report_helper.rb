@@ -14,46 +14,54 @@ module DriverReportHelper
 	# 	- Histograma de velocidades.
 
 
-	def get_driver_device_tracks(driver)
-		from = get_past_fiction_time_str(86400) # Last day
-		tracks = driver.device_tracks.where("period > #{from}")
-		
-		periods = Hash.new 
+	def group_by_filters(tracks, filters)
+		ret = Hash.new
 
-		tracks.each do |track|
-			period = track.period[0..9]
-			puts "#{period} #{track.period}"
-			# 1st time
-			if !periods[period]
-				periods[period] = Hash.new 
-				periods[period][:speed_max] = 0
-				periods[period][:distance] = 0.0
-				periods[period][:minutes] = 0
-			end
+		ret[:distances_data] = Array.new
+		ret[:max_speed_data] = Array.new
+		ret[:time_data] = Array.new
 
-			periods[period][:minutes] += 1
-			periods[period][:distance] += (track.speed_avg/60.0)
-			periods[period][:speed_max] = [periods[period][:speed_max], track.speed_max].max
-
-			# tracking_device_id
-			# period
-			# speed_max
-			# speed_p75
-			# speed_avg
-			# speed_p25
-			# speed_min
-			# acceleration_up
-			# acceleration_down
-			# acceleration_forward
-			# acceleration_backward
-			# created_at
-			# updated_at
-			# driver_id
-
+		filters.map do |period|
+			ret[:distances_data] << period 
+			ret[:max_speed_data] << period 
+			ret[:time_data] << period 
 		end
 
-		periods
+		current_distance = 0 
+		current_speed = 0 
+		current_time = 0 
+
+		i = 0
+		byebug
+		tracks.each do |track|
+			byebug
+			if i >= filters.length
+				break
+			end
+
+			if !track.period.starts_with?(filters[i])
+				byebug
+				if current_time > 0
+					ret[:distances_data][i] = current_distance
+					ret[:max_speed_data][i] = current_speed
+					ret[:time_data][i] = current_time
+				end
+				current_distance = 0 
+				current_speed = 0 
+				current_time = 0 
+				i+= 1
+			end
+			current_time += 1
+			current_distance += (track.speed_avg/60.0)
+			current_speed = [current_speed, track.speed_max].max
+		end
+
+		if (current_time > 0)
+			ret[:distances_data][i] = current_distance
+			ret[:max_speed_data][i] = current_speed
+			ret[:time_data][i] = current_time
+		end
+
+		ret
 	end
-
-
 end

@@ -19,14 +19,16 @@ class DriverReportController < ApplicationController
     curr = get_current_fiction_time
 
     @labels = Array.new
+    @filters = Array.new
 
     case @period
       when 'LAST24H'
-        @to = get_current_fiction_time
-        @from = get_past_fiction_time((24*60*60)-1)
+        @to = Time.new(curr.year, curr.month, curr.mday, curr.hour, 0, 0)
+        @from =@to - ((24*60*60)-1)
         hour = @from
 
         24.times do
+          @filters << hour.strftime("%Y%m%d%H")
           @labels << hour.strftime('%H:%M')
           hour = hour + (60*60)
         end
@@ -35,6 +37,7 @@ class DriverReportController < ApplicationController
         @to = @from + ((24*60*60) - 1) # Yesterday 23:59:59hs
         hour = @from
         24.times do
+          @filters << hour.strftime("%Y%m%d%H")
           @labels << hour.strftime('%H:%M')
           hour = hour + (60*60)
         end
@@ -44,6 +47,7 @@ class DriverReportController < ApplicationController
         @from = @to - ((24*60*60*7) -1)
         hour = @from
         7.times do
+          @filters << hour.strftime("%Y%m%d")
           @labels << hour.strftime('%d/%m')
           hour = hour + (60*60*24)
         end
@@ -53,6 +57,7 @@ class DriverReportController < ApplicationController
         @from = @to - ((24*60*60*30) -1)
         hour = @from
         30.times do
+          @filters << hour.strftime("%Y%m%d")
           @labels << hour.strftime('%d/%m')
           hour = hour + (60*60*24)
         end
@@ -63,7 +68,13 @@ class DriverReportController < ApplicationController
     @to_s = @to.strftime("%d/%m/%Y %H:%M:%S")
 
   	@driver = current_user.drivers.find(params[:id])
-  	@tracks = @driver.device_tracks
+  	
+    tracks = @driver.device_tracks.order('period')
 
+    ret = group_by_filters(tracks, @filters)
+
+    @distances_data = ret[:distances_data]
+    @max_speed_data = ret[:max_speed_data]
+    @time_data = ret[:time_data]
   end
 end
