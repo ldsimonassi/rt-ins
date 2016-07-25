@@ -108,6 +108,8 @@ class CarVector
 	end
 end
 
+# type of @v0: CarVector
+# type of @v1: CarVector
 class Line
 	attr_accessor :distance_ratio, :pend
 
@@ -125,9 +127,12 @@ class Line
 	end
 end
 
+# type of @starting_position: CarVector
+# type of @current_position: CarVector
+# type of @current_line: Line
+# type of @calculator: Calculator
 class Vehicle
 	attr_accessor :current_position, :current_time, :serial_no
-
 	#Initialize the vehicle
 	def initialize(serial_no, start_date, starting_position, driver_internal_id)
 		@current_time = start_date
@@ -392,10 +397,15 @@ class GoogleMapsRoute
 	end
 end
 
+# type of @current_address: CarVector
+# type of @vehicle: Vehicle
+# type of @router: GoogleMapsRoute
 class GoogleDriver
+
 	def initialize(vehicle)
 		@current_address = vehicle.current_position
 		@vehicle = vehicle
+		@router = nil
 	end
 
 	def drive_to(address)
@@ -418,7 +428,9 @@ class GoogleDriver
 	end
 end
 
+# type of @point: CarVector
 class Conurbano
+	
 	def initialize
 		# Conurbano Area delimited.
 		@area = Geometry::Polygon.new [-58.48717402604624, -34.4878806058396], 
@@ -555,48 +567,67 @@ def test_percentile
 	puts calc.avg
 end
 
-def drive_dario_fleet
-	c0 = CarVector.new(-34.573,-58.4801)
 
-	v= Vehicle.new("AAAA0", Time.new(2016, 06, 15, 00, 00, 23), c0)
-	d= GoogleDriver.new(v)
-	d.drive_to "Av. Cordoba 374, CABA"
-	d.drive_to "Av Olazábal 4545, CABA"
-	d.drive_to "Alsina 775, Quilmes, Buenos Aires"
+# type of @drivers: GoogleDriver
+# type of @vehicles: Vehicle
+# type of @initial_location: CarVector
+# type of @conurbano: Conurbano
+class Fleet
 
-	v= Vehicle.new("AAAA1", Time.new(2016, 06, 15, 00, 00, 23), c0)
-	d= GoogleDriver.new(v)
-	d.drive_to "Gobernador Valentín Vergara 2718, B1602DEH Florida, Buenos Aires"
-	d.drive_to "Félix Mendelsohn 1402, B1742BJD Paso del Rey, Buenos Aires"
-end
+	def initialize
+		@drivers = nil
+		@vehicles = nil
+		@initial_location = nil
+		@conurbano = nil
+	end
 
-def drive_su_taxi_fleet
-	c0 = CarVector.new(-34.573,-58.4801)
-	con = Conurbano.new
-	
-	for i in 1..30 do
-		rnd = Random.new(Time.now.to_i)
-		serial_no = "BBBB#{i}"
-		c0 = con.pick_random_conurbano_location c0, 0.1
-		driver_internal_id = "#{i}"
-		v= Vehicle.new(serial_no, Time.new(2016, 06, 15, 00, 00, 00), c0, driver_internal_id)
+	def drive_dario_fleet
+		c0 = CarVector.new(-34.573,-58.4801)
+
+		v= Vehicle.new("AAAA0", Time.new(2016, 06, 15, 00, 00, 23), c0)
 		d= GoogleDriver.new(v)
-		
-		v.random_alert('20160615000100')
-		v.random_alert('20160615000500')
-		v.random_alert('20160615001000')
-		v.random_alert('20160615001500')
-		v.random_alert('20160615002000')
+		d.drive_to "Av. Cordoba 374, CABA"
+		d.drive_to "Av Olazábal 4545, CABA"
+		d.drive_to "Alsina 775, Quilmes, Buenos Aires"
 
-		for j in 1..20 do
-			c0 = con.pick_random_conurbano_location c0, 2
-			puts "Car:[#{i}] Trip:[#{j}] [#{c0}] "
-			puts "\tS:#{d.current_time}"
-			d.drive_to c0
-			puts "\tE:#{d.current_time}"
-			d.wait (1800*rnd.rand).round
+		v= Vehicle.new("AAAA1", Time.new(2016, 06, 15, 00, 00, 23), c0)
+		d= GoogleDriver.new(v)
+		d.drive_to "Gobernador Valentín Vergara 2718, B1602DEH Florida, Buenos Aires"
+		d.drive_to "Félix Mendelsohn 1402, B1742BJD Paso del Rey, Buenos Aires"
+	end
+
+
+	def drive_su_taxi_fleet
+		c0 = CarVector.new(-34.573,-58.4801)
+		con = Conurbano.new
+		
+		for i in 1..30 do
+			rnd = Random.new(Time.now.to_i)
+			serial_no = "BBBB#{i}"
+			c0 = con.pick_random_conurbano_location c0, 0.1
+			driver_internal_id = "#{i}"
+			v= Vehicle.new(serial_no, Time.new(2016, 06, 15, 00, 00, 00), c0, driver_internal_id)
+			d= GoogleDriver.new(v)
+			
+			v.random_alert('20160615000100')
+			v.random_alert('20160615000500')
+			v.random_alert('20160615001000')
+			v.random_alert('20160615001500')
+			v.random_alert('20160615002000')
+
+			for j in 1..20 do
+				c0 = con.pick_random_conurbano_location c0, 2
+				puts "Car:[#{i}] Trip:[#{j}] [#{c0}] "
+				puts "\tS:#{d.current_time}"
+				d.drive_to c0
+				puts "\tE:#{d.current_time}"
+				d.wait (1800*rnd.rand).round
+			end
 		end
 	end
 end
 
-drive_su_taxi_fleet
+
+fleet = Fleet.new
+fleet.drive_dario_fleet
+fleet.drive_su_taxi_fleet
