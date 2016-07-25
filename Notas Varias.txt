@@ -13,6 +13,19 @@ and dt.driver_id = dr.id
 group by substr(dt.period, 0,11)
 
 
+Programación:
+	- Popular los datos reales en la interfaz de reporte x conductor.
+		- Velocidad maxima, tiempo y distancia. DONE.
+		- Mejorar calidad de la simulación.
+
+
+
+Documentación:
+	- Agregar Pantallas impresas.
+	- Agregar diagramas de secuencia y explicación del simulador.
+	- Revisar diagramas.
+
+
 			- Obtener dominio. DONE.
 			- Recorrido por período. 
 			- Horas de manejo por período.
@@ -30,8 +43,6 @@ group by substr(dt.period, 0,11)
 			- Velocidades.
 			- Aceleraciones.
 			- Tiempo por conductor.
-
-
 
 		Mejoras a la simulación:
 			- Mas ciudades:

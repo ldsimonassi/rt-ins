@@ -17,51 +17,22 @@ module DriverReportHelper
 	def group_by_filters(tracks, filters)
 		ret = Hash.new
 
-		ret[:distances_data] = Array.new
-		ret[:max_speed_data] = Array.new
-		ret[:time_data] = Array.new
+		ret[:distances_data] = Array.new(filters.length, 0.0)
+		ret[:max_speed_data] = Array.new(filters.length, 0.0)
+		ret[:time_data] = Array.new(filters.length, 0.0)
 
-		filters.map do |period|
-			ret[:distances_data] << period 
-			ret[:max_speed_data] << period 
-			ret[:time_data] << period 
-		end
+		filters.each_with_index do |period, i|
+			period_tracks = tracks.select("sum(speed_avg/60) as distances_data, max(speed_max) as max_speed_data, count(*)/60 as time_data").where("period like '#{period}%'")
 
-		current_distance = 0 
-		current_speed = 0 
-		current_time = 0 
-
-		i = 0
-		byebug
-		tracks.each do |track|
-			byebug
-			if i >= filters.length
-				break
+			period_tracks.each do |trk|
+				ret[:distances_data][i] = trk.distances_data.blank? ? 0.0 : trk.distances_data
+				ret[:max_speed_data][i] = trk.max_speed_data.blank? ? 0.0 : trk.max_speed_data
+				ret[:time_data][i] = trk.time_data
 			end
-
-			if !track.period.starts_with?(filters[i])
-				byebug
-				if current_time > 0
-					ret[:distances_data][i] = current_distance
-					ret[:max_speed_data][i] = current_speed
-					ret[:time_data][i] = current_time
-				end
-				current_distance = 0 
-				current_speed = 0 
-				current_time = 0 
-				i+= 1
-			end
-			current_time += 1
-			current_distance += (track.speed_avg/60.0)
-			current_speed = [current_speed, track.speed_max].max
 		end
-
-		if (current_time > 0)
-			ret[:distances_data][i] = current_distance
-			ret[:max_speed_data][i] = current_speed
-			ret[:time_data][i] = current_time
-		end
+		
 
 		ret
+
 	end
 end

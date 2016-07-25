@@ -1,0 +1,128 @@
+Contexto tecnológico:
+	Internet of Things.
+	Cloud Computing.
+	Big Data.
+
+Objetivo del proyecto:
+	Tomar ventaja de todas las corrientes tecnológicas vigentes y generar valor
+
+Estrategia de comercialización:
+	- Ventajas competitivas
+		- Como trackeador comercial:
+			- Producto de excelente calidad y muy económico.
+			- Único que ofrece la posibilidad de ahorrar costos y hacer una gestión unificada de los servicios y las 
+
+		- Como canal de ventas:
+			- Seguros:
+			- Servicios:
+			
+	- Inversión
+		- Producto
+		- Cartera de clientes del servicio de trackeo
+			- Remiserias.
+			- Mandatarias de Taxis.
+			- Flotas de transporte y logística.
+			- Flotas de omnibus y líneas de colectivos.
+			- Usuarios finales.
+		
+		- Cartera de clientes como canal de ventas
+			- Compañias de seguros.
+				Robo.
+				Accidentes.
+				Laborales.
+				Responsabilidad Civil.
+				Pasajeros.
+				Cargas.
+				Garantía mecánica extendida.
+
+			- Compañias de servicio mecánico.
+
+			- Empresas de seguridad privada.
+
+			- Combustibles.
+
+			- Servicios para el automotor.
+
+
+La organización:
+
+El producto Digital:
+	- Módulos:
+		- Módulo de abordo.
+		- Módulo de cloud.
+
+	- Alcance inicial de la solución:
+
+	- Casos de uso:
+		- Alta de usuario.
+			- AJAX (Modelos/Versiones y precios)
+			- Diagrama
+		- Login.
+		- Entidades:
+			- Vehículos
+				- Alta.
+				- Modificación
+				- Baja
+			- Conductores
+				- Alta
+				- Modificación
+				- Baja
+				- Reporte de gestión.
+	
+	- Diagrama entidad de relación
+
+	- Poblado de la base de datos y simulación de casos de uso
+		- Base de datos 
+			- Paises y ciudades
+			- Modelos versiones y precios
+
+	- APIs:
+		- API de Trackeos del dispositivo.
+		- API de alertas.
+		- API de dashboard.
+
+	- Hosting de la solución en Amazon Web Services
+		- Módulos.
+			- Servidores Web de aplicaciones.
+
+			- Bases de datos.
+
+			- Datawharehouse.
+				S3
+				Redshift
+
+			- Big Data.
+				Elastic Map Reduce (Spark & Hadoop)
+
+
+		- Alta disponibilidad
+			Capa de base de datos:
+				- Aurora
+					- Master Slave
+
+			Capa de servidores WEB:
+				- Multi datacenter.
+				- Multi region.
+
+			Monitoreo y troubleshooting:
+				- New Relic.
+				- Opsgenie.
+				- Cloudwatch.
+
+		- Escalabilidad
+			Autoscaling groups.
+
+		- Seguridad
+			- Virtual Private Clouds
+				- Subnets.
+				- ACLs.
+				- Security Groups.
+
+	- Presupuesto y planificación:
+		- Construcción del software.
+		- Costos de infraestructura
+			- Diseño e Implementación.
+			- Mantenimiento.
+			- Estimación por crecimiento.
+
+

@@ -158,6 +158,7 @@ class Vehicle
 			@current_speed = 0
 			@current_acceleration = 0
 			@current_time += 1
+			#puts "waiting #{@current_time}"
 			record
 		end
 	end
@@ -398,13 +399,22 @@ class GoogleDriver
 	end
 
 	def drive_to(address)
-		puts "Driving from #{@vehicle.serial_no} from #{@current_address} to #{address}"
+		#puts "Driving #{@vehicle.serial_no} from #{@current_address} to #{address}"
 		route =  GoogleMapsRoute.new(@current_address, address)
 		route.each do |duration, distance, destination|
 			#puts "\tStep #{duration} seconds, #{distance} Meters to location:(#{destination}) "
 			@vehicle.drive_to destination, distance, duration
 			@current_address = destination
 		end
+	end
+
+
+	def current_time()
+		@vehicle.current_time
+	end
+
+	def wait(minutes)
+		@vehicle.wait minutes
 	end
 end
 
@@ -480,7 +490,7 @@ class Conurbano
 
 	def _pick_random_conurbano_location(v, max_dst)
 		if !is_conurbano_location(v)
-			puts "#{v} is not in conurbano"
+			#puts "#{v} is not in conurbano"
 			throw :center_not_conurbano
 		end
 		
@@ -489,7 +499,7 @@ class Conurbano
 		point = CarVector.new(v.x + (radius * Math::cos(angle)), v.y + (radius * Math::sin(angle)))
 
 		if ! is_conurbano_location(point)
-			puts "#{point} not in conurbano, recalcul ating with radius #{radius} prev #{max_dst}"
+			#puts "#{point} not in conurbano, recalcul ating with radius #{radius} prev #{max_dst}"
 			point = _pick_random_conurbano_location v, radius
 		end
 		
@@ -498,7 +508,7 @@ class Conurbano
 
 	def pick_random_conurbano_location(v, max_dst)
 		point = _pick_random_conurbano_location(v, max_dst)
-		puts "#{point} success"
+		#puts "#{point} success"
 		return point
 	end
 end
@@ -563,11 +573,13 @@ end
 def drive_su_taxi_fleet
 	c0 = CarVector.new(-34.573,-58.4801)
 	con = Conurbano.new
-	for i in 1..10 do
+	
+	for i in 1..30 do
+		rnd = Random.new(Time.now.to_i)
 		serial_no = "BBBB#{i}"
 		c0 = con.pick_random_conurbano_location c0, 0.1
 		driver_internal_id = "#{i}"
-		v= Vehicle.new(serial_no, Time.new(2016, 06, 15, 00, 00, 23), c0, driver_internal_id)
+		v= Vehicle.new(serial_no, Time.new(2016, 06, 15, 00, 00, 00), c0, driver_internal_id)
 		d= GoogleDriver.new(v)
 		
 		v.random_alert('20160615000100')
@@ -576,9 +588,13 @@ def drive_su_taxi_fleet
 		v.random_alert('20160615001500')
 		v.random_alert('20160615002000')
 
-		for j in 1..30 do
-			c0 = con.pick_random_conurbano_location c0, 0.5
+		for j in 1..20 do
+			c0 = con.pick_random_conurbano_location c0, 2
+			puts "Car:[#{i}] Trip:[#{j}] [#{c0}] "
+			puts "\tS:#{d.current_time}"
 			d.drive_to c0
+			puts "\tE:#{d.current_time}"
+			d.wait (1800*rnd.rand).round
 		end
 	end
 end

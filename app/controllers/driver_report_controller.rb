@@ -61,11 +61,12 @@ class DriverReportController < ApplicationController
           @labels << hour.strftime('%d/%m')
           hour = hour + (60*60*24)
         end
-
     end
 
     @from_s = @from.strftime("%d/%m/%Y %H:%M:%S")
     @to_s = @to.strftime("%d/%m/%Y %H:%M:%S")
+
+
 
   	@driver = current_user.drivers.find(params[:id])
   	
@@ -76,5 +77,9 @@ class DriverReportController < ApplicationController
     @distances_data = ret[:distances_data]
     @max_speed_data = ret[:max_speed_data]
     @time_data = ret[:time_data]
+
+    puts "#{@distances_data}"
+    puts "#{@max_speed_data}"
+    puts "#{@time_data}"
   end
 end

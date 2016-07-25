@@ -100,9 +100,10 @@
 
 		var data = <%= raw @tracks.to_json %>;
 		var labels = <%= raw @labels.to_json %>;
-		var distances_data = <% raw @distances_data.to_json %>;
-		var max_speed_data = <% raw @max_speed_data.to_json %>;
-		var time_data = <% raw @time_data.to_json %>;
+		
+		var distances_data = <%= raw @distances_data.to_json %>;
+		var max_speed_data = <%= raw @max_speed_data.to_json %>;
+		var time_data = <%= raw @time_data.to_json %>;
 
     	icons = {'SPEEDING': '<i class="fa fa-rocket"></i> Exceso de velocidad',
                  'COMPLAINT': '<i class="fa fa-comment fa-fw"></i> Queja recibida',
@@ -129,21 +130,21 @@
 			        labels: labels,
 			        datasets: [{
 			            label: 'Velocidad máxima (Km/h)',
-			            data: [12, 19, 3, 5, 2, 3],
+			            data: max_speed_data,
 			           	borderColor: 'rgba(255,99,132,1)',
 			            backgroundColor: 'rgba(255, 99, 132, 0.2)',
 			            borderWidth: 1
 			        }, 
 			        {
 			            label: 'Distancia recorrida (Km)',
-			            data: [3, 4, 11, 7, 3, 8],
+			            data: distances_data,
 			            borderColor: 'rgba(54, 162, 235, 1)',
 			            backgroundColor: 'rgba(54, 162, 235, 0.2)',
 			            borderWidth: 1
 			        },
 			        {
 			            label: 'Tiempo manejado (Hs)',
-			            data: [3, 4, 11, 7, 3, 8],
+			            data: time_data,
 			            backgroundColor: 'rgba(75, 192, 192, 0.2)',
 			            borderColor: 'rgba(75, 192, 192, 1)',
 			            borderWidth: 1
