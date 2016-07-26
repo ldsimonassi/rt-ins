@@ -1,0 +1,82 @@
+Boceto PPT
+
+
+Problema planteado:
+	Industrias de servicios para vehículos y flotas:
+		- Aseguradoras.
+		- Garantias extendidas.
+		- Servicio mecanico.
+		- Escolta de seguridad para cargas.
+		- Monitoreo de flotas.
+
+	Poco uso de las últimas tendencias tecnológicas:
+		- Internet Of Things
+		- BigData & Machine Learning
+		- Cloud Services
+
+	Oportunidades:
+		- Dificultad para segmentar el riesgo. Polizas por riesgo promedio.
+		- Dificultad para adjudicar y entender los gastos.
+		- Gestión de flota descentralizada y compleja.
+		- Dificultad para generar incentivos positivos.
+
+Nuestros objetivos:
+	- Revolucionar la industria de de los servicios para vehículos y flotas a travez del uso de nuevas tecnologías.
+	- Proveer una mejor experiencia comercial tanto para los prestadores como para los tomadores de servicios.
+
+
+La Hipotesis de trabajo:
+
+	Nuevas fuerzas en la industria:
+
+	- Internet of Things
+		- Hace posible y barato obtener una gran cantidad de datos.
+	- BigData & Machine Learning
+		- Hace posibles hallazgos no obvios en los datos.
+	- Cloud Services
+		- Reduce dramáticamente los costos y las barreras de entrada para hacer explotación de datos.
+
+	=> Quien tenga mas información sobre los clientes y las habilidades necesarias para explotarla será quien tenga el capital más valioso de la industria.
+
+	Nuestros clientes:
+		Empresas que requieren servicio de monitoreo
+		Empresas que comercializan servicios para vehículos y flotas
+
+La Metodología:
+	Organización:
+		- Organigrama.
+
+	Vamos por partes... dijo jack!
+		- Primero los datos.
+		- Despues los servicios.
+		- Por último la plataforma.
+
+	Vista general de la solución:
+		- Diagrama en bloques.
+
+
+	Alcance del presente proyecto:
+		- Primera etapa: a la conquista de los datos!
+
+
+El proyecto:
+	- Funcionalidades incluidas:
+		- Video.
+	
+	- Simulación de funcionamiento:
+		- Compramos 100 remises!
+
+	- Implementación productiva:
+		- Alta disponibilidad.
+		- Recuperación de desastres.
+		- Presupuesto.
+
+Conclusión:	
+	"En el contexto tecnológico actual, estan dadas las condiciones para hacer un cambio disruptivo en la industria de los servicios vehiculares, asi como ya ha ocurrido en otras como los medios de pago, la publicidad y la industria discografica"
+
+
+
+
+
+	
+
