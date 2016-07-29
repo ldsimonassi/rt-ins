@@ -599,9 +599,9 @@ class Fleet
 
 	def drive_su_taxi_fleet
 		c0 = CarVector.new(-34.573,-58.4801)
-		con = Conurbano.new
+		con = Conurbano.newc
 		
-		for i in 1..30 do
+		for i in 0..30 do
 			rnd = Random.new(Time.now.to_i)
 			serial_no = "BBBB#{i}"
 			c0 = con.pick_random_conurbano_location c0, 0.1
@@ -615,7 +615,7 @@ class Fleet
 			v.random_alert('20160615001500')
 			v.random_alert('20160615002000')
 
-			for j in 1..20 do
+			for j in 1..200 do
 				c0 = con.pick_random_conurbano_location c0, 2
 				puts "Car:[#{i}] Trip:[#{j}] [#{c0}] "
 				puts "\tS:#{d.current_time}"
@@ -625,9 +625,14 @@ class Fleet
 			end
 		end
 	end
+
+
+	def generate_alerts
+
+	end
 end
 
 
 fleet = Fleet.new
-fleet.drive_dario_fleet
+#fleet.drive_dario_fleet
 fleet.drive_su_taxi_fleet

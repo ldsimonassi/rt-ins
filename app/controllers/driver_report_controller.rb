@@ -66,13 +66,29 @@ class DriverReportController < ApplicationController
     @from_s = @from.strftime("%d/%m/%Y %H:%M:%S")
     @to_s = @to.strftime("%d/%m/%Y %H:%M:%S")
 
-
-
   	@driver = current_user.drivers.find(params[:id])
-  	
+
     tracks = @driver.device_tracks.order('period')
+    alerts = @driver.alerts.group('alert_type_id').count()
+    
+    @alerts_by_type = Hash.new
+
+    alerts.keys.each do |alert_id|
+      count = alerts[alert_id]
+
+      alert = AlertType.find(alert_id)
+
+      @alerts_by_type[alert.alert_type] = count.to_s
+      puts "#{alert.alert_type} #{count} #{alert.description}"
+    end
+
 
     ret = group_by_filters(tracks, @filters)
+    @cars, @hours_by_car = group_by_cars(tracks, @filters)
+    @alerts
+
+    #byebug
+    #alerts = get_alerts_by_type(@from, @to)
 
     @distances_data = ret[:distances_data]
     @max_speed_data = ret[:max_speed_data]

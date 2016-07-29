@@ -97,13 +97,15 @@
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.bundle.js"></script>
 	<script type="text/javascript">
-
 		var data = <%= raw @tracks.to_json %>;
 		var labels = <%= raw @labels.to_json %>;
 		
 		var distances_data = <%= raw @distances_data.to_json %>;
 		var max_speed_data = <%= raw @max_speed_data.to_json %>;
 		var time_data = <%= raw @time_data.to_json %>;
+		var cars = <%= raw @cars.to_json %>;
+		var hours_by_car = <%= raw @hours_by_car.to_json %>;
+		var alerts = <%= raw @alerts_by_type.to_json %>;
 
     	icons = {'SPEEDING': '<i class="fa fa-rocket"></i> Exceso de velocidad',
                  'COMPLAINT': '<i class="fa fa-comment fa-fw"></i> Queja recibida',
@@ -116,9 +118,13 @@
 
         function draw_alerts(){
         	html= '';
-        	for(key in icons) {
-        		html+= '4 x '+icons[key] + '<br/>'
+
+        	for(alert_type in alerts) {
+        		html+= alerts[alert_type] + ' x '+ icons[alert_type] + '<br/>';
         	}
+        	// for(key in icons) {
+        	// 	html+= '4 x '+icons[key] + '<br/>'
+        	// }
         	document.getElementById("alerts").innerHTML = html;
         }
 
@@ -143,7 +149,7 @@
 			            borderWidth: 1
 			        },
 			        {
-			            label: 'Tiempo manejado (Hs)',
+			            label: 'Tiempo manejado (Minutos)',
 			            data: time_data,
 			            backgroundColor: 'rgba(75, 192, 192, 0.2)',
 			            borderColor: 'rgba(75, 192, 192, 1)',
@@ -166,14 +172,10 @@
 		function draw_cars_chart() {
 			var ctx = $("#cars");
 			var data = {
-			    labels: [
-			        "AUDI A4 2.0 TIPTRONIC CUERO, 2012",
-			        "VOLKSWAGEN Passat Luxury DSG, 2011",
-			        "PEUGEOT 408 Feline, 2013"
-			    ],
+			    labels: cars,
 			    datasets: [
 			        {
-			            data: [300, 50, 100],
+			            data: hours_by_car,
 			            backgroundColor: [
 			                "#FF6384",
 			                "#36A2EB",

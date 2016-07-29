@@ -2,7 +2,7 @@ Boceto PPT
 
 
 Problema planteado:
-	Industrias de servicios para vehículos y flotas:
+	Industrias de servicios vehiculares:
 		- Aseguradoras.
 		- Garantias extendidas.
 		- Servicio mecanico.

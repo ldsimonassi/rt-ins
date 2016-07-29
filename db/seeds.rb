@@ -12,8 +12,8 @@ def load_cities_and_cars_from_file
 		warn "Loading cities and cars..."
 		countries = Oj.load(IO.read("./data_meli.json"))
 		countries.each do |country_name, country_content| 
-			if country_name != "Argentina"  
-			#if country_name == ""  
+			#if country_name != "Argentina"  
+			if country_name == ""  
 				next
 			end
 			puts "Country: [#{country_name}]"
@@ -138,7 +138,7 @@ def create_su_taxi_srl
 		
 		np = NamePicker.new
 
-		for i in 1..5 do
+		for i in 1..31 do
 			price = pick_random_taxi_price arg
 			td = TrackingDevice.find_by_serial_no("BBBB#{i}")
 			Vehicle.create({user:sutaxisrl, name:"SuTaxi #{i}", 
